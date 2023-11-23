@@ -14,7 +14,7 @@ builder.Services.AddApplication().AddInfrastructure();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline. Här skriver jag något bara 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
