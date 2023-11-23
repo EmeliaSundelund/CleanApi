@@ -10,7 +10,7 @@ namespace Application.Commands.Dogs
         {
             NewDog = newDog;
         }
-
+        
         public DogDto NewDog { get; }
     }
 }

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
     <PackageReference Include="MediatR" Version="12.2.0" />
   </ItemGroup>
 
@@ -16,4 +16,10 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Commands\Dogs\DeleteDog\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\Dogs\DeleteDog\" />
+  </ItemGroup>
 </Project>
