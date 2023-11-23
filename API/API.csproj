@@ -18,4 +18,10 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Controllers\CatController\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\CatController\" />
+  </ItemGroup>
 </Project>
