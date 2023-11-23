@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Queries.Dogs
 {
-    public class GetAllDogsQueryHandler : IRequestHandler<GetAllDogsQuery, List<Dog>>
+    internal sealed class GetAllDogsQueryHandler : IRequestHandler<GetAllDogsQuery, List<Dog>>
     {
         private readonly MockDatabase _mockDatabase;
 
