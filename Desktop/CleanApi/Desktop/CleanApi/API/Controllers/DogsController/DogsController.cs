@@ -54,7 +54,7 @@ namespace API.Controllers.DogsController
             return Ok(await _mediator.Send(new UpdateDogByIdCommand(updatedDog, updatedDogId)));
         }
 
-        // IMPLEMENT DELETE
+        // create DELETE
 
         [HttpDelete]
         [Route("deleteDog/{dogId}")]
