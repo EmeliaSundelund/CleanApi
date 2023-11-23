@@ -10,6 +10,8 @@ namespace Application.Commands.Dogs
         {
             NewDog = newDog;
         }
+
+        //Kommentar
         
         public DogDto NewDog { get; }
     }
