@@ -3,7 +3,7 @@ using Domain.Models;
 using Infrastructure.Database;
 using MediatR;
 
-namespace Application.Queries.Dogs
+namespace Application.Queries.Dogs.GetAll
 {
     public class GetAllDogsQueryHandler : IRequestHandler<GetAllDogsQuery, List<Dog>>
     {
