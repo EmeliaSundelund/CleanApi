@@ -2,7 +2,7 @@
 using Domain.Models;
 using MediatR;
 
-namespace Application.Commands.Dogs
+namespace Application.Commands.Dogs.AddDog
 {
     public class AddDogCommand : IRequest<Dog>
     {
@@ -11,8 +11,6 @@ namespace Application.Commands.Dogs
             NewDog = newDog;
         }
 
-        //Kommentar
-        
         public DogDto NewDog { get; }
     }
 }

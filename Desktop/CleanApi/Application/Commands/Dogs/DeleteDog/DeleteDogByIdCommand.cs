@@ -9,13 +9,9 @@ namespace Application.Commands.Dogs.DeleteDog
         public DeleteDogByIdCommand(Guid id)
         {
             Id = id;
-
-
         }
 
         public Guid Id { get; }
-
-
     }
 
 }
