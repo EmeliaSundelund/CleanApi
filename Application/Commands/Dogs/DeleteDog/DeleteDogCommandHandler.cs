@@ -1,11 +1,11 @@
 ﻿using System;
 namespace Application.Commands.Dogs.DeleteDog
 {
-	public class DeleteDogCommandHandler
-	{
-		public DeleteDogCommandHandler()
-		{
-		}
-	}
+    public class DeleteDogCommandHandler
+    {
+        public DeleteDogCommandHandler()
+        {
+        }
+    }
 }
 
