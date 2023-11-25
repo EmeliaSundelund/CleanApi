@@ -25,7 +25,7 @@ namespace Test.DogTests.CommandTest
             var initialDog = new Dog { Id = Guid.NewGuid(), Name = "InitialDogName" };
             _mockDatabase.Dogs.Add(initialDog);
 
-            var command = new UpdateDogByIdCommand(updatedDog: new DogDto { Name = "UpdatedDogName" },id: initialDog.Id);
+            var command = new UpdateDogByIdCommand(updatedDog: new DogDto { Name = "UpdatedDogName" }, id: initialDog.Id);
 
             var result = await _handler.Handle(command, CancellationToken.None);
 
