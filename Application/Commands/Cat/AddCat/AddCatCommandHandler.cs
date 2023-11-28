@@ -12,7 +12,7 @@ namespace Application.Commands.Cats.AddCat
         public AddCatCommandHandler(MockDatabase mockDatabase)
         {
             _mockDatabase = mockDatabase;
-        } 
+        }
 
         public Task<Cat> Handle(AddCatCommand request, CancellationToken cancellationToken)
         {
