@@ -29,9 +29,9 @@ namespace Test.DogTests.QueryTest
 
             var result = await _handler.Handle(query, CancellationToken.None);
 
-            Assert.That(result, Is.Not.Null); 
-            Assert.That(result, Is.InstanceOf<List<Dog>>());  
-            Assert.That(result.Count, Is.GreaterThan(0)); 
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<List<Dog>>());
+            Assert.That(result.Count, Is.GreaterThan(0));
         }
     }
 }

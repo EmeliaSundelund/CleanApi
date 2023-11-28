@@ -33,8 +33,8 @@ namespace Test.DogTests.CommandTest
 
             var result = await _handler.Handle(command, CancellationToken.None);
 
-            Assert.That(result, Is.Not.Null);  
-            Assert.That(result, Is.InstanceOf<Dog>());  
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<Dog>());
 
             Assert.That(result.Name, Is.EqualTo("UpdatedDogName"));
 
