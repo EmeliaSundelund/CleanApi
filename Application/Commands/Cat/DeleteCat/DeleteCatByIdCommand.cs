@@ -16,5 +16,5 @@ namespace Application.Commands.Cats.DeleteCat
 
         public CatDto DeletedCat { get; }
         public Guid DeletedCatId { get; }
-    } 
+    }
 }
