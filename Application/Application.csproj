@@ -18,8 +18,22 @@
 
   <ItemGroup>
     <None Remove="Commands\Dogs\DeleteDog\" />
+    <None Remove="Commands\Cat\" />
+    <None Remove="Commands\Cat\AddCat\" />
+    <None Remove="Commands\Cat\DeleteCat\" />
+    <None Remove="Commands\Cat\UpdateCat\" />
+    <None Remove="Queries\Cats\" />
+    <None Remove="Queries\Cats\GetAll\" />
+    <None Remove="Queries\Cats\GetById\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\Dogs\DeleteDog\" />
+    <Folder Include="Commands\Cat\" />
+    <Folder Include="Commands\Cat\AddCat\" />
+    <Folder Include="Commands\Cat\DeleteCat\" />
+    <Folder Include="Commands\Cat\UpdateCat\" />
+    <Folder Include="Queries\Cats\" />
+    <Folder Include="Queries\Cats\GetAll\" />
+    <Folder Include="Queries\Cats\GetById\" />
   </ItemGroup>
 </Project>
