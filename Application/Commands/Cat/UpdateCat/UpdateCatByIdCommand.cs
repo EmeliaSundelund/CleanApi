@@ -10,7 +10,7 @@ namespace Application.Commands.Cats.UpdateCat
         {
             UpdatedCat = updatedCat;
             Id = id;
-        } //kommentar
+        } 
 
         public CatDto UpdatedCat { get; }
         public Guid Id { get; }
