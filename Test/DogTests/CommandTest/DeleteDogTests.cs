@@ -33,9 +33,10 @@ namespace Test.DogTests.CommandTest
 
             var result = await _handler.Handle(command, CancellationToken.None);
 
-            Assert.That(result, Is.True);  
+            Assert.That(result, Is.True);
 
             var deletedDogInDatabase = _mockDatabase.Dogs.FirstOrDefault(dog => dog.Id == command.DeletedDogId);
-            Assert.That(deletedDogInDatabase, Is.Null); 
+            Assert.That(deletedDogInDatabase, Is.Null);
+        }
     }
 }

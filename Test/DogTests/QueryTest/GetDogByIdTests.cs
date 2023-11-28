@@ -29,7 +29,7 @@ namespace Test.DogTests.QueryTest
 
             var result = await _handler.Handle(query, CancellationToken.None);
 
-            Assert.That(result, Is.Not.Null);  
+            Assert.That(result, Is.Not.Null);
             Assert.That(result.Id, Is.EqualTo(dogId));
         }
 
