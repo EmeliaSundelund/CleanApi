@@ -1,17 +1,18 @@
 ﻿using System;
+using Application.Commands.Cats;
 using Application.Commands.Cats.AddCat;
 using Application.Dtos;
 using Domain.Models;
 using Infrastructure.Database;
 
-//en kommentar
-namespace Test.CatTests.CommandTest
+namespace Test.CatsTests.CommandTest
 {
     [TestFixture]
     public class AddCatTests
     {
         private AddCatCommandHandler _handler;
 
+        //denna ska du kommentera 
         [SetUp]
         public void Setup()
         {
@@ -21,6 +22,7 @@ namespace Test.CatTests.CommandTest
         [Test]
         public async Task AddsCatToDatabas()
         {
+            //kommentera här
             var newCat = new CatDto { Name = "NewCatName" };
             var command = new AddCatCommand(newCat);
 

@@ -25,6 +25,13 @@
     <None Remove="Queries\Cats\" />
     <None Remove="Queries\Cats\GetAll\" />
     <None Remove="Queries\Cats\GetById\" />
+    <None Remove="Commands\Bird\" />
+    <None Remove="Commands\Bird\AddBird\" />
+    <None Remove="Commands\Bird\DeleteBird\" />
+    <None Remove="Commands\Bird\UpdateBird\" />
+    <None Remove="Queries\Birds\" />
+    <None Remove="Queries\Birds\GetAll\" />
+    <None Remove="Queries\Birds\GetById\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\Dogs\DeleteDog\" />
@@ -35,5 +42,12 @@
     <Folder Include="Queries\Cats\" />
     <Folder Include="Queries\Cats\GetAll\" />
     <Folder Include="Queries\Cats\GetById\" />
+    <Folder Include="Commands\Bird\" />
+    <Folder Include="Commands\Bird\AddBird\" />
+    <Folder Include="Commands\Bird\DeleteBird\" />
+    <Folder Include="Commands\Bird\UpdateBird\" />
+    <Folder Include="Queries\Birds\" />
+    <Folder Include="Queries\Birds\GetAll\" />
+    <Folder Include="Queries\Birds\GetById\" />
   </ItemGroup>
 </Project>

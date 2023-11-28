@@ -20,8 +20,10 @@
 
   <ItemGroup>
     <None Remove="Controllers\CatController\" />
+    <None Remove="Controllers\BirdController\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\CatController\" />
+    <Folder Include="Controllers\BirdController\" />
   </ItemGroup>
 </Project>

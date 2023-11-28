@@ -2,8 +2,6 @@
 using Application.Queries.Cats.GetById;
 using Infrastructure.Database;
 
-//en kommentar
-
 namespace Test.CatTests.QueryTest
 {
     [TestFixture]
@@ -23,7 +21,7 @@ namespace Test.CatTests.QueryTest
         [Test]
         public async Task ReturnCatIdIfCorrect()
         {
-            var catId = new Guid("f13b2a88-6a1e-4d05-9c71-c2514efc89d3");
+            var catId = new Guid("d6a8f7b4-3c9e-4a72-815d-9f25c6e8b051");
 
             var query = new GetCatByIdQuery(catId);
 
