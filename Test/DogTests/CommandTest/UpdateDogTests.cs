@@ -1,4 +1,8 @@
-﻿using System.Reflection.Metadata;
+﻿using NUnit.Framework;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Application.Commands.Dogs.UpdateDog;
 using Application.Dtos;
 using Domain.Models;
@@ -20,7 +24,7 @@ namespace Test.DogTests.CommandTest
         }
 
         [Test]
-        public async Task UpdateDogInDatabas()
+        public async Task UpdateDogInDatabase()
         {
             var initialDog = new Dog { Id = Guid.NewGuid(), Name = "InitialDogName" };
             _mockDatabase.Dogs.Add(initialDog);
@@ -29,8 +33,8 @@ namespace Test.DogTests.CommandTest
 
             var result = await _handler.Handle(command, CancellationToken.None);
 
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<Dog>(result);
+            Assert.That(result, Is.Not.Null);  
+            Assert.That(result, Is.InstanceOf<Dog>());  
 
             Assert.That(result.Name, Is.EqualTo("UpdatedDogName"));
 

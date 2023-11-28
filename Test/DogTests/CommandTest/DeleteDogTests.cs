@@ -1,4 +1,8 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Application.Commands.Dogs.DeleteDog;
 using Application.Dtos;
 using Domain.Models;
@@ -20,7 +24,7 @@ namespace Test.DogTests.CommandTest
         }
 
         [Test]
-        public async Task DeleteDogInDatabas()
+        public async Task DeleteDogInDatabase()
         {
             var initialDog = new Dog { Id = Guid.NewGuid(), Name = "InitialDogName" };
             _mockDatabase.Dogs.Add(initialDog);
@@ -29,10 +33,9 @@ namespace Test.DogTests.CommandTest
 
             var result = await _handler.Handle(command, CancellationToken.None);
 
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);  
 
             var deletedDogInDatabase = _mockDatabase.Dogs.FirstOrDefault(dog => dog.Id == command.DeletedDogId);
-            Assert.IsNull(deletedDogInDatabase);
-        }
+            Assert.That(deletedDogInDatabase, Is.Null); 
     }
 }

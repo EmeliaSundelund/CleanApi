@@ -1,4 +1,8 @@
-﻿using Application.Queries.Dogs;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Application.Queries.Dogs;
 using Application.Queries.Dogs.GetAll;
 using Domain.Models;
 using Infrastructure.Database;
@@ -25,11 +29,9 @@ namespace Test.DogTests.QueryTest
 
             var result = await _handler.Handle(query, CancellationToken.None);
 
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<List<Dog>>(result);
-            Assert.Greater(result.Count, 0);
+            Assert.That(result, Is.Not.Null); 
+            Assert.That(result, Is.InstanceOf<List<Dog>>());  
+            Assert.That(result.Count, Is.GreaterThan(0)); 
         }
     }
 }
-
-

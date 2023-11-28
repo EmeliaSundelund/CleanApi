@@ -1,4 +1,8 @@
-﻿using Application.Queries.Dogs.GetById;
+﻿using NUnit.Framework;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Application.Queries.Dogs.GetById;
 using Infrastructure.Database;
 
 namespace Test.DogTests.QueryTest
@@ -17,7 +21,7 @@ namespace Test.DogTests.QueryTest
         }
 
         [Test]
-        public async Task ReturnDogIdIfCorrekt()
+        public async Task ReturnDogIdIfCorrect()
         {
             var dogId = new Guid("12345678-1234-5678-1234-567812345678");
 
@@ -25,7 +29,7 @@ namespace Test.DogTests.QueryTest
 
             var result = await _handler.Handle(query, CancellationToken.None);
 
-            Assert.NotNull(result);
+            Assert.That(result, Is.Not.Null);  
             Assert.That(result.Id, Is.EqualTo(dogId));
         }
 
