@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "ipmuBdllp5e0S7qJ3Q1N5AP+y1edDJWo5ZRedTalwq+pAJ0pkXNwi6u9zYXIaDmvVerm1guDiBgl0A6CHVUUBg==",
+  "success": true,
+  "projectFilePath": "/Users/emeliasundelund/Desktop/CleanApi-development/Application/Application.csproj",
+  "expectedPackageFiles": [
+    "/Users/emeliasundelund/.nuget/packages/fluentvalidation/11.8.1/fluentvalidation.11.8.1.nupkg.sha512",
+    "/Users/emeliasundelund/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.8.1/fluentvalidation.dependencyinjectionextensions.11.8.1.nupkg.sha512",
+    "/Users/emeliasundelund/.nuget/packages/mediatr/12.2.0/mediatr.12.2.0.nupkg.sha512",
+    "/Users/emeliasundelund/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
+    "/Users/emeliasundelund/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
