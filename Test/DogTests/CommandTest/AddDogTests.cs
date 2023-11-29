@@ -1,5 +1,4 @@
-﻿using System;
-using Application.Commands.Dogs;
+﻿using Application.Commands.Dogs;
 using Application.Dtos;
 using Domain.Models;
 using Infrastructure.Database;
@@ -21,6 +20,7 @@ namespace Test.DogTests.CommandTest
         [Test]
         public async Task AddsDogToDatabas()
         {
+
             var newDog = new DogDto { Name = "NewDogName" };
             var command = new AddDogCommand(newDog);
 

@@ -23,6 +23,12 @@
 
   <ItemGroup>
     <Folder Include="DogTests\CommandTest\" />
+    <Folder Include="CatTests\" />
+    <Folder Include="CatTests\CommandTest\" />
+    <Folder Include="CatTests\QueryTest\" />
+    <Folder Include="BirdTests\" />
+    <Folder Include="BirdTests\CommandTest\" />
+    <Folder Include="BirdTests\QueryTest\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,4 +36,12 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="CatTests\" />
+    <None Remove="CatTests\CommandTest\" />
+    <None Remove="CatTests\QueryTest\" />
+    <None Remove="BirdTests\" />
+    <None Remove="BirdTests\CommandTest\" />
+    <None Remove="BirdTests\QueryTest\" />
+  </ItemGroup>
 </Project>
