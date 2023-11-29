@@ -10,7 +10,7 @@ namespace Test.BirdTests.CommandTest
     {
         private AddBirdCommandHandler _handler;
 
-         
+
         [SetUp]
         public void Setup()
         {
@@ -20,7 +20,7 @@ namespace Test.BirdTests.CommandTest
         [Test]
         public async Task AddsBirdToDatabas()
         {
-          
+
             var newBird = new BirdDto { Name = "NewBirdName" };
             var command = new AddBirdCommand(newBird);
 

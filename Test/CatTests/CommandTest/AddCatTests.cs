@@ -12,7 +12,7 @@ namespace Test.CatsTests.CommandTest
     {
         private AddCatCommandHandler _handler;
 
-       
+
         [SetUp]
         public void Setup()
         {
