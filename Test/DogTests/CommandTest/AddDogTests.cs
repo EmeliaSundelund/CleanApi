@@ -10,7 +10,7 @@ namespace Test.DogTests.CommandTest
     {
         private AddDogCommandHandler _handler;
 
-        
+
         [SetUp]
         public void Setup()
         {
@@ -20,7 +20,7 @@ namespace Test.DogTests.CommandTest
         [Test]
         public async Task AddsDogToDatabas()
         {
-            
+
             var newDog = new DogDto { Name = "NewDogName" };
             var command = new AddDogCommand(newDog);
 
