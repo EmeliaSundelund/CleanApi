@@ -1,5 +1,4 @@
-﻿using System;
-using Application.Commands.Birds.DeleteBird;
+﻿using Application.Commands.Birds.DeleteBird;
 using Application.Dtos;
 using Domain.Models;
 using Infrastructure.Database;

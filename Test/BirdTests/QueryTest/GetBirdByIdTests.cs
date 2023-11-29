@@ -1,8 +1,4 @@
-﻿using NUnit.Framework;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Queries.Birds.GetById;
+﻿using Application.Queries.Birds.GetById;
 using Infrastructure.Database;
 
 namespace Test.BirdTests.QueryTest

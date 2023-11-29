@@ -1,8 +1,4 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Queries.Birds;
+﻿using Application.Queries.Birds;
 using Application.Queries.Birds.GetAll;
 using Domain.Models;
 using Infrastructure.Database;

@@ -1,6 +1,4 @@
-﻿using System;
-using Application.Commands.Cats.DeleteCat;
-using Application.Commands.Dogs.DeleteDog;
+﻿using Application.Commands.Cats.DeleteCat;
 using Application.Dtos;
 using Domain.Models;
 using Infrastructure.Database;

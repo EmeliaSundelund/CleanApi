@@ -12,7 +12,7 @@ namespace Test.CatsTests.CommandTest
     {
         private AddCatCommandHandler _handler;
 
-        //denna ska du kommentera 
+       
         [SetUp]
         public void Setup()
         {
@@ -22,7 +22,6 @@ namespace Test.CatsTests.CommandTest
         [Test]
         public async Task AddsCatToDatabas()
         {
-            //kommentera här
             var newCat = new CatDto { Name = "NewCatName" };
             var command = new AddCatCommand(newCat);
 

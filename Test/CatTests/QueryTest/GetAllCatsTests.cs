@@ -2,7 +2,7 @@
 using Application.Queries.Cats.GetAll;
 using Infrastructure.Database;
 
-// en kommentar 
+
 namespace Test.CatTests.QueryTest
 {
     [TestFixture]
