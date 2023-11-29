@@ -1,10 +1,9 @@
-﻿using System;
-using Application.Commands.Cats.UpdateCat;
+﻿using Application.Commands.Cats.UpdateCat;
 using Application.Dtos;
 using Domain.Models;
 using Infrastructure.Database;
 
-//en kommentar
+
 namespace Test.CatTests.CommandTest
 {
     [TestFixture]

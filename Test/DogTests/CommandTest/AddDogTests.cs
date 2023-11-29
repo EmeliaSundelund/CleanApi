@@ -1,5 +1,4 @@
-﻿using System;
-using Application.Commands.Dogs;
+﻿using Application.Commands.Dogs;
 using Application.Dtos;
 using Domain.Models;
 using Infrastructure.Database;
@@ -11,7 +10,7 @@ namespace Test.DogTests.CommandTest
     {
         private AddDogCommandHandler _handler;
 
-        //denna ska du kommentera 
+        
         [SetUp]
         public void Setup()
         {
@@ -21,7 +20,7 @@ namespace Test.DogTests.CommandTest
         [Test]
         public async Task AddsDogToDatabas()
         {
-            //kommentera här
+            
             var newDog = new DogDto { Name = "NewDogName" };
             var command = new AddDogCommand(newDog);
 

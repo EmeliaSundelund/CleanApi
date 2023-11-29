@@ -1,5 +1,4 @@
-﻿using System;
-using Domain.Models.Animal;
+﻿using Domain.Models.Animal;
 
 namespace Domain.Models
 {

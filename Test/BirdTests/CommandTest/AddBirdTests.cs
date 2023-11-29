@@ -1,6 +1,4 @@
-﻿using System;
-using Application.Commands.Birds;
-using Application.Commands.Birds.AddBird;
+﻿using Application.Commands.Birds.AddBird;
 using Application.Dtos;
 using Domain.Models;
 using Infrastructure.Database;
@@ -12,7 +10,7 @@ namespace Test.BirdTests.CommandTest
     {
         private AddBirdCommandHandler _handler;
 
-        //denna ska du kommentera 
+         
         [SetUp]
         public void Setup()
         {
@@ -22,7 +20,7 @@ namespace Test.BirdTests.CommandTest
         [Test]
         public async Task AddsBirdToDatabas()
         {
-            //kommentera här
+          
             var newBird = new BirdDto { Name = "NewBirdName" };
             var command = new AddBirdCommand(newBird);
 
