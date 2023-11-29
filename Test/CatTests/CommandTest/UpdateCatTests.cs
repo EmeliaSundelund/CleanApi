@@ -22,13 +22,14 @@ namespace Test.CatTests.CommandTest
         [Test]
         public async Task UpdateCatInDatabase()
         {
+            //Arrange
             var initialCat = new Cat { Id = Guid.NewGuid(), Name = "InitialCatName" };
             _mockDatabase.Cats.Add(initialCat);
 
             var command = new UpdateCatByIdCommand(updatedCat: new CatDto { Name = "UpdatedCatName" }, id: initialCat.Id);
-
+            //Act
             var result = await _handler.Handle(command, CancellationToken.None);
-
+            //Assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<Cat>());
 

@@ -22,11 +22,12 @@ namespace Test.CatsTests.CommandTest
         [Test]
         public async Task AddsCatToDatabas()
         {
+            //Arrange
             var newCat = new CatDto { Name = "NewCatName" };
             var command = new AddCatCommand(newCat);
-
+            //Act
             var result = await _handler.Handle(command, CancellationToken.None);
-
+            //Assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<Cat>());
 

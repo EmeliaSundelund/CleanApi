@@ -21,10 +21,11 @@ namespace Test.BirdsTests.QueryTest
         [Test]
         public async Task IfAllBirdsReturnsCorrect()
         {
+            //Arange
             var query = new GetAllBirdsQuery();
-
+            //Act
             var result = await _handler.Handle(query, CancellationToken.None);
-
+            //Assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<Bird>>());
             Assert.That(result.Count, Is.GreaterThan(0));
