@@ -20,12 +20,12 @@ namespace Test.BirdTests.CommandTest
         [Test]
         public async Task AddsBirdToDatabas()
         {
-
+            //Arange
             var newBird = new BirdDto { Name = "NewBirdName" };
             var command = new AddBirdCommand(newBird);
-
+            //Act
             var result = await _handler.Handle(command, CancellationToken.None);
-
+            //Assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<Bird>());
 

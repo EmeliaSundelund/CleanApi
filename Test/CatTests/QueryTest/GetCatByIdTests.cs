@@ -21,12 +21,13 @@ namespace Test.CatTests.QueryTest
         [Test]
         public async Task ReturnCatIdIfCorrect()
         {
+            //Arrange
             var catId = new Guid("d6a8f7b4-3c9e-4a72-815d-9f25c6e8b051");
 
             var query = new GetCatByIdQuery(catId);
-
+            //Act
             var result = await _handler.Handle(query, CancellationToken.None);
-
+            //Assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Id, Is.EqualTo(catId));
         }
