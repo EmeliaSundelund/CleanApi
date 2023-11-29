@@ -21,13 +21,14 @@ namespace Test.BirdTests.CommandTest
         [Test]
         public async Task UpdateBirdInDatabase()
         {
+            //Arange
             var initialBird = new Bird { Id = Guid.NewGuid(), Name = "InitialBirdName" };
             _mockDatabase.Birds.Add(initialBird);
 
             var command = new UpdateBirdByIdCommand(updatedBird: new BirdDto { Name = "UpdatedBirdName" }, id: initialBird.Id);
-
+            //Act
             var result = await _handler.Handle(command, CancellationToken.None);
-
+            //Assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<Bird>());
 

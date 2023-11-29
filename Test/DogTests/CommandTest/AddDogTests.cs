@@ -20,12 +20,12 @@ namespace Test.DogTests.CommandTest
         [Test]
         public async Task AddsDogToDatabas()
         {
-
+            //Arrange
             var newDog = new DogDto { Name = "NewDogName" };
             var command = new AddDogCommand(newDog);
-
+            //Act
             var result = await _handler.Handle(command, CancellationToken.None);
-
+            //Assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<Dog>());
 

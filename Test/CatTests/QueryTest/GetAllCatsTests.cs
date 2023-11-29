@@ -21,10 +21,11 @@ namespace Test.CatTests.QueryTest
         [Test]
         public async Task IfAllCatsReturnsCorrect()
         {
+            //Arrange
             var query = new GetAllCatsQuery();
-
+            //Act
             var result = await _handler.Handle(query, CancellationToken.None);
-
+            //Assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<Cat>>());
             Assert.That(result.Count, Is.GreaterThan(0));

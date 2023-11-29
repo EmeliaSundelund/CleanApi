@@ -25,10 +25,11 @@ namespace Test.DogTests.QueryTest
         [Test]
         public async Task IfAllDogsReturnsCorrect()
         {
+            //Arrange
             var query = new GetAllDogsQuery();
-
+            //Act
             var result = await _handler.Handle(query, CancellationToken.None);
-
+            //Assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<Dog>>());
             Assert.That(result.Count, Is.GreaterThan(0));
