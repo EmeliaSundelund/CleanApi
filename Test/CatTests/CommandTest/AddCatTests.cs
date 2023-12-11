@@ -31,7 +31,7 @@ namespace Test.CatsTests.CommandTest
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<Cat>());
 
-            Assert.That(result.Id, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(result.id, Is.Not.EqualTo(Guid.Empty));
 
             Assert.That(result.Name, Is.EqualTo("NewCatName"));
         }

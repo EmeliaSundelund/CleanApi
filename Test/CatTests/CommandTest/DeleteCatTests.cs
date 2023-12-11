@@ -23,16 +23,16 @@ namespace Test.CatTests.CommandTest
         public async Task DeleteCatInDatabase()
         {
             //Arrange
-            var initialCat = new Cat { Id = Guid.NewGuid(), Name = "InitialCatName" };
+            var initialCat = new Cat { id = Guid.NewGuid(), Name = "InitialCatName" };
             _mockDatabase.Cats.Add(initialCat);
 
-            var command = new DeleteCatByIdCommand(deletedCat: new CatDto { Name = "InitialCatName" }, deletedCatId: initialCat.Id);
+            var command = new DeleteCatByIdCommand(deletedCat: new CatDto { Name = "InitialCatName" }, deletedCatId: initialCat.id);
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
             //Assert
             Assert.That(result, Is.True);
 
-            var deletedCatInDatabase = _mockDatabase.Cats.FirstOrDefault(cat => cat.Id == command.DeletedCatId);
+            var deletedCatInDatabase = _mockDatabase.Cats.FirstOrDefault(cat => cat.id == command.DeletedCatId);
             Assert.That(deletedCatInDatabase, Is.Null);
         }
     }

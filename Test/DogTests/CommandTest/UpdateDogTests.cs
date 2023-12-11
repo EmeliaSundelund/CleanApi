@@ -27,10 +27,10 @@ namespace Test.DogTests.CommandTest
         public async Task UpdateDogInDatabase()
         {
             //Arrange
-            var initialDog = new Dog { Id = Guid.NewGuid(), Name = "InitialDogName" };
+            var initialDog = new Dog { id = Guid.NewGuid(), Name = "InitialDogName" };
             _mockDatabase.Dogs.Add(initialDog);
 
-            var command = new UpdateDogByIdCommand(updatedDog: new DogDto { Name = "UpdatedDogName" }, id: initialDog.Id);
+            var command = new UpdateDogByIdCommand(updatedDog: new DogDto { Name = "UpdatedDogName" }, id: initialDog.id);
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
             //Assert
@@ -39,7 +39,7 @@ namespace Test.DogTests.CommandTest
 
             Assert.That(result.Name, Is.EqualTo("UpdatedDogName"));
 
-            var updatedDogInDatabase = _mockDatabase.Dogs.FirstOrDefault(dog => dog.Id == command.Id);
+            var updatedDogInDatabase = _mockDatabase.Dogs.FirstOrDefault(dog => dog.id == command.Id);
             Assert.That(updatedDogInDatabase, Is.Not.Null);
             Assert.That(updatedDogInDatabase.Name, Is.EqualTo("UpdatedDogName"));
         }

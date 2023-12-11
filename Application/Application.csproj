@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
     <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="MySql.Data" Version="6.10.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +34,8 @@
     <None Remove="Queries\Birds\" />
     <None Remove="Queries\Birds\GetAll\" />
     <None Remove="Queries\Birds\GetById\" />
+    <None Remove="Commands\User\" />
+    <None Remove="Queries\User\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\Dogs\DeleteDog\" />
@@ -49,5 +53,7 @@
     <Folder Include="Queries\Birds\" />
     <Folder Include="Queries\Birds\GetAll\" />
     <Folder Include="Queries\Birds\GetById\" />
+    <Folder Include="Commands\User\" />
+    <Folder Include="Queries\User\" />
   </ItemGroup>
 </Project>

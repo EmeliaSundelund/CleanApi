@@ -23,16 +23,16 @@ namespace Test.BirdTests.CommandTest
         public async Task DeleteBirdInDatabase()
         {
             //Arange
-            var initialBird = new Bird { Id = Guid.NewGuid(), Name = "InitialBirdName" };
+            var initialBird = new Bird { id = Guid.NewGuid(), Name = "InitialBirdName" };
             _mockDatabase.Birds.Add(initialBird);
 
-            var command = new DeleteBirdByIdCommand(deletedBird: new BirdDto { Name = "InitialBirdName" }, deletedBirdId: initialBird.Id);
+            var command = new DeleteBirdByIdCommand(deletedBird: new BirdDto { Name = "InitialBirdName" }, deletedBirdId: initialBird.id);
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
             //Assert
             Assert.That(result, Is.True);
 
-            var deletedBirdInDatabase = _mockDatabase.Birds.FirstOrDefault(bird => bird.Id == command.DeletedBirdId);
+            var deletedBirdInDatabase = _mockDatabase.Birds.FirstOrDefault(bird => bird.id == command.DeletedBirdId);
             Assert.That(deletedBirdInDatabase, Is.Null);
         }
     }

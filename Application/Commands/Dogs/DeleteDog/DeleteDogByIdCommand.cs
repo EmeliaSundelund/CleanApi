@@ -16,4 +16,3 @@ namespace Application.Commands.Dogs.DeleteDog
         public Guid DeletedDogId { get; }
     }
 }
-

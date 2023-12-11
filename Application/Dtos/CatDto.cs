@@ -5,5 +5,7 @@ namespace Application.Dtos
     {
         public string Name { get; set; } = string.Empty;
         public bool LikesToPlay { get; set; }
+        public string BreedCat { get; set; }
+        public int WeightCat { get; set; }
     }
 }

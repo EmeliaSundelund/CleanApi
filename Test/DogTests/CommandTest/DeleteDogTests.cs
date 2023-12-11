@@ -27,16 +27,16 @@ namespace Test.DogTests.CommandTest
         public async Task DeleteDogInDatabase()
         {
             //Arrange
-            var initialDog = new Dog { Id = Guid.NewGuid(), Name = "InitialDogName" };
+            var initialDog = new Dog { id = Guid.NewGuid(), Name = "InitialDogName" };
             _mockDatabase.Dogs.Add(initialDog);
 
-            var command = new DeleteDogByIdCommand(deletedDog: new DogDto { Name = "InitialDogName" }, deletedDogId: initialDog.Id);
+            var command = new DeleteDogByIdCommand(deletedDog: new DogDto { Name = "InitialDogName" }, deletedDogId: initialDog.id);
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
             //Assert
             Assert.That(result, Is.True);
 
-            var deletedDogInDatabase = _mockDatabase.Dogs.FirstOrDefault(dog => dog.Id == command.DeletedDogId);
+            var deletedDogInDatabase = _mockDatabase.Dogs.FirstOrDefault(dog => dog.id == command.DeletedDogId);
             Assert.That(deletedDogInDatabase, Is.Null);
         }
     }

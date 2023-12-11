@@ -29,7 +29,7 @@ namespace Test.DogTests.CommandTest
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<Dog>());
 
-            Assert.That(result.Id, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(result.id, Is.Not.EqualTo(Guid.Empty));
 
             Assert.That(result.Name, Is.EqualTo("NewDogName"));
         }

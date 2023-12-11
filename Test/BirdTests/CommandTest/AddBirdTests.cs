@@ -29,7 +29,7 @@ namespace Test.BirdTests.CommandTest
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<Bird>());
 
-            Assert.That(result.Id, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(result.id, Is.Not.EqualTo(Guid.Empty));
 
             Assert.That(result.Name, Is.EqualTo("NewBirdName"));
         }

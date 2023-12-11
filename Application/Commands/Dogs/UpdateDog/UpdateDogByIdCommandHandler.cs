@@ -1,24 +1,51 @@
 ﻿using Domain.Models;
-using Infrastructure.Database;
 using MediatR;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 
 namespace Application.Commands.Dogs.UpdateDog
 {
     public class UpdateDogByIdCommandHandler : IRequestHandler<UpdateDogByIdCommand, Dog>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IConfiguration _configuration;
 
-        public UpdateDogByIdCommandHandler(MockDatabase mockDatabase)
+        public UpdateDogByIdCommandHandler(IConfiguration configuration)
         {
-            _mockDatabase = mockDatabase;
+            _configuration = configuration;
         }
-        public Task<Dog> Handle(UpdateDogByIdCommand request, CancellationToken cancellationToken)
+
+        public async Task<Dog> Handle(UpdateDogByIdCommand request, CancellationToken cancellationToken)
         {
-            Dog dogToUpdate = _mockDatabase.Dogs.FirstOrDefault(dog => dog.Id == request.Id)!;
+            using (MySqlConnection connection = new MySqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                await connection.OpenAsync();
 
-            dogToUpdate.Name = request.UpdatedDog.Name;
+                using (MySqlCommand command = new MySqlCommand())
+                {
+                    command.Connection = connection;
 
-            return Task.FromResult(dogToUpdate);
+                    // Create an SQL query to update the dog in your table
+                    command.CommandText = "UPDATE Dog SET Dog_name = @Name, Dog_breed = @Breed, Dog_weight = @Weight WHERE Dog_id = @Id";
+
+                    // Create parameters to avoid SQL injection
+                    command.Parameters.AddWithValue("@Id", request.Id);
+                    command.Parameters.AddWithValue("@Name", request.UpdatedDog.Name);
+                    command.Parameters.AddWithValue("@Breed", request.UpdatedDog.BreedDog);
+                    command.Parameters.AddWithValue("@Weight", request.UpdatedDog.WeightDog);
+
+                    // Execute the SQL query
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+
+            // Return the updated dog
+            return new Dog
+            {
+                id = request.Id,
+                Name = request.UpdatedDog.Name,
+                BreedDog = request.UpdatedDog.BreedDog,
+                WeightDog = request.UpdatedDog.WeightDog
+            };
         }
     }
 }
