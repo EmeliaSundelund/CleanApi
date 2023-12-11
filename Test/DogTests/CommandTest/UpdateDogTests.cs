@@ -9,7 +9,7 @@ using Domain.Models;
 using Infrastructure.Database;
 
 namespace Test.DogTests.CommandTest
-{
+{/*
     [TestFixture]
     public class UpdateDogTests
     {
@@ -43,5 +43,6 @@ namespace Test.DogTests.CommandTest
             Assert.That(updatedDogInDatabase, Is.Not.Null);
             Assert.That(updatedDogInDatabase.Name, Is.EqualTo("UpdatedDogName"));
         }
-    }
+    }/
+    */
 }

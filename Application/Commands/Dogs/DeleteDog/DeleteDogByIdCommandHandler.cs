@@ -1,42 +1,34 @@
-﻿using Domain.Models;
+﻿using Application.Commands.Dogs.DeleteDog;
+using Domain.Models;
+using Infrastructure.DataDbContex;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
+using Infrastructure.Database;
+using Domain.Models.Animal;
 
 namespace Application.Commands.Dogs.DeleteDog
 {
     public class DeleteDogByIdCommandHandler : IRequestHandler<DeleteDogByIdCommand, bool>
     {
-        private readonly IConfiguration _configuration;
+        private readonly IAnimalsRepository _animalsReprository;
 
-        public DeleteDogByIdCommandHandler(IConfiguration configuration)
+        public DeleteDogByIdCommandHandler(IAnimalsRepository animalRepository)
         {
-            _configuration = configuration;
+            _animalsReprository = animalRepository;
         }
 
         public async Task<bool> Handle(DeleteDogByIdCommand request, CancellationToken cancellationToken)
         {
-            using (MySqlConnection connection = new MySqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            AnimalModel dogToDelete = await _animalsReprository.GetByIdAsync(request.DeletedDogId);
+
+            if (dogToDelete == null)
             {
-                await connection.OpenAsync();
-
-                using (MySqlCommand command = new MySqlCommand())
-                {
-                    command.Connection = connection;
-
-                    // Create an SQL query to delete the dog from your table
-                    command.CommandText = "DELETE FROM Dog WHERE Dog_id = @Id";
-
-                    // Create a parameter to avoid SQL injection
-                    command.Parameters.AddWithValue("@Id", request.DeletedDogId);
-
-                    // Execute the SQL query
-                    int rowsAffected = await command.ExecuteNonQueryAsync();
-
-                    // Return true if at least one row was affected (i.e., the dog was deleted), otherwise false
-                    return rowsAffected > 0;
-                }
+                return false;
             }
+
+            await _animalsReprository.DeleteAsync(request.DeletedDogId);
+            return true;
         }
     }
 }
