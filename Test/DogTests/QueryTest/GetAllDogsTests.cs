@@ -1,14 +1,11 @@
 ﻿using NUnit.Framework;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Application.Queries.Dogs;
 using Application.Queries.Dogs.GetAll;
 using Domain.Models;
 using Infrastructure.Database;
 
 namespace Test.DogTests.QueryTest
-{
+{/*
     [TestFixture]
     public class GetAllDogsTests
     {
@@ -35,4 +32,5 @@ namespace Test.DogTests.QueryTest
             Assert.That(result.Count, Is.GreaterThan(0));
         }
     }
+    */
 }

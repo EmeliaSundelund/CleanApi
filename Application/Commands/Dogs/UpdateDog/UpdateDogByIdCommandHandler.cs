@@ -1,24 +1,37 @@
 ﻿using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.DataDbContex;
 using MediatR;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 
 namespace Application.Commands.Dogs.UpdateDog
 {
     public class UpdateDogByIdCommandHandler : IRequestHandler<UpdateDogByIdCommand, Dog>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IAnimalsRepository _animalRepository;
 
-        public UpdateDogByIdCommandHandler(MockDatabase mockDatabase)
+        public UpdateDogByIdCommandHandler(IAnimalsRepository animalRepository)
         {
-            _mockDatabase = mockDatabase;
+            _animalRepository = animalRepository;
         }
-        public Task<Dog> Handle(UpdateDogByIdCommand request, CancellationToken cancellationToken)
+        public async Task<Dog> Handle(UpdateDogByIdCommand request, CancellationToken cancellationToken)
         {
-            Dog dogToUpdate = _mockDatabase.Dogs.FirstOrDefault(dog => dog.Id == request.Id)!;
+            var dogToUpdate = await _animalRepository.GetByIdAsync(request.Id) as Dog;
 
-            dogToUpdate.Name = request.UpdatedDog.Name;
+            if (dogToUpdate != null)
+            {
+                dogToUpdate.Name = request.UpdatedDog.Name;
+                dogToUpdate.BreedDog = request.UpdatedDog.BreedDog;
+                dogToUpdate.WeightDog = request.UpdatedDog.WeightDog;
 
-            return Task.FromResult(dogToUpdate);
+                await _animalRepository.UpdateAsync(dogToUpdate);
+
+                return dogToUpdate;
+            }else
+            {
+                throw new InvalidOperationException($"Dog with ID {request.Id} not found.");
+            }
         }
     }
+
 }

@@ -1,5 +1,4 @@
-﻿using Application.Commands.Birds;
-using Application.Commands.Birds.AddBird;
+﻿using Application.Commands.Birds.AddBird;
 using Application.Commands.Birds.DeleteBird;
 using Application.Commands.Birds.UpdateBird;
 using Application.Dtos;
@@ -28,10 +27,10 @@ namespace API.Controllers.CatsController
         }
 
         [HttpGet]
-        [Route("getBirdById/{catId}")]
-        public async Task<IActionResult> GetBirdById(Guid catId)
+        [Route("getBirdById/{birdId}")]
+        public async Task<IActionResult> GetBirdById(Guid birdId)
         {
-            return Ok(await _mediator.Send(new GetBirdByIdQuery(catId)));
+            return Ok(await _mediator.Send(new GetBirdByIdQuery(birdId)));
         }
 
         [HttpPost]
@@ -51,9 +50,9 @@ namespace API.Controllers.CatsController
 
         [HttpDelete]
         [Route("deleteBird/{deletedBirdId}")]
-        public async Task<IActionResult> DeleteBird([FromBody] BirdDto deletedBird, Guid deletedBirdId)
+        public async Task<IActionResult> DeleteBird(Guid deletedBirdId)
         {
-            return Ok(await _mediator.Send(new DeleteBirdByIdCommand(deletedBird, deletedBirdId)));
+            return Ok(await _mediator.Send(new DeleteBirdByIdCommand(deletedBirdId)));
         }
     }
 }

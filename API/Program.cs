@@ -1,5 +1,7 @@
 using Application;
 using Infrastructure;
+using Infrastructure.DataDbContex;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplication().AddInfrastructure();
+
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<DataDbContex>(options =>
+{
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
+        b => b.MigrationsAssembly("Infrastructure"));
+});
 
 var app = builder.Build();
 

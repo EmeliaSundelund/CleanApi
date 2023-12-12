@@ -1,28 +1,34 @@
-﻿using Domain.Models;
-using Infrastructure.Database;
+﻿using Application.Commands.Cats.DeleteCat;
+using Domain.Models;
+using Infrastructure.DataDbContex;
 using MediatR;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
+using Infrastructure.Database;
+using Domain.Models.Animal;
 
 namespace Application.Commands.Cats.DeleteCat
 {
     public class DeleteCatByIdCommandHandler : IRequestHandler<DeleteCatByIdCommand, bool>
     {
-        private readonly MockDatabase _mockDatabase;
-        public DeleteCatByIdCommandHandler(MockDatabase mockDatabase)
+        private readonly IAnimalsRepository _animalsRepository;
+
+        public DeleteCatByIdCommandHandler(IAnimalsRepository animalsRepository)
         {
-            _mockDatabase = mockDatabase;
+            _animalsRepository = animalsRepository;
         }
 
-        public Task<bool> Handle(DeleteCatByIdCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteCatByIdCommand request, CancellationToken cancellationToken)
         {
-            Cat catToDelete = _mockDatabase.Cats.FirstOrDefault(cat => cat.Id == request.DeletedCatId)!;
+            AnimalModel catToDelete = await _animalsRepository.GetByIdAsync(request.DeletedCatId);
 
-            if (catToDelete != null)
+            if (catToDelete == null)
             {
-                _mockDatabase.Cats.Remove(catToDelete);
-                return Task.FromResult(true);
+                return false;
             }
 
-            return Task.FromResult(false);
+            await _animalsRepository.DeleteAsync(request.DeletedCatId);
+            return true;
         }
     }
 }

@@ -1,25 +1,37 @@
 ﻿using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.DataDbContex;
 using MediatR;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 
 namespace Application.Commands.Birds.UpdateBird
 {
     public class UpdateBirdByIdCommandHandler : IRequestHandler<UpdateBirdByIdCommand, Bird>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IAnimalsRepository _animalRepository;
 
-        public UpdateBirdByIdCommandHandler(MockDatabase mockDatabase)
+        public UpdateBirdByIdCommandHandler(IAnimalsRepository animalRepository)
         {
-            _mockDatabase = mockDatabase;
+            _animalRepository = animalRepository;
         }
-        public Task<Bird> Handle(UpdateBirdByIdCommand request, CancellationToken cancellationToken)
+
+        public async Task<Bird> Handle(UpdateBirdByIdCommand request, CancellationToken cancellationToken)
         {
-            Bird birdToUpdate = _mockDatabase.Birds.FirstOrDefault(bird => bird.Id == request.Id)!;
+            var birdToUpdate = await _animalRepository.GetByIdAsync(request.Id) as Bird;
 
-            birdToUpdate.Name = request.UpdatedBird.Name;
-            birdToUpdate.CanFly = request.UpdatedBird.CanFly;
+            if (birdToUpdate != null)
+            {
+                birdToUpdate.Name = request.UpdatedBird.Name;
+                birdToUpdate.Color = request.UpdatedBird.Color;
 
-            return Task.FromResult(birdToUpdate);
+                await _animalRepository.UpdateAsync(birdToUpdate);
+
+                return birdToUpdate;
+            }
+            else
+            {
+                throw new InvalidOperationException($"Bird with ID {request.Id} not found.");
+            }
         }
     }
 }

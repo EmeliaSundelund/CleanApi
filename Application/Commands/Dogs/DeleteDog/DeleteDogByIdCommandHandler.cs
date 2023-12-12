@@ -1,28 +1,34 @@
-﻿using Domain.Models;
-using Infrastructure.Database;
+﻿using Application.Commands.Dogs.DeleteDog;
+using Domain.Models;
+using Infrastructure.DataDbContex;
 using MediatR;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
+using Infrastructure.Database;
+using Domain.Models.Animal;
 
 namespace Application.Commands.Dogs.DeleteDog
 {
     public class DeleteDogByIdCommandHandler : IRequestHandler<DeleteDogByIdCommand, bool>
     {
-        private readonly MockDatabase _mockDatabase;
-        public DeleteDogByIdCommandHandler(MockDatabase mockDatabase)
+        private readonly IAnimalsRepository _animalsReprository;
+
+        public DeleteDogByIdCommandHandler(IAnimalsRepository animalRepository)
         {
-            _mockDatabase = mockDatabase;
+            _animalsReprository = animalRepository;
         }
 
-        public Task<bool> Handle(DeleteDogByIdCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteDogByIdCommand request, CancellationToken cancellationToken)
         {
-            Dog dogToDelete = _mockDatabase.Dogs.FirstOrDefault(dog => dog.Id == request.DeletedDogId)!;
+            AnimalModel dogToDelete = await _animalsReprository.GetByIdAsync(request.DeletedDogId);
 
-            if (dogToDelete != null)
+            if (dogToDelete == null)
             {
-                _mockDatabase.Dogs.Remove(dogToDelete);
-                return Task.FromResult(true);
+                return false;
             }
 
-            return Task.FromResult(false);
+            await _animalsReprository.DeleteAsync(request.DeletedDogId);
+            return true;
         }
     }
 }

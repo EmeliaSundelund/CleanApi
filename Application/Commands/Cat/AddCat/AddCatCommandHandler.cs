@@ -1,30 +1,42 @@
 ﻿using Application.Commands.Cats.AddCat;
 using Domain.Models;
 using Infrastructure.Database;
+using Infrastructure.DataDbContex;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 
 namespace Application.Commands.Cats.AddCat
 {
-    public class AddCatCommandHandler : IRequestHandler<AddCatCommand, Cat>
+    namespace Application.Commands.Cats
     {
-        private readonly MockDatabase _mockDatabase;
-
-        public AddCatCommandHandler(MockDatabase mockDatabase)
+        public class AddCatCommandHandler : IRequestHandler<AddCatCommand, Cat>
         {
-            _mockDatabase = mockDatabase;
-        }
+            private readonly IConfiguration _configuration;
 
-        public Task<Cat> Handle(AddCatCommand request, CancellationToken cancellationToken)
-        {
-            Cat catToCreate = new()
+            private readonly DataDbContex _dataDbContex;
+
+            public AddCatCommandHandler(IConfiguration configuration, DataDbContex dataDbContex)
             {
-                Id = Guid.NewGuid(),
-                Name = request.NewCat.Name
-            };
+                _configuration = configuration;
+                _dataDbContex = dataDbContex;
+            }
 
-            _mockDatabase.Cats.Add(catToCreate);
+            public async Task<Cat> Handle(AddCatCommand request, CancellationToken cancellationToken)
+            {
+                Cat catToCreate = new()
+                {
+                    id = Guid.NewGuid(),
+                    Name = request.NewCat.Name,
+                    BreedCat = request.NewCat.BreedCat,
+                    WeightCat = request.NewCat.WeightCat,
+                };
 
-            return Task.FromResult(catToCreate);
+                await _dataDbContex.Cats.AddAsync(catToCreate);
+                await _dataDbContex.SaveChangesAsync();
+
+                return catToCreate;
+            }
         }
     }
+
 }

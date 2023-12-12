@@ -1,29 +1,39 @@
 ﻿using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.DataDbContex;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 
 namespace Application.Commands.Dogs
 {
     public class AddDogCommandHandler : IRequestHandler<AddDogCommand, Dog>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IConfiguration _configuration;
 
-        public AddDogCommandHandler(MockDatabase mockDatabase)
+        private readonly DataDbContex _dataDbContex;
+
+        public AddDogCommandHandler(IConfiguration configuration, DataDbContex dataDbContex)
         {
-            _mockDatabase = mockDatabase;
+            _configuration = configuration;
+            _dataDbContex = dataDbContex;
         }
 
-        public Task<Dog> Handle(AddDogCommand request, CancellationToken cancellationToken)
+        public async Task<Dog> Handle(AddDogCommand request, CancellationToken cancellationToken)
         {
             Dog dogToCreate = new()
             {
-                Id = Guid.NewGuid(),
-                Name = request.NewDog.Name
+                id = Guid.NewGuid(),
+                Name = request.NewDog.Name,
+                BreedDog = request.NewDog.BreedDog,
+                WeightDog = request.NewDog.WeightDog,
             };
 
-            _mockDatabase.Dogs.Add(dogToCreate);
+            await _dataDbContex.Dogs.AddAsync(dogToCreate);
+            await _dataDbContex.SaveChangesAsync();
 
-            return Task.FromResult(dogToCreate);
+            return dogToCreate;
         }
+
     }
 }

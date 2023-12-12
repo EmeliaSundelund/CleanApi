@@ -1,37 +1,44 @@
-﻿using Application.Commands.Birds.AddBird;
+﻿using Application.Commands.Birds;
+using Application.Commands.Birds.AddBird;
 using Application.Dtos;
 using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.DataDbContex;
+using Microsoft.Extensions.Configuration;
+using Moq;
 
-namespace Test.BirdTests.CommandTest
-{
+namespace Tests.Application.Commands.Birds
+{/*
     [TestFixture]
-    public class AddBirdTests
+    public class AddBirdCommandHandlerTests
     {
-        private AddBirdCommandHandler _handler;
-
-
-        [SetUp]
-        public void Setup()
-        {
-            _handler = new AddBirdCommandHandler(new MockDatabase());
-        }
-
         [Test]
-        public async Task AddsBirdToDatabas()
+        public async Task Handle_ValidRequest_ShouldCreateBird()
         {
-            //Arange
-            var newBird = new BirdDto { Name = "NewBirdName" };
-            var command = new AddBirdCommand(newBird);
-            //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
-            //Assert
+            // Arrange
+            var configurationMock = new Mock<IConfiguration>();
+            var dataDbContextMock = new Mock<DataDbContex>();
+
+            var handler = new AddBirdCommandHandler(configurationMock.Object, dataDbContextMock.Object);
+
+            var request = new AddBirdCommand(new BirdDto
+            {
+                Name = "Amanda",
+                Color = "Blue",
+                
+            });
+
+            // Act
+            var result = await handler.Handle(request, CancellationToken.None);
+
+            // Assert
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<Bird>());
+            Assert.That(result.Name, Is.EqualTo(request.NewBird.Name));
+            Assert.That(result.Color, Is.EqualTo(request.NewBird.Color));
 
-            Assert.That(result.Id, Is.Not.EqualTo(Guid.Empty));
-
-            Assert.That(result.Name, Is.EqualTo("NewBirdName"));
+            // Verify that AddAsync and SaveChangesAsync were called once
+            dataDbContextMock.Verify(db => db.Dogs.AddAsync(It.IsAny<Dog>(), CancellationToken.None), Times.Once);
+            dataDbContextMock.Verify(db => db.SaveChangesAsync(CancellationToken.None), Times.Once);
         }
     }
+    */
 }

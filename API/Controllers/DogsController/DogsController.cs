@@ -54,13 +54,11 @@ namespace API.Controllers.DogsController
             return Ok(await _mediator.Send(new UpdateDogByIdCommand(updatedDog, updatedDogId)));
         }
 
-        // IMPLEMENT DELETE !!!
-
         [HttpDelete]
         [Route("deleteDog/{deletedDogId}")]
-        public async Task<IActionResult> DeleteDog([FromBody] DogDto deletedDog, Guid deletedDogId)
+        public async Task<IActionResult> DeleteDog(Guid deletedDogId)
         {
-            return Ok(await _mediator.Send(new DeleteDogByIdCommand(deletedDog, deletedDogId)));
+            return Ok(await _mediator.Send(new DeleteDogByIdCommand(deletedDogId)));
         }
 
     }

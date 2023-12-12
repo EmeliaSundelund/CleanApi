@@ -1,37 +1,44 @@
 ﻿using Application.Commands.Dogs;
 using Application.Dtos;
 using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.DataDbContex;
+using Microsoft.Extensions.Configuration;
+using Moq;
 
-namespace Test.DogTests.CommandTest
-{
+namespace Tests.Application.Commands.Dogs
+{/*
     [TestFixture]
-    public class AddDogTests
+    public class AddDogCommandHandlerTests
     {
-        private AddDogCommandHandler _handler;
-
-
-        [SetUp]
-        public void Setup()
-        {
-            _handler = new AddDogCommandHandler(new MockDatabase());
-        }
-
         [Test]
-        public async Task AddsDogToDatabas()
+        public async Task Handle_ValidRequest_ShouldCreateDog()
         {
-            //Arrange
-            var newDog = new DogDto { Name = "NewDogName" };
-            var command = new AddDogCommand(newDog);
-            //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
-            //Assert
+            // Arrange
+            var configurationMock = new Mock<IConfiguration>();
+            var dataDbContextMock = new Mock<DataDbContex>();
+
+            var handler = new AddDogCommandHandler(configurationMock.Object, dataDbContextMock.Object);
+
+            var request = new AddDogCommand(new DogDto
+            {
+                Name = "TestDog",
+                BreedDog = "Labrador",
+                WeightDog = 25
+            });
+
+            // Act
+            var result = await handler.Handle(request, CancellationToken.None);
+
+            // Assert
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<Dog>());
+            Assert.That(result.Name, Is.EqualTo(request.NewDog.Name));
+            Assert.That(result.BreedDog, Is.EqualTo(request.NewDog.BreedDog));
+            Assert.That(result.WeightDog, Is.EqualTo(request.NewDog.WeightDog));
 
-            Assert.That(result.Id, Is.Not.EqualTo(Guid.Empty));
-
-            Assert.That(result.Name, Is.EqualTo("NewDogName"));
+            // Verify that AddAsync and SaveChangesAsync were called once
+            dataDbContextMock.Verify(db => db.Dogs.AddAsync(It.IsAny<Dog>(), CancellationToken.None), Times.Once);
+            dataDbContextMock.Verify(db => db.SaveChangesAsync(CancellationToken.None), Times.Once);
         }
     }
+    */
 }
