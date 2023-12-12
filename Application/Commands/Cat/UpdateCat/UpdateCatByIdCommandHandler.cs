@@ -1,25 +1,38 @@
 ﻿using Domain.Models;
 using Infrastructure.Database;
 using MediatR;
+using Infrastructure.DataDbContex;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 
 namespace Application.Commands.Cats.UpdateCat
 {
     public class UpdateCatByIdCommandHandler : IRequestHandler<UpdateCatByIdCommand, Cat>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IAnimalsRepository _animalRepository;
 
-        public UpdateCatByIdCommandHandler(MockDatabase mockDatabase)
+        public UpdateCatByIdCommandHandler(IAnimalsRepository animalRepository)
         {
-            _mockDatabase = mockDatabase;
-        } //kommentar
-        public Task<Cat> Handle(UpdateCatByIdCommand request, CancellationToken cancellationToken)
+            _animalRepository = animalRepository;
+        }
+
+        public async Task<Cat> Handle(UpdateCatByIdCommand request, CancellationToken cancellationToken)
         {
-            Cat catToUpdate = _mockDatabase.Cats.FirstOrDefault(cat => cat.id == request.Id)!;
+            var catToUpdate = await _animalRepository.GetByIdAsync(request.Id) as Cat;
 
-            catToUpdate.Name = request.UpdatedCat.Name;
-            catToUpdate.LikesToPlay = request.UpdatedCat.LikesToPlay;
+            if (catToUpdate != null)
+            {
+                catToUpdate.Name = request.UpdatedCat.Name;
+                catToUpdate.BreedCat = request.UpdatedCat.BreedCat;
+                catToUpdate.WeightCat = request.UpdatedCat.WeightCat;
 
-            return Task.FromResult(catToUpdate);
+                await _animalRepository.UpdateAsync(catToUpdate);
+
+                return catToUpdate;
+            }else
+            {
+                throw new InvalidOperationException($"Cat with ID {request.Id} not found.");
+            }
         }
     }
 }

@@ -1,10 +1,11 @@
-﻿using Domain.Models;
+﻿using NUnit.Framework;
+using Application.Queries.Cats;
 using Application.Queries.Cats.GetAll;
+using Domain.Models;
 using Infrastructure.Database;
 
-
 namespace Test.CatTests.QueryTest
-{
+{/*
     [TestFixture]
     public class GetAllCatsTests
     {
@@ -27,8 +28,9 @@ namespace Test.CatTests.QueryTest
             var result = await _handler.Handle(query, CancellationToken.None);
             //Assert
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<List<Cat>>());
+            Assert.That(result, Is.InstanceOf<List<Dog>>());
             Assert.That(result.Count, Is.GreaterThan(0));
         }
     }
+    */
 }

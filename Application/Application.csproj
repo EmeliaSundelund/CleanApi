@@ -20,6 +20,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.8" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,8 +44,6 @@
     <None Remove="Queries\Birds\" />
     <None Remove="Queries\Birds\GetAll\" />
     <None Remove="Queries\Birds\GetById\" />
-    <None Remove="Commands\User\" />
-    <None Remove="Queries\User\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\Dogs\DeleteDog\" />
@@ -62,7 +61,6 @@
     <Folder Include="Queries\Birds\" />
     <Folder Include="Queries\Birds\GetAll\" />
     <Folder Include="Queries\Birds\GetById\" />
-    <Folder Include="Commands\User\" />
-    <Folder Include="Queries\User\" />
+    <Folder Include="Queries\Users\GetById\" />
   </ItemGroup>
 </Project>

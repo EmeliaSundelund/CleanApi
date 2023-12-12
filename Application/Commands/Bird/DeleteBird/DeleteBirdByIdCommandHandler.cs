@@ -1,28 +1,34 @@
-﻿using Domain.Models;
-using Infrastructure.Database;
+﻿using Application.Commands.Birds.DeleteBird;
+using Domain.Models;
+using Infrastructure.DataDbContex;
 using MediatR;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
+using Infrastructure.Database;
+using Domain.Models.Animal;
 
 namespace Application.Commands.Birds.DeleteBird
 {
     public class DeleteBirdByIdCommandHandler : IRequestHandler<DeleteBirdByIdCommand, bool>
     {
-        private readonly MockDatabase _mockDatabase;
-        public DeleteBirdByIdCommandHandler(MockDatabase mockDatabase)
+        private readonly IAnimalsRepository _animalsReprository;
+
+        public DeleteBirdByIdCommandHandler(IAnimalsRepository animalRepository)
         {
-            _mockDatabase = mockDatabase;
+            _animalsReprository = animalRepository;
         }
 
-        public Task<bool> Handle(DeleteBirdByIdCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteBirdByIdCommand request, CancellationToken cancellationToken)
         {
-            Bird birdToDelete = _mockDatabase.Birds.FirstOrDefault(bird => bird.id == request.DeletedBirdId)!;
+            AnimalModel birdToDelete = await _animalsReprository.GetByIdAsync(request.DeletedBirdId);
 
-            if (birdToDelete != null)
+            if (birdToDelete == null)
             {
-                _mockDatabase.Birds.Remove(birdToDelete);
-                return Task.FromResult(true);
+                return false;
             }
 
-            return Task.FromResult(false);
+            await _animalsReprository.DeleteAsync(request.DeletedBirdId);
+            return true;
         }
     }
 }

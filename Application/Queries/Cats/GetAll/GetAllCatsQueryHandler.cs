@@ -1,22 +1,28 @@
-﻿using Domain.Models;
-using Infrastructure.Database;
+﻿using Application.Queries.Cats.GetAll;
+using Domain.Models;
+using Infrastructure.DataDbContex;
 using MediatR;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Application.Queries.Cats.GetAll
+namespace Application.Queries.Cats
 {
     public class GetAllCatsQueryHandler : IRequestHandler<GetAllCatsQuery, List<Cat>>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IAnimalsRepository _animalRepository;
 
-        public GetAllCatsQueryHandler(MockDatabase mockDatabase)
+        public GetAllCatsQueryHandler(IAnimalsRepository animalRepository)
         {
-            _mockDatabase = mockDatabase;
+            _animalRepository = animalRepository;
         }
 
-        public Task<List<Cat>> Handle(GetAllCatsQuery request, CancellationToken cancellationToken)
+        public async Task<List<Cat>> Handle(GetAllCatsQuery request, CancellationToken cancellationToken)
         {
-            List<Cat> allCatsFromMockDatabase = _mockDatabase.Cats;
-            return Task.FromResult(allCatsFromMockDatabase);
+            List<Cat> allCats = await _animalRepository.GetAllCatsAsync();
+            return allCats;
         }
     }
 }

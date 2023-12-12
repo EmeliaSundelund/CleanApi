@@ -18,5 +18,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.8" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Models\User\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\User\" />
   </ItemGroup>
 </Project>

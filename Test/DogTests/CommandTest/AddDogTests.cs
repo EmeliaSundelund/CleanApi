@@ -3,40 +3,41 @@ using Application.Dtos;
 using Domain.Models;
 using Infrastructure.DataDbContex;
 using Microsoft.Extensions.Configuration;
+using Moq;
 
-namespace Test.DogTests.CommandTest
+namespace Tests.Application.Commands.Dogs
 {/*
     [TestFixture]
     public class AddDogCommandHandlerTests
     {
-        private AddDogCommandHandler _handler;
-
-        [SetUp]
-        public void Setup()
-        {
-            // Använder en Mock för databasen eller DbContext
-            _handler = new AddDogCommandHandler(new Mock<IConfiguration>().Object, new Mock<DataDbContex>().Object);
-        }
-
         [Test]
-        public async Task AddsDogToDatabase()
+        public async Task Handle_ValidRequest_ShouldCreateDog()
         {
             // Arrange
-            var newDog = new DogDto { Name = "NewDogName", BreedDog = "NewBreed", WeightDog = 15.5 };
-            var command = new AddDogCommand(newDog);
+            var configurationMock = new Mock<IConfiguration>();
+            var dataDbContextMock = new Mock<DataDbContex>();
+
+            var handler = new AddDogCommandHandler(configurationMock.Object, dataDbContextMock.Object);
+
+            var request = new AddDogCommand(new DogDto
+            {
+                Name = "TestDog",
+                BreedDog = "Labrador",
+                WeightDog = 25
+            });
 
             // Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = await handler.Handle(request, CancellationToken.None);
 
             // Assert
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<Dog>());
+            Assert.That(result.Name, Is.EqualTo(request.NewDog.Name));
+            Assert.That(result.BreedDog, Is.EqualTo(request.NewDog.BreedDog));
+            Assert.That(result.WeightDog, Is.EqualTo(request.NewDog.WeightDog));
 
-            Assert.That(result.id, Is.Not.EqualTo(Guid.Empty));
-
-            Assert.That(result.Name, Is.EqualTo("NewDogName"));
-            Assert.That(result.BreedDog, Is.EqualTo("NewBreed"));
-            Assert.That(result.WeightDog, Is.EqualTo(15.5));
+            // Verify that AddAsync and SaveChangesAsync were called once
+            dataDbContextMock.Verify(db => db.Dogs.AddAsync(It.IsAny<Dog>(), CancellationToken.None), Times.Once);
+            dataDbContextMock.Verify(db => db.SaveChangesAsync(CancellationToken.None), Times.Once);
         }
     }
     */

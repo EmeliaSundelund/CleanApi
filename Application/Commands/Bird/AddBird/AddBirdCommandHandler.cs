@@ -1,29 +1,38 @@
-﻿using Domain.Models;
+﻿using Application.Commands.Birds.AddBird;
+using Domain.Models;
 using Infrastructure.Database;
+using Infrastructure.DataDbContex;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 
-namespace Application.Commands.Birds.AddBird
+namespace Application.Commands.Birds
 {
     public class AddBirdCommandHandler : IRequestHandler<AddBirdCommand, Bird>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IConfiguration _configuration;
 
-        public AddBirdCommandHandler(MockDatabase mockDatabase)
+        private readonly DataDbContex _dataDbContex;
+
+        public AddBirdCommandHandler(IConfiguration configuration, DataDbContex dataDbContex)
         {
-            _mockDatabase = mockDatabase;
+            _configuration = configuration;
+            _dataDbContex = dataDbContex;
         }
 
-        public Task<Bird> Handle(AddBirdCommand request, CancellationToken cancellationToken)
+        public async Task<Bird> Handle(AddBirdCommand request, CancellationToken cancellationToken)
         {
             Bird birdToCreate = new()
             {
                 id = Guid.NewGuid(),
-                Name = request.NewBird.Name
+                Name = request.NewBird.Name,
+                Color = request.NewBird.Color,
+
             };
 
-            _mockDatabase.Birds.Add(birdToCreate);
+            await _dataDbContex.Birds.AddAsync(birdToCreate);
+            await _dataDbContex.SaveChangesAsync();
 
-            return Task.FromResult(birdToCreate);
+            return birdToCreate;
         }
     }
 }

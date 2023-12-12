@@ -1,8 +1,4 @@
-﻿using NUnit.Framework;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Queries.Dogs.GetById;
+﻿using Application.Queries.Dogs.GetById;
 using Infrastructure.Database;
 
 namespace Test.DogTests.QueryTest
@@ -17,7 +13,7 @@ namespace Test.DogTests.QueryTest
         public void SetUp()
         {
             _mockDatabase = new MockDatabase();
-            _handler = new GetDogByIdQueryHandler(_mockDatabase);
+            _handler = new GetDogByIdQueryHandler((Infrastructure.DataDbContex.IAnimalsRepository)_mockDatabase);
         }
 
         [Test]
@@ -36,4 +32,5 @@ namespace Test.DogTests.QueryTest
 
     }
     */
+    
 }

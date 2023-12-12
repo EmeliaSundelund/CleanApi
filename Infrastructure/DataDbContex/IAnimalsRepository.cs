@@ -1,5 +1,4 @@
-﻿using System;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.Models.Animal;
 
 namespace Infrastructure.DataDbContex

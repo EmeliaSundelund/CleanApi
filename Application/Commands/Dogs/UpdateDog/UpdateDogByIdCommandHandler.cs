@@ -17,15 +17,20 @@ namespace Application.Commands.Dogs.UpdateDog
         public async Task<Dog> Handle(UpdateDogByIdCommand request, CancellationToken cancellationToken)
         {
             var dogToUpdate = await _animalRepository.GetByIdAsync(request.Id) as Dog;
-                  
 
-            dogToUpdate.Name = request.UpdatedDog.Name;
-            dogToUpdate.BreedDog= request.UpdatedDog.BreedDog;
-            dogToUpdate.WeightDog = request.UpdatedDog.WeightDog;
+            if (dogToUpdate != null)
+            {
+                dogToUpdate.Name = request.UpdatedDog.Name;
+                dogToUpdate.BreedDog = request.UpdatedDog.BreedDog;
+                dogToUpdate.WeightDog = request.UpdatedDog.WeightDog;
 
-            await _animalRepository.UpdateAsync(dogToUpdate);
+                await _animalRepository.UpdateAsync(dogToUpdate);
 
-            return dogToUpdate;
+                return dogToUpdate;
+            }else
+            {
+                throw new InvalidOperationException($"Dog with ID {request.Id} not found.");
+            }
         }
     }
 
