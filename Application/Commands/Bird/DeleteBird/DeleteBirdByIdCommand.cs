@@ -6,10 +6,10 @@ namespace Application.Commands.Birds.DeleteBird
     {
         public DeleteBirdByIdCommand(Guid deletedBirdId)
         {
-            
+
             DeletedBirdId = deletedBirdId;
         }
-        
+
         public Guid DeletedBirdId { get; }
     }
 }

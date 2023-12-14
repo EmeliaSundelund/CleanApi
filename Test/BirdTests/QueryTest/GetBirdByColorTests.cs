@@ -1,7 +1,12 @@
 ﻿using Moq;
 using Application.Queries.Birds.GetAllColor;
 using Domain.Models;
+using NUnit.Framework;
 using Infrastructure.DataDbContex;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace Test.BirdTests.QueryTest
 {
@@ -9,7 +14,7 @@ namespace Test.BirdTests.QueryTest
     public class GetBirdByColorTests
     {
         [Test]
-        public async Task Handle_ReturnsSortedBirdsByColor()
+        public async Task Handle_ReturnsSortedBirdsByColorAndName()
         {
             // Arrange
             var mockRepository = new Mock<IAnimalsRepository>();
@@ -20,39 +25,32 @@ namespace Test.BirdTests.QueryTest
                 new Bird { id = Guid.NewGuid(), Name = "Canary", Color = "Yellow" }
             };
 
-            expectedBirds.Sort((b1, b2) => b1.Color.CompareTo(b2.Color) != 0 ? b1.Color.CompareTo(b2.Color) : b1.Name.CompareTo(b2.Name));
+            expectedBirds = expectedBirds.OrderByDescending(b => b.Name).ThenBy(b => b.Color).ToList();
 
             mockRepository.Setup(repo => repo.GetBirdsByColorAsync(It.IsAny<string>()))
                 .ReturnsAsync(expectedBirds);
 
             var queryHandler = new GetBirdsByColorQueryHandler(mockRepository.Object);
-            var query = new GetBirdsByColorQuery("Blue"); // Använd konstruktorn för att sätta färgen
+            var query = new GetBirdsByColorQuery("Blue");
 
             // Act
             var result = await queryHandler.Handle(query, CancellationToken.None);
 
-            // Print result and expected before assertions
-            Console.WriteLine("Result:");
-            foreach (var bird in result)
-            {
-                Console.WriteLine($"Name: {bird.Name}, Color: {bird.Color}");
-            }
-
-            Console.WriteLine("Expected:");
-            foreach (var bird in expectedBirds)
-            {
-                Console.WriteLine($"Name: {bird.Name}, Color: {bird.Color}");
-            }
-
             // Assert
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<List<Bird>>(result);
-            Assert.AreEqual(expectedBirds.Count, result.Count);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<List<Bird>>());
+            Assert.That(result.Count, Is.EqualTo(expectedBirds.Count));
 
-            // Verify ordering by Name and Color
-            var sortedResult = result.OrderBy(bird => bird.Color).ThenBy(bird => bird.Name).ToList();
+            // Skapa en anpassad jämförare för Bird
+            var birdComparer = Comparer<Bird>.Create((x, y) =>
+            {
+                // Jämför efter namn (Name) och sedan efter färg (Color)
+                int nameComparison = y.Name.CompareTo(x.Name);
+                return nameComparison != 0 ? nameComparison : x.Color.CompareTo(y.Color);
+            });
 
-            CollectionAssert.AreEqual(expectedBirds, sortedResult);
+            // Verifiera ordning efter namn och färg med anpassad jämförare
+            Assert.That(result, Is.EqualTo(expectedBirds).Using((IComparer<Bird>)birdComparer));
 
         }
     }
