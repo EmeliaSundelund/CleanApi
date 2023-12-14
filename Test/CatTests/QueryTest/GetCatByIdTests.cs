@@ -24,8 +24,8 @@ namespace Application.Test.CatTests.QueryTest
             var result = await queryHandler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(expectedCat, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(expectedCat));
         }
     }
 }
