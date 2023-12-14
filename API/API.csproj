@@ -33,9 +33,11 @@
   <ItemGroup>
     <None Remove="Controllers\CatController\" />
     <None Remove="Controllers\BirdController\" />
+    <None Remove="Controllers\UserController\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\CatController\" />
     <Folder Include="Controllers\BirdController\" />
+    <Folder Include="Controllers\UserController\" />
   </ItemGroup>
 </Project>

@@ -11,9 +11,9 @@ namespace Application.Commands.Birds
     {
         private readonly IConfiguration _configuration;
 
-        private readonly DataDbContex _dataDbContex;
+        private readonly Infrastructure.DataDbContex.DataDbContex _dataDbContex;
 
-        public AddBirdCommandHandler(IConfiguration configuration, DataDbContex dataDbContex)
+        public AddBirdCommandHandler(IConfiguration configuration, Infrastructure.DataDbContex.DataDbContex dataDbContex)
         {
             _configuration = configuration;
             _dataDbContex = dataDbContex;
@@ -26,6 +26,8 @@ namespace Application.Commands.Birds
                 id = Guid.NewGuid(),
                 Name = request.NewBird.Name,
                 Color = request.NewBird.Color,
+                CanFly = request.NewBird.CanFly,
+                Owner = request.NewBird.Owner,
 
             };
 

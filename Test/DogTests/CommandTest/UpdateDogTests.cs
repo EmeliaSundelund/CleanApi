@@ -1,49 +1,41 @@
-﻿using NUnit.Framework;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Moq;
 using Application.Commands.Dogs.UpdateDog;
 using Application.Dtos;
 using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.DataDbContex;
 
-namespace Tests.Application.Commands.Dogs
-{/*
-    [TestFixture]
-    public class UpdateDogCommandHandlerTests
+[TestFixture]
+public class UpdateDogByIdCommandHandlerTests
+{
+    private UpdateDogByIdCommandHandler _handler;
+    private Mock<IAnimalsRepository> _mockRepository;
+
+    [SetUp]
+    public void Setup()
     {
-        private UpdateDogByIdCommandHandler _handler;
-        private MockDatabase _mockDatabase;
-
-        [SetUp]
-        public void Setup()
-        {
-            _mockDatabase = new MockDatabase();
-            _handler = new UpdateDogByIdCommandHandler((Infrastructure.DataDbContex.IAnimalsRepository)_mockDatabase);
-        }
-
-        [Test]
-        public async Task Handle_ValidRequest_ShouldUpdateDog()
-        {
-            // Arrange
-            var initialDog = new Dog { id = Guid.NewGuid(), Name = "InitialDogName" };
-            _mockDatabase.Dogs.Add(initialDog);
-
-            var command = new UpdateDogByIdCommand(updatedDog: new DogDto { Name = "UpdatedDogName" }, id: initialDog.id);
-
-            // Act
-            var result = await _handler.Handle(command, CancellationToken.None);
-
-            // Assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<Dog>());
-            Assert.That(result.Name, Is.EqualTo("UpdatedDogName"));
-
-            var updatedDogInDatabase = _mockDatabase.Dogs.FirstOrDefault(dog => dog.id == command.Id);
-            Assert.That(updatedDogInDatabase, Is.Not.Null);
-            Assert.That(updatedDogInDatabase.Name, Is.EqualTo("UpdatedDogName"));
-        }
+        _mockRepository = new Mock<IAnimalsRepository>();
+        _handler = new UpdateDogByIdCommandHandler(_mockRepository.Object);
     }
-    */
+
+    [Test]
+    public async Task Handle_WithValidDog_ShouldUpdateAndReturnDog()
+    {
+        // Arrange
+        var existingDog = new Dog { id = Guid.NewGuid(), Name = "OldName" };
+        var updatedDog = new Dog { id = existingDog.id, Name = "NewName" };
+
+        _mockRepository.Setup(r => r.GetByIdAsync(existingDog.id)).ReturnsAsync(existingDog);
+
+        var command = new UpdateDogByIdCommand(
+            new DogDto { Name = "NewName" },
+            existingDog.id
+        );
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Logga id för existingDog och result
+        Console.WriteLine($"existingDog.id: {existingDog.id}");
+        Console.WriteLine($"result.id: {result.id}");
+    }
 }

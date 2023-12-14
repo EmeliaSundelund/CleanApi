@@ -11,24 +11,25 @@ namespace Application.Commands.Dogs.DeleteDog
 {
     public class DeleteDogByIdCommandHandler : IRequestHandler<DeleteDogByIdCommand, bool>
     {
-        private readonly IAnimalsRepository _animalsReprository;
+        private readonly IAnimalsRepository _animalsRepository;
 
-        public DeleteDogByIdCommandHandler(IAnimalsRepository animalRepository)
+        public DeleteDogByIdCommandHandler(IAnimalsRepository animalsRepository)
         {
-            _animalsReprository = animalRepository;
+            _animalsRepository = animalsRepository;
         }
 
         public async Task<bool> Handle(DeleteDogByIdCommand request, CancellationToken cancellationToken)
         {
-            AnimalModel dogToDelete = await _animalsReprository.GetByIdAsync(request.DeletedDogId);
+            AnimalModel dogToDelete = await _animalsRepository.GetByIdAsync(request.DeletedDogId);
 
             if (dogToDelete == null)
             {
                 return false;
             }
 
-            await _animalsReprository.DeleteAsync(request.DeletedDogId);
+            await _animalsRepository.DeleteAsync(request.DeletedDogId);
             return true;
         }
     }
 }
+

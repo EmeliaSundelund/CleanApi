@@ -3,6 +3,7 @@ using Application.Commands.Birds.DeleteBird;
 using Application.Commands.Birds.UpdateBird;
 using Application.Dtos;
 using Application.Queries.Birds.GetAll;
+using Application.Queries.Birds.GetAllColor;
 using Application.Queries.Birds.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,13 @@ namespace API.Controllers.CatsController
         public async Task<IActionResult> GetBirdById(Guid birdId)
         {
             return Ok(await _mediator.Send(new GetBirdByIdQuery(birdId)));
+        }
+
+        [HttpGet]
+        [Route("getBirdByColor/{birdColor}")]
+        public async Task<IActionResult> GetBirdByColor(string birdColor)
+        {
+            return Ok(await _mediator.Send(new GetBirdsByColorQuery(birdColor)));
         }
 
         [HttpPost]

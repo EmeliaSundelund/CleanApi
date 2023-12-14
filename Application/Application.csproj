@@ -44,6 +44,14 @@
     <None Remove="Queries\Birds\" />
     <None Remove="Queries\Birds\GetAll\" />
     <None Remove="Queries\Birds\GetById\" />
+    <None Remove="Commands\User\" />
+    <None Remove="Commands\User\AddUser\" />
+    <None Remove="Commands\User\DeleteUser\" />
+    <None Remove="Commands\User\UpdateUser\" />
+    <None Remove="Queries\Users\" />
+    <None Remove="Queries\Users\GetAll\" />
+    <None Remove="Queries\Users\GetById\" />
+    <None Remove="Queries\Birds\GetAllColor\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\Dogs\DeleteDog\" />
@@ -61,6 +69,13 @@
     <Folder Include="Queries\Birds\" />
     <Folder Include="Queries\Birds\GetAll\" />
     <Folder Include="Queries\Birds\GetById\" />
+    <Folder Include="Commands\User\" />
+    <Folder Include="Commands\User\AddUser\" />
+    <Folder Include="Commands\User\DeleteUser\" />
+    <Folder Include="Commands\User\UpdateUser\" />
+    <Folder Include="Queries\Users\" />
+    <Folder Include="Queries\Users\GetAll\" />
     <Folder Include="Queries\Users\GetById\" />
+    <Folder Include="Queries\Birds\GetAllColor\" />
   </ItemGroup>
 </Project>

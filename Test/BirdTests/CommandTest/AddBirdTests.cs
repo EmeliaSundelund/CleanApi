@@ -1,30 +1,40 @@
 ﻿using Application.Commands.Birds;
 using Application.Commands.Birds.AddBird;
 using Application.Dtos;
-using Domain.Models;
 using Infrastructure.DataDbContex;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Moq;
 
 namespace Tests.Application.Commands.Birds
-{/*
+{
     [TestFixture]
-    public class AddBirdCommandHandlerTests
+    public class AddBirdsCommandHandlerTests
     {
         [Test]
-        public async Task Handle_ValidRequest_ShouldCreateBird()
+        public async Task Handle_AddBirdToDatabase()
         {
             // Arrange
             var configurationMock = new Mock<IConfiguration>();
-            var dataDbContextMock = new Mock<DataDbContex>();
 
-            var handler = new AddBirdCommandHandler(configurationMock.Object, dataDbContextMock.Object);
+            // Använd DbContextOptionsBuilder.ConfigureWarnings för att tysta varningar om in-memory-databasen
+            var options = new DbContextOptionsBuilder<DataDbContex>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .ConfigureWarnings(warnings => warnings.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .Options;
+
+            // Skapa en faktisk instans av DataDbContex med in-memory-databasen
+            using var dbContext = new DataDbContex(options);
+
+            var handler = new AddBirdCommandHandler(configurationMock.Object, dbContext);
 
             var request = new AddBirdCommand(new BirdDto
             {
-                Name = "Amanda",
+                Name = "TestDog",
                 Color = "Blue",
-                
+                CanFly = true,
+                Owner = 1,
             });
 
             // Act
@@ -32,13 +42,13 @@ namespace Tests.Application.Commands.Birds
 
             // Assert
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Name, Is.EqualTo(request.NewBird.Name));
-            Assert.That(result.Color, Is.EqualTo(request.NewBird.Color));
 
-            // Verify that AddAsync and SaveChangesAsync were called once
-            dataDbContextMock.Verify(db => db.Dogs.AddAsync(It.IsAny<Dog>(), CancellationToken.None), Times.Once);
-            dataDbContextMock.Verify(db => db.SaveChangesAsync(CancellationToken.None), Times.Once);
+            // Verify that the dog is added to the in-memory database
+            Assert.That(dbContext.Birds.Count(), Is.EqualTo(1));
+            Assert.That(dbContext.Birds.First().Name, Is.EqualTo(request.NewBird.Name));
+            Assert.That(dbContext.Birds.First().Color, Is.EqualTo(request.NewBird.Color));
+            Assert.That(dbContext.Birds.First().CanFly, Is.EqualTo(request.NewBird.CanFly));
+            Assert.That(dbContext.Birds.First().Owner, Is.EqualTo(request.NewBird.Owner));
         }
     }
-    */
 }

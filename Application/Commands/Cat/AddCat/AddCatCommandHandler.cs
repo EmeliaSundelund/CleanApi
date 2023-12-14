@@ -13,9 +13,9 @@ namespace Application.Commands.Cats.AddCat
         {
             private readonly IConfiguration _configuration;
 
-            private readonly DataDbContex _dataDbContex;
+            private readonly Infrastructure.DataDbContex.DataDbContex _dataDbContex;
 
-            public AddCatCommandHandler(IConfiguration configuration, DataDbContex dataDbContex)
+            public AddCatCommandHandler(IConfiguration configuration, Infrastructure.DataDbContex.DataDbContex dataDbContex)
             {
                 _configuration = configuration;
                 _dataDbContex = dataDbContex;
@@ -29,6 +29,7 @@ namespace Application.Commands.Cats.AddCat
                     Name = request.NewCat.Name,
                     BreedCat = request.NewCat.BreedCat,
                     WeightCat = request.NewCat.WeightCat,
+                    Owner = request.NewCat.Owner,
                 };
 
                 await _dataDbContex.Cats.AddAsync(catToCreate);
