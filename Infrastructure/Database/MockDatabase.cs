@@ -51,5 +51,5 @@ namespace Infrastructure.Database
             new Bird { id = new Guid("b8c746d3-aa71-4f11-bf8e-7cfc30a890a2"), Name = "TestBirdForUnitTests"}
         };
     }
-    
+
 }

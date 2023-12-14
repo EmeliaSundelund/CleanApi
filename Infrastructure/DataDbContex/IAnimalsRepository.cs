@@ -3,8 +3,8 @@ using Domain.Models.Animal;
 
 namespace Infrastructure.DataDbContex
 {
-	public interface IAnimalsRepository
-	{
+    public interface IAnimalsRepository
+    {
         Task<AnimalModel> GetByIdAsync(Guid animalId);
         Task AddAsync<T>(T entity) where T : class;
         Task UpdateAsync(AnimalModel animal);

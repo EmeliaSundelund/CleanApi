@@ -1,5 +1,4 @@
-﻿using Application.Dtos;
-using MediatR;
+﻿using MediatR;
 
 namespace Application.Commands.Birds.DeleteBird
 {

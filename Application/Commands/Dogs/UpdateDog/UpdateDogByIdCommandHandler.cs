@@ -28,7 +28,8 @@ namespace Application.Commands.Dogs.UpdateDog
                 await _animalRepository.UpdateAsync(dogToUpdate);
 
                 return dogToUpdate;
-            }else
+            }
+            else
             {
                 throw new InvalidOperationException($"Dog with ID {request.Id} not found.");
             }

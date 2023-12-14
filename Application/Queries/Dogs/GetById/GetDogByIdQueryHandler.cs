@@ -16,7 +16,7 @@ namespace Application.Queries.Dogs.GetById
         public async Task<Dog> Handle(GetDogByIdQuery request, CancellationToken cancellationToken)
         {
             Dog wantedDog = await _animalRepository.GetByIdAsync(request.Id) as Dog;
-                       
+
             return wantedDog;
         }
     }

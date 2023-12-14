@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.DataDbContex
 {
-	public class DataDbContex : DbContext
+    public class DataDbContex : DbContext
     {
         public DbSet<AnimalModel> Animals { get; set; }
         public DbSet<UserModel> Person { get; set; }
@@ -15,11 +15,11 @@ namespace Infrastructure.DataDbContex
         public DbSet<Dog> Dogs { get; set; }
         public DbSet<Cat> Cats { get; set; }
 
-      
+
         public DataDbContex(DbContextOptions<DataDbContex> options)
             : base(options)
         {
-            
+
             Database.EnsureCreated();
         }
     }
