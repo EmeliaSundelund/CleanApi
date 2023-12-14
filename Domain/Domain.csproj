@@ -21,9 +21,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.8" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Models\User\" />
+    <None Remove="Models\Person\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\User\" />
+    <Folder Include="Models\Person\" />
   </ItemGroup>
 </Project>

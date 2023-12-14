@@ -23,6 +23,7 @@ namespace Application.Commands.Dogs.UpdateDog
                 dogToUpdate.Name = request.UpdatedDog.Name;
                 dogToUpdate.BreedDog = request.UpdatedDog.BreedDog;
                 dogToUpdate.WeightDog = request.UpdatedDog.WeightDog;
+                dogToUpdate.Owner = request.UpdatedDog.Owner;
 
                 await _animalRepository.UpdateAsync(dogToUpdate);
 

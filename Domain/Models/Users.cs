@@ -1,9 +1,9 @@
-﻿using Domain.Models.User;
+﻿using Domain.Models.Person;
 
 namespace Domain.Models
 {
-    public class Users : UserModel
+    public class UserS : UserModel
     {
-        public string Password { get; set; }
+        public int Animals { get; set; }
     }
 }

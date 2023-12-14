@@ -1,44 +1,42 @@
-﻿using Application.Commands.Cats.UpdateCat;
+﻿using Moq;
+using Application.Commands.Cats.UpdateCat;
 using Application.Dtos;
 using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.DataDbContex;
 
+[TestFixture]
+public class UpdateCatByIdCommandHandlerTests
+{
+    private UpdateCatByIdCommandHandler _handler;
+    private Mock<IAnimalsRepository> _mockRepository;
 
-namespace Test.CatTests.CommandTest
-{/*
-    [TestFixture]
-    public class UpdateCatTests
+    [SetUp]
+    public void Setup()
     {
-        private UpdateCatByIdCommandHandler _handler;
-        private MockDatabase _mockDatabase;
-
-        [SetUp]
-        public void Setup()
-        {
-            _mockDatabase = new MockDatabase();
-            _handler = new UpdateCatByIdCommandHandler((Infrastructure.DataDbContex.IAnimalsRepository)_mockDatabase);
-        }
-
-        [Test]
-        public async Task UpdateCatInDatabase()
-        {
-            //Arrange
-            var initialCat = new Cat { id = Guid.NewGuid(), Name = "InitialCatName" };
-            _mockDatabase.Cats.Add(initialCat);
-
-            var command = new UpdateCatByIdCommand(updatedCat: new CatDto { Name = "UpdatedCatName" }, id: initialCat.id);
-            //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
-            //Assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<Cat>());
-
-            Assert.That(result.Name, Is.EqualTo("UpdatedCatName"));
-
-            var updatedCatInDatabase = _mockDatabase.Cats.FirstOrDefault(cat => cat.id == command.Id);
-            Assert.That(updatedCatInDatabase, Is.Not.Null);
-            Assert.That(updatedCatInDatabase.Name, Is.EqualTo("UpdatedCatName"));
-        }
+        _mockRepository = new Mock<IAnimalsRepository>();
+        _handler = new UpdateCatByIdCommandHandler(_mockRepository.Object);
     }
-    */
+
+    [Test]
+    public async Task Handle_WithValidCat_ShouldUpdateAndReturnCat()
+    {
+        // Arrange
+        var existingCat = new Cat { id = Guid.NewGuid(), Name = "OldName"};
+        var updatedCat = new Cat { id = existingCat.id, Name = "NewName"};
+
+        _mockRepository.Setup(r => r.GetByIdAsync(existingCat.id)).ReturnsAsync(existingCat);
+
+        var command = new UpdateCatByIdCommand(
+            new CatDto { Name = "NewName" },
+            existingCat.id
+        );
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Logga id för existingBird och result
+        Console.WriteLine($"existingCat.id: {existingCat.id}");
+        Console.WriteLine($"result.id: {result.id}");
+    }
 }
+

@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.Models.Animal;
-using Domain.Models.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.DataDbContex
@@ -27,7 +26,7 @@ namespace Infrastructure.DataDbContex
 
         public async Task UpdateAsync(AnimalModel animal)
         {
-            
+
             _context.Animals.Update(animal);
             await _context.SaveChangesAsync();
         }
@@ -56,5 +55,15 @@ namespace Infrastructure.DataDbContex
         {
             return await _context.Dogs.ToListAsync();
         }
+
+        public async Task<List<Bird>> GetBirdsByColorAsync(string color)
+        {
+            var birds = await _context.Birds
+                                      .Where(b => b.Color == color)
+                                      .ToListAsync();
+
+            return birds;
+        }
+
     }
 }

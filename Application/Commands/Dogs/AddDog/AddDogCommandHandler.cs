@@ -27,6 +27,7 @@ namespace Application.Commands.Dogs
                 Name = request.NewDog.Name,
                 BreedDog = request.NewDog.BreedDog,
                 WeightDog = request.NewDog.WeightDog,
+                Owner = request.NewDog.Owner,
             };
 
             await _dataDbContex.Dogs.AddAsync(dogToCreate);
