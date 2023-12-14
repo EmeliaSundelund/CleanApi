@@ -2,11 +2,11 @@
 using Application.Queries.Birds.GetAllColor;
 using Domain.Models;
 using NUnit.Framework;
+using Infrastructure.DataDbContex;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
-using Infrastructure.DataDbContex;
 
 namespace Test.BirdTests.QueryTest
 {
@@ -37,7 +37,7 @@ namespace Test.BirdTests.QueryTest
             var result = await queryHandler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.NotNull(result);
+            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<Bird>>());
             Assert.That(result.Count, Is.EqualTo(expectedBirds.Count));
 
@@ -50,7 +50,8 @@ namespace Test.BirdTests.QueryTest
             });
 
             // Verifiera ordning efter namn och färg med anpassad jämförare
-            CollectionAssert.AreEqual(expectedBirds, result, birdComparer);
+            Assert.That(result, Is.EqualTo(expectedBirds).Using((IComparer<Bird>)birdComparer));
+
         }
     }
 }
