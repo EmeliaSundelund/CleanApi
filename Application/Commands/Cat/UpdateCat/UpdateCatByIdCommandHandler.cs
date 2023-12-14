@@ -30,7 +30,8 @@ namespace Application.Commands.Cats.UpdateCat
                 await _animalRepository.UpdateAsync(catToUpdate);
 
                 return catToUpdate;
-            }else
+            }
+            else
             {
                 throw new InvalidOperationException($"Cat with ID {request.Id} not found.");
             }

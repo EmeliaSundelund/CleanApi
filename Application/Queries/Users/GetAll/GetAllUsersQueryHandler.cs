@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.Queries.Users.GetAll
 {
-	public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<UserS>>
+    public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<UserS>>
     {
 
         private readonly UserInterface _userInterface;

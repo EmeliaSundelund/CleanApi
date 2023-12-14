@@ -21,8 +21,8 @@ public class UpdateCatByIdCommandHandlerTests
     public async Task Handle_WithValidCat_ShouldUpdateAndReturnCat()
     {
         // Arrange
-        var existingCat = new Cat { id = Guid.NewGuid(), Name = "OldName"};
-        var updatedCat = new Cat { id = existingCat.id, Name = "NewName"};
+        var existingCat = new Cat { id = Guid.NewGuid(), Name = "OldName" };
+        var updatedCat = new Cat { id = existingCat.id, Name = "NewName" };
 
         _mockRepository.Setup(r => r.GetByIdAsync(existingCat.id)).ReturnsAsync(existingCat);
 
