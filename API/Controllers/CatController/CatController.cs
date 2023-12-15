@@ -2,8 +2,10 @@
 using Application.Commands.Cats.DeleteCat;
 using Application.Commands.Cats.UpdateCat;
 using Application.Dtos;
+using Application.Queries.Cats.CatByBreedOrWeight;
 using Application.Queries.Cats.GetAll;
 using Application.Queries.Cats.GetById;
+using Application.Queries.Dogs.DogByBreedOrWeight;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +33,13 @@ namespace API.Controllers.CatsController
         public async Task<IActionResult> GetCatById(Guid catId)
         {
             return Ok(await _mediator.Send(new GetCatByIdQuery(catId)));
+        }
+
+        [HttpGet("getCatByBreed")]
+        public async Task<IActionResult> GetCatByBreed(string breedCat = null, int? weightCat = null)
+        {
+            var result = await _mediator.Send(new GetCatByBreedQuery(breedCat, weightCat));
+            return Ok(result);
         }
 
         [HttpPost]

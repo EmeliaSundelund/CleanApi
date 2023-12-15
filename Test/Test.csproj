@@ -38,6 +38,9 @@
     <Folder Include="BirdTests\" />
     <Folder Include="BirdTests\CommandTest\" />
     <Folder Include="BirdTests\QueryTest\" />
+    <Folder Include="UserTests\" />
+    <Folder Include="UserTests\CommandTest\" />
+    <Folder Include="UserTests\QueryTest\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,5 +55,8 @@
     <None Remove="BirdTests\" />
     <None Remove="BirdTests\CommandTest\" />
     <None Remove="BirdTests\QueryTest\" />
+    <None Remove="UserTests\" />
+    <None Remove="UserTests\CommandTest\" />
+    <None Remove="UserTests\QueryTest\" />
   </ItemGroup>
 </Project>
