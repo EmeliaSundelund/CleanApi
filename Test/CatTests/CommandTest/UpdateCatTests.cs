@@ -27,8 +27,8 @@ public class UpdateCatByIdCommandHandlerTests
         _mockRepository.Setup(r => r.GetByIdAsync(existingCat.id)).ReturnsAsync(existingCat);
 
         var command = new UpdateCatByIdCommand(
-            new CatDto { Name = "NewName" },
-            existingCat.id
+        new CatDto { Name = "NewName", BreedCat = null }, // Ställ in BreedCat som null eller använd rätt värde
+        existingCat.id
         );
 
         // Act
@@ -38,5 +38,6 @@ public class UpdateCatByIdCommandHandlerTests
         Console.WriteLine($"existingCat.id: {existingCat.id}");
         Console.WriteLine($"result.id: {result.id}");
     }
+
 }
 

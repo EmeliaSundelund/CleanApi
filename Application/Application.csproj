@@ -52,6 +52,8 @@
     <None Remove="Queries\Users\GetAll\" />
     <None Remove="Queries\Users\GetById\" />
     <None Remove="Queries\Birds\GetAllColor\" />
+    <None Remove="Queries\Dogs\DogByBreedOrWeight\" />
+    <None Remove="Queries\Cats\CatByBreedOrWeight\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\Dogs\DeleteDog\" />
@@ -77,5 +79,7 @@
     <Folder Include="Queries\Users\GetAll\" />
     <Folder Include="Queries\Users\GetById\" />
     <Folder Include="Queries\Birds\GetAllColor\" />
+    <Folder Include="Queries\Dogs\DogByBreedOrWeight\" />
+    <Folder Include="Queries\Cats\CatByBreedOrWeight\" />
   </ItemGroup>
 </Project>

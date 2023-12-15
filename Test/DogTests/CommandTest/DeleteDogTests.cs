@@ -1,11 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Commands.Dogs.DeleteDog;
+﻿using Application.Commands.Dogs.DeleteDog;
+using Application.Commands.User.DeleteUser;
 using Domain.Models.Animal;
 using Infrastructure.DataDbContex;
 using Moq;
-using NUnit.Framework;
+
 
 namespace Application.Tests.Commands.Dogs
 {

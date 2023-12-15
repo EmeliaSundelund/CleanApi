@@ -56,6 +56,11 @@ namespace Infrastructure.DataDbContex
             return await _context.Dogs.ToListAsync();
         }
 
+        public async Task<List<UserS>> GetAllUsersAsync()
+        {
+            return await _context.Users.ToListAsync();
+        }
+
         public async Task<List<Bird>> GetBirdsByColorAsync(string color)
         {
             var birds = await _context.Birds
@@ -63,6 +68,42 @@ namespace Infrastructure.DataDbContex
                                       .ToListAsync();
 
             return birds;
+        }
+
+        public async Task<List<Dog>> GetDogsByBreedAsync(string breedDog)
+        {
+            var dogs = await _context.Dogs
+                                      .Where(d => d.BreedDog == breedDog)
+                                      .ToListAsync();
+
+            return dogs;
+        }
+
+        public async Task<List<Dog>> GetDogsByWeightAsync(int weightDog)
+        {
+            var dogs = await _context.Dogs
+                                      .Where(d => d.WeightDog == weightDog)
+                                      .ToListAsync();
+
+            return dogs;
+        }
+
+        public async Task<List<Cat>> GetCatsByBreedAsync(string breedCat)
+        {
+            var cats = await _context.Cats
+                                      .Where(d => d.BreedCat == breedCat)
+                                      .ToListAsync();
+
+            return cats;
+        }
+
+        public async Task<List<Cat>> GetCatsByWeightAsync(int weightCat)
+        {
+            var cats = await _context.Cats
+                                      .Where(d => d.WeightCat == weightCat)
+                                      .ToListAsync();
+
+            return cats;
         }
 
     }

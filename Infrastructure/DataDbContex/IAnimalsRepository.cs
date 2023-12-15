@@ -13,6 +13,10 @@ namespace Infrastructure.DataDbContex
         Task<List<Cat>> GetAllCatsAsync();
         Task<List<Dog>> GetAllDogsAsync();
         Task<List<Bird>> GetBirdsByColorAsync(string color);
+        Task<List<Dog>> GetDogsByBreedAsync(string breedDog);
+        Task<List<Dog>> GetDogsByWeightAsync(int weightDog);
+        Task<List<Cat>> GetCatsByBreedAsync(string breedCat);
+        Task<List<Cat>> GetCatsByWeightAsync(int weightCat);
     }
 }
 

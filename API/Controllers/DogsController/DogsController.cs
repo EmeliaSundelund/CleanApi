@@ -2,6 +2,8 @@
 using Application.Commands.Dogs.DeleteDog;
 using Application.Commands.Dogs.UpdateDog;
 using Application.Dtos;
+using Application.Queries.Birds.GetAllColor;
+using Application.Queries.Dogs.DogByBreedOrWeight;
 using Application.Queries.Dogs.GetAll;
 using Application.Queries.Dogs.GetById;
 using MediatR;
@@ -37,6 +39,14 @@ namespace API.Controllers.DogsController
         {
             return Ok(await _mediator.Send(new GetDogByIdQuery(dogId)));
         }
+
+        [HttpGet("getDogByBreed")]
+        public async Task<IActionResult> GetDogByBreed(string breedDog = null, int? weightDog = null)
+        {
+            var result = await _mediator.Send(new GetDogByBreedQuery(breedDog, weightDog));
+            return Ok(result);
+        }
+
 
         // Create a new dog 
         [HttpPost]
