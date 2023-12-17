@@ -10,7 +10,7 @@ namespace Infrastructure.DataDbContex
     {
         public DbSet<AnimalModel> Animals { get; set; }
         public DbSet<UserModel> Person { get; set; }
-        public DbSet<UserS> Users { get; set; }
+        public DbSet<AnimalUserModel> AnimalUsers { get; set; }
         public DbSet<Bird> Birds { get; set; }
         public DbSet<Dog> Dogs { get; set; }
         public DbSet<Cat> Cats { get; set; }

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Commands.User.UpdateUser
 {
-    public class UpdateUserByIdCommand : IRequest<UserS>
+    public class UpdateUserByIdCommand : IRequest<Users>
     {
         public UpdateUserByIdCommand(UserDto updatedUser, Guid id)
         {

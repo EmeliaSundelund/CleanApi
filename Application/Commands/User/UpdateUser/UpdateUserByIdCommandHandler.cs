@@ -22,9 +22,7 @@ namespace Application.Commands.User.UpdateUser
             {
                 userToUpdate.UserName = request.UpdatedUser.UserName;
                 userToUpdate.Password = request.UpdatedUser.Password;
-                userToUpdate.Animals = request.UpdatedUser.Animals;
-
-
+              
                 await _userInterface.UpdateAsync(userToUpdate);
 
                 return userToUpdate;
