@@ -15,7 +15,7 @@ namespace Infrastructure.DataDbContex
 
         public async Task<UserModel> GetByIdAsync(Guid userid)
         {
-            return await _context.Users.FindAsync(userid);
+            return await _context.Person.FindAsync(userid);
         }
 
         public async Task AddAsync<T>(T entity) where T : class
@@ -24,25 +24,25 @@ namespace Infrastructure.DataDbContex
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(UserModel user)
+        public async Task UpdateAsync(UserModel Person)
         {
-            _context.Users.Update((UserS)user);
+            _context.Person.Update(Person);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Guid userId)
         {
-            var userToDelete = await _context.Users.FindAsync(userId);
+            var userToDelete = await _context.Person.FindAsync(userId);
             if (userToDelete != null)
             {
-                _context.Users.Remove(userToDelete);
+                _context.Person.Remove(userToDelete);
                 await _context.SaveChangesAsync();
             }
         }
 
-        public async Task<List<UserS>> GetAllUsersAsync()
+        public async Task<List<UserModel>> GetAllUsersAsync()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Person.ToListAsync();
         }
     }
 }
