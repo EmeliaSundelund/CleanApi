@@ -23,14 +23,14 @@ namespace Application.Commands.User.AddUser
         {
             UserModel userToCreate = new()
             {
-                Id = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
                 UserName = request.NewUser.UserName,
                 Password = request.NewUser.Password,
                 
 
             };
 
-            await _dataDbContex.UserModel.AddAsync(userToCreate);
+            await _dataDbContex.Person.AddAsync(userToCreate);
             await _dataDbContex.SaveChangesAsync();
 
             return userToCreate;

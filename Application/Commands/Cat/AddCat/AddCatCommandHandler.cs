@@ -25,11 +25,11 @@ namespace Application.Commands.Cats.AddCat
             {
                 Cat catToCreate = new()
                 {
-                    id = Guid.NewGuid(),
+                    AnimalId = Guid.NewGuid(),
                     Name = request.NewCat.Name,
                     BreedCat = request.NewCat.BreedCat,
                     WeightCat = request.NewCat.WeightCat,
-                    Owner = request.NewCat.Owner,
+              
                 };
 
                 await _dataDbContex.Cats.AddAsync(catToCreate);

@@ -21,21 +21,21 @@ public class UpdateDogByIdCommandHandlerTests
     public async Task Handle_WithValidDog_ShouldUpdateAndReturnDog()
     {
         // Arrange
-        var existingDog = new Dog { id = Guid.NewGuid(), Name = "OldName" };
-        var updatedDog = new Dog { id = existingDog.id, Name = "NewName" };
+        var existingDog = new Dog { AnimalId = Guid.NewGuid(), Name = "OldName" };
+        var updatedDog = new Dog { AnimalId = existingDog.AnimalId, Name = "NewName" };
 
-        _mockRepository.Setup(r => r.GetByIdAsync(existingDog.id)).ReturnsAsync(existingDog);
+        _mockRepository.Setup(r => r.GetByIdAsync(existingDog.AnimalId)).ReturnsAsync(existingDog);
 
         var command = new UpdateDogByIdCommand(
             new DogDto { Name = "NewName" },
-            existingDog.id
+            existingDog.AnimalId
         );
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 
         // Logga id för existingDog och result
-        Console.WriteLine($"existingDog.id: {existingDog.id}");
-        Console.WriteLine($"result.id: {result.id}");
+        Console.WriteLine($"existingDog.id: {existingDog.AnimalId}");
+        Console.WriteLine($"result.id: {result.AnimalId}");
     }
 }

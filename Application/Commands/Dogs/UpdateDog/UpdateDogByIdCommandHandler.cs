@@ -16,14 +16,14 @@ namespace Application.Commands.Dogs.UpdateDog
         }
         public async Task<Dog> Handle(UpdateDogByIdCommand request, CancellationToken cancellationToken)
         {
-            var dogToUpdate = await _animalRepository.GetByIdAsync(request.Id) as Dog;
+            var dogToUpdate = await _animalRepository.GetByIdAsync(request.AnimalId) as Dog;
 
             if (dogToUpdate != null)
             {
                 dogToUpdate.Name = request.UpdatedDog.Name;
                 dogToUpdate.BreedDog = request.UpdatedDog.BreedDog;
                 dogToUpdate.WeightDog = request.UpdatedDog.WeightDog;
-                dogToUpdate.Owner = request.UpdatedDog.Owner;
+             
 
                 await _animalRepository.UpdateAsync(dogToUpdate);
 
@@ -31,7 +31,7 @@ namespace Application.Commands.Dogs.UpdateDog
             }
             else
             {
-                throw new InvalidOperationException($"Dog with ID {request.Id} not found.");
+                throw new InvalidOperationException($"Dog with ID {request.AnimalId} not found.");
             }
         }
     }

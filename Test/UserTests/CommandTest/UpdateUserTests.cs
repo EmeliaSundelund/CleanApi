@@ -4,6 +4,7 @@ using Application.Dtos;
 using Domain.Models;
 using Infrastructure.DataDbContex;
 using Application.Commands.Dogs.UpdateDog;
+using Domain.Models.Person;
 
 [TestFixture]
 public class UpdateUserTests
@@ -22,21 +23,21 @@ public class UpdateUserTests
     public async Task Handle_WithValidUser_ShouldUpdateAndReturnUser()
     {
         // Arrange
-        var existingUser = new UserS { Id = Guid.NewGuid(), UserName = "OldName" };
-        var updatedDog = new UserS { Id = existingUser.Id, UserName = "NewName" };
+        var existingUser = new UserModel { UserId = Guid.NewGuid(), UserName = "OldName" };
+        var updatedUser = new UserModel { UserId = existingUser.UserId, UserName = "NewName" };
 
-        _mockRepository.Setup(r => r.GetByIdAsync(existingUser.Id)).ReturnsAsync(existingUser);
+        _mockRepository.Setup(r => r.GetByIdAsync(existingUser.UserId)).ReturnsAsync(existingUser);
 
         var command = new UpdateUserByIdCommand(
         new UserDto { UserName = "NewName", Password = "NewPassword" }, // Uppdatera med rätt egenskaper
-        existingUser.Id
+        existingUser.UserId
         );
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 
         // Logga id för existingDog och result
-        Console.WriteLine($"existingUser.id: {existingUser.Id}");
-        Console.WriteLine($"result.Id: {result.Id}");
+        Console.WriteLine($"existingUser.id: {existingUser.UserId}");
+        Console.WriteLine($"result.Id: {result.UserId}");
     }
 }

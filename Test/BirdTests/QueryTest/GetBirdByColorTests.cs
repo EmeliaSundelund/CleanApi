@@ -20,9 +20,9 @@ namespace Test.BirdTests.QueryTest
             var mockRepository = new Mock<IAnimalsRepository>();
             var expectedBirds = new List<Bird>
             {
-                new Bird { id = Guid.NewGuid(), Name = "Robin", Color = "Blue" },
-                new Bird { id = Guid.NewGuid(), Name = "Blue Jay", Color = "Blue" },
-                new Bird { id = Guid.NewGuid(), Name = "Canary", Color = "Yellow" }
+                new Bird { AnimalId = Guid.NewGuid(), Name = "Robin", Color = "Blue" },
+                new Bird { AnimalId = Guid.NewGuid(), Name = "Blue Jay", Color = "Blue" },
+                new Bird { AnimalId = Guid.NewGuid(), Name = "Canary", Color = "Yellow" }
             };
 
             expectedBirds = expectedBirds.OrderByDescending(b => b.Name).ThenBy(b => b.Color).ToList();

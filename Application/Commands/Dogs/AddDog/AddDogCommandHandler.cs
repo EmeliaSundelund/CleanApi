@@ -23,11 +23,11 @@ namespace Application.Commands.Dogs
         {
             Dog dogToCreate = new()
             {
-                id = Guid.NewGuid(),
+                AnimalId = Guid.NewGuid(),
                 Name = request.NewDog.Name,
                 BreedDog = request.NewDog.BreedDog,
                 WeightDog = request.NewDog.WeightDog,
-                Owner = request.NewDog.Owner,
+     
             };
 
             await _dataDbContex.Dogs.AddAsync(dogToCreate);

@@ -2,6 +2,7 @@
 using Application.Queries.Users.GetById;
 using Domain.Models;
 using Infrastructure.DataDbContex;
+using Domain.Models.Person;
 
 namespace Application.Test.UserTests.QueryTest
 {
@@ -13,12 +14,12 @@ namespace Application.Test.UserTests.QueryTest
         {
             // Arrange
             var mockRepository = new Mock<UserInterface>();
-            var expectedUser = new UserS { Id = Guid.NewGuid(), UserName = "Buddy" };
+            var expectedUser = new UserModel { UserId = Guid.NewGuid(), UserName = "Buddy" };
             mockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(expectedUser);
 
             var queryHandler = new GetUserByIdQueryHandler(mockRepository.Object);
-            var query = new GetUserByIdQuery(expectedUser.Id);
+            var query = new GetUserByIdQuery(expectedUser.UserId);
 
             // Act
             var result = await queryHandler.Handle(query, CancellationToken.None);

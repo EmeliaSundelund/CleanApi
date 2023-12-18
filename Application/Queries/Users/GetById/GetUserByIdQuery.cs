@@ -1,9 +1,10 @@
 ﻿using Domain.Models;
+using Domain.Models.Person;
 using MediatR;
 
 namespace Application.Queries.Users.GetById
 {
-    public class GetUserByIdQuery : IRequest<UserS>
+    public class GetUserByIdQuery : IRequest<UserModel>
     {
         public GetUserByIdQuery(Guid userId)
         {

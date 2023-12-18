@@ -27,8 +27,8 @@ namespace Test.DogTests.QueryTest
             var query = new GetAllDogsQuery();
             var expectedDogs = new List<Dog>
             {
-                new Dog { id = Guid.NewGuid(), Name = "Dog1" },
-                new Dog { id = Guid.NewGuid(), Name = "Dog2" },
+                new Dog { AnimalId = Guid.NewGuid(), Name = "Dog1" },
+                new Dog { AnimalId = Guid.NewGuid(), Name = "Dog2" },
             };
 
             _mockRepository.Setup(repo => repo.GetAllDogsAsync()).ReturnsAsync(expectedDogs);
@@ -43,7 +43,7 @@ namespace Test.DogTests.QueryTest
 
             // Du kan även göra specifika kontroller för hundarna om det behövs
             // Exempel:
-            Assert.That(result[0].id, Is.EqualTo(expectedDogs[0].id));
+            Assert.That(result[0].AnimalId, Is.EqualTo(expectedDogs[0].AnimalId));
             Assert.That(result[0].Name, Is.EqualTo(expectedDogs[0].Name));
             // Fortsätt för resten av attributen om det behövs
         }

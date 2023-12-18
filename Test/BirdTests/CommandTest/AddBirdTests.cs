@@ -34,7 +34,7 @@ namespace Tests.Application.Commands.Birds
                 Name = "TestDog",
                 Color = "Blue",
                 CanFly = true,
-                Owner = 1,
+           
             });
 
             // Act
@@ -48,7 +48,7 @@ namespace Tests.Application.Commands.Birds
             Assert.That(dbContext.Birds.First().Name, Is.EqualTo(request.NewBird.Name));
             Assert.That(dbContext.Birds.First().Color, Is.EqualTo(request.NewBird.Color));
             Assert.That(dbContext.Birds.First().CanFly, Is.EqualTo(request.NewBird.CanFly));
-            Assert.That(dbContext.Birds.First().Owner, Is.EqualTo(request.NewBird.Owner));
+      
         }
     }
 }

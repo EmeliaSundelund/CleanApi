@@ -13,12 +13,12 @@ namespace Application.Test.DogTests.QueryTest
         {
             // Arrange
             var mockRepository = new Mock<IAnimalsRepository>();
-            var expectedDog = new Dog { id = Guid.NewGuid(), Name = "Buddy" };
+            var expectedDog = new Dog { AnimalId = Guid.NewGuid(), Name = "Buddy" };
             mockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(expectedDog);
 
             var queryHandler = new GetDogByIdQueryHandler(mockRepository.Object);
-            var query = new GetDogByIdQuery(expectedDog.id);
+            var query = new GetDogByIdQuery(expectedDog.AnimalId);
 
             // Act
             var result = await queryHandler.Handle(query, CancellationToken.None);

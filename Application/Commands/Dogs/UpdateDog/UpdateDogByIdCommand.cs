@@ -6,13 +6,13 @@ namespace Application.Commands.Dogs.UpdateDog
 {
     public class UpdateDogByIdCommand : IRequest<Dog>
     {
-        public UpdateDogByIdCommand(DogDto updatedDog, Guid id)
+        public UpdateDogByIdCommand(DogDto updatedDog, Guid animalId)
         {
             UpdatedDog = updatedDog;
-            Id = id;
+            AnimalId = animalId;
         }
 
         public DogDto UpdatedDog { get; }
-        public Guid Id { get; }
+        public Guid AnimalId { get; }
     }
 }

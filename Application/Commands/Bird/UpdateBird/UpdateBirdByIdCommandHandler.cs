@@ -17,7 +17,7 @@ namespace Application.Commands.Birds.UpdateBird
 
         public async Task<Bird> Handle(UpdateBirdByIdCommand request, CancellationToken cancellationToken)
         {
-            var birdToUpdate = await _animalRepository.GetByIdAsync(request.Id) as Bird;
+            var birdToUpdate = await _animalRepository.GetByIdAsync(request.AnimalId) as Bird;
 
             if (birdToUpdate != null)
             {
@@ -30,7 +30,7 @@ namespace Application.Commands.Birds.UpdateBird
             }
             else
             {
-                throw new InvalidOperationException($"Bird with ID {request.Id} not found.");
+                throw new InvalidOperationException($"Bird with ID {request.AnimalId} not found.");
             }
         }
     }

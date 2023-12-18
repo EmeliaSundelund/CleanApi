@@ -18,14 +18,14 @@ namespace Application.Commands.Cats.UpdateCat
 
         public async Task<Cat> Handle(UpdateCatByIdCommand request, CancellationToken cancellationToken)
         {
-            var catToUpdate = await _animalRepository.GetByIdAsync(request.Id) as Cat;
+            var catToUpdate = await _animalRepository.GetByIdAsync(request.AnimalId) as Cat;
 
             if (catToUpdate != null)
             {
                 catToUpdate.Name = request.UpdatedCat.Name;
                 catToUpdate.BreedCat = request.UpdatedCat.BreedCat;
                 catToUpdate.WeightCat = request.UpdatedCat.WeightCat;
-                catToUpdate.Owner = request.UpdatedCat.Owner;
+                
 
                 await _animalRepository.UpdateAsync(catToUpdate);
 
@@ -33,7 +33,7 @@ namespace Application.Commands.Cats.UpdateCat
             }
             else
             {
-                throw new InvalidOperationException($"Cat with ID {request.Id} not found.");
+                throw new InvalidOperationException($"Cat with ID {request.AnimalId} not found.");
             }
         }
     }
