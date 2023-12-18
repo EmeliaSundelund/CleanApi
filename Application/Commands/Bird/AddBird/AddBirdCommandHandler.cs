@@ -27,7 +27,7 @@ namespace Application.Commands.Birds
                 Name = request.NewBird.Name,
                 Color = request.NewBird.Color,
                 CanFly = request.NewBird.CanFly,
-            
+
 
             };
 

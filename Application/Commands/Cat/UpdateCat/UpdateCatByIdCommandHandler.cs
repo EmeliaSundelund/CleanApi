@@ -25,7 +25,7 @@ namespace Application.Commands.Cats.UpdateCat
                 catToUpdate.Name = request.UpdatedCat.Name;
                 catToUpdate.BreedCat = request.UpdatedCat.BreedCat;
                 catToUpdate.WeightCat = request.UpdatedCat.WeightCat;
-                
+
 
                 await _animalRepository.UpdateAsync(catToUpdate);
 

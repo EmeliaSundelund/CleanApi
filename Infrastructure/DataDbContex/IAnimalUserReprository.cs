@@ -4,8 +4,8 @@ namespace Infrastructure.DataDbContex
 {
     public interface IAnimalUserRepository
     {
-      
+
         Task<bool> AddUserAnimalAsync(AnimalUserModel animalUser);
-        
+
     }
 }

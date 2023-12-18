@@ -13,7 +13,7 @@ namespace Application.Commands.AnimalUser.AddAnimalUser
 
         public AnimalUserDto NewAnimalUser { get; }
 
-       
+
     }
-    
+
 }

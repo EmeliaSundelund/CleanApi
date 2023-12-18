@@ -26,7 +26,7 @@ namespace Application.Commands.User.AddUser
                 UserId = Guid.NewGuid(),
                 UserName = request.NewUser.UserName,
                 Password = request.NewUser.Password,
-                
+
 
             };
 
