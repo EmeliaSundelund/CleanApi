@@ -33,7 +33,6 @@ namespace Tests.UserTests.CommandTest
             {
                 UserName = "TestDog",
                 Password = "Labrador",
-            
             });
 
             // Act
@@ -46,7 +45,7 @@ namespace Tests.UserTests.CommandTest
             Assert.That(dbContext.Person.Count(), Is.EqualTo(1));
             Assert.That(dbContext.Person.First().UserName, Is.EqualTo(request.NewUser.UserName));
             Assert.That(dbContext.Person.First().Password, Is.EqualTo(request.NewUser.Password));
-   
+
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace Domain.Models.AnimalUser
 {
     public class AnimalUserModel
-	{
+    {
         [Key]
         public Guid AnimalUserId { get; set; }
         public Guid AnimalId { get; set; }
