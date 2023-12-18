@@ -33,7 +33,7 @@ namespace Tests.UserTests.CommandTest
             {
                 UserName = "TestDog",
                 Password = "Labrador",
-                Animals = 25
+            
             });
 
             // Act
@@ -43,10 +43,10 @@ namespace Tests.UserTests.CommandTest
             Assert.That(result, Is.Not.Null);
 
             // Verify that the dog is added to the in-memory database
-            Assert.That(dbContext.Users.Count(), Is.EqualTo(1));
-            Assert.That(dbContext.Users.First().UserName, Is.EqualTo(request.NewUser.UserName));
-            Assert.That(dbContext.Users.First().Password, Is.EqualTo(request.NewUser.Password));
-            Assert.That(dbContext.Users.First().Animals, Is.EqualTo(request.NewUser.Animals));
+            Assert.That(dbContext.Person.Count(), Is.EqualTo(1));
+            Assert.That(dbContext.Person.First().UserName, Is.EqualTo(request.NewUser.UserName));
+            Assert.That(dbContext.Person.First().Password, Is.EqualTo(request.NewUser.Password));
+   
         }
     }
 }

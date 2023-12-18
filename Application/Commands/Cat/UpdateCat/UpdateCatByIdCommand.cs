@@ -6,13 +6,13 @@ namespace Application.Commands.Cats.UpdateCat
 {
     public class UpdateCatByIdCommand : IRequest<Cat>
     {
-        public UpdateCatByIdCommand(CatDto updatedCat, Guid id)
+        public UpdateCatByIdCommand(CatDto updatedCat, Guid animalId)
         {
             UpdatedCat = updatedCat;
-            Id = id;
+            AnimalId = animalId;
         }
 
         public CatDto UpdatedCat { get; }
-        public Guid Id { get; }
+        public Guid AnimalId { get; }
     }
 }

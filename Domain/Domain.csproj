@@ -22,8 +22,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\Person\" />
+    <None Remove="Models\AnimalUser\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\Person\" />
+    <Folder Include="Models\AnimalUser\" />
   </ItemGroup>
 </Project>

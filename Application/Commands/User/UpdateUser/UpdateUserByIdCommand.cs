@@ -1,20 +1,21 @@
 ﻿using System;
 using Application.Dtos;
 using Domain.Models;
+using Domain.Models.Person;
 using MediatR;
 
 namespace Application.Commands.User.UpdateUser
 {
-    public class UpdateUserByIdCommand : IRequest<Users>
+    public class UpdateUserByIdCommand : IRequest<UserModel>
     {
-        public UpdateUserByIdCommand(UserDto updatedUser, Guid id)
+        public UpdateUserByIdCommand(UserDto updatedUser, Guid userId)
         {
             UpdatedUser = updatedUser;
-            Id = id;
+            UserId = userId;
         }
 
         public UserDto UpdatedUser { get; }
-        public Guid Id { get; }
+        public Guid UserId { get; }
 
     }
 }

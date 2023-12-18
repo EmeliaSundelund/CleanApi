@@ -26,6 +26,9 @@ class Program
         // Register UserInterface as a scoped service
         builder.Services.AddScoped<UserInterface, UsersRepository>();
 
+        // Add AnimalUserRepository as a transient service
+        builder.Services.AddTransient<IAnimalUserRepository, AnimalUserRepository>();
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

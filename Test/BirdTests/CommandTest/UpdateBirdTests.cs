@@ -22,21 +22,21 @@ public class UpdateBirdByIdCommandHandlerTests
     public async Task Handle_WithValidBird_ShouldUpdateAndReturnBird()
     {
         // Arrange
-        var existingBird = new Bird { id = Guid.NewGuid(), Name = "OldName", CanFly = false };
-        var updatedBird = new Bird { id = existingBird.id, Name = "NewName", CanFly = true };
+        var existingBird = new Bird { AnimalId = Guid.NewGuid(), Name = "OldName", CanFly = false };
+        var updatedBird = new Bird { AnimalId = existingBird.AnimalId, Name = "NewName", CanFly = true };
 
-        _mockRepository.Setup(r => r.GetByIdAsync(existingBird.id)).ReturnsAsync(existingBird);
+        _mockRepository.Setup(r => r.GetByIdAsync(existingBird.AnimalId)).ReturnsAsync(existingBird);
 
         var command = new UpdateBirdByIdCommand(
             new BirdDto { Name = "NewName", Color = "NewColor", CanFly = false },
-            existingBird.id
+            existingBird.AnimalId
         );
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 
         // Logga id för existingBird och result
-        Console.WriteLine($"existingBird.id: {existingBird.id}");
-        Console.WriteLine($"result.id: {result.id}");
+        Console.WriteLine($"existingBird.id: {existingBird.AnimalId}");
+        Console.WriteLine($"result.id: {result.AnimalId}");
     }
 }

@@ -18,7 +18,7 @@ namespace Tests.UserTests.CommandTest
             var deletedUserId = Guid.NewGuid(); // Use Guid for DeletedDogId
             var mockRepository = new Mock<UserInterface>();
             mockRepository.Setup(repo => repo.GetByIdAsync(deletedUserId))
-                .ReturnsAsync(new UserModel { Id = deletedUserId }); // Dog exists in the repository
+                .ReturnsAsync(new UserModel { UserId = deletedUserId }); // Dog exists in the repository
 
             var handler = new DeleteUserByIdCommandHandler(mockRepository.Object);
             var command = new DeleteUserByIdCommand(deletedUserId); // Pass the Guid to the constructor

@@ -13,12 +13,12 @@ namespace Test.BirdTests.QueryTest
         {
             // Arrange
             var mockRepository = new Mock<IAnimalsRepository>();
-            var expectedCat = new Bird { id = Guid.NewGuid(), Name = "Buddy" };
+            var expectedCat = new Bird { AnimalId = Guid.NewGuid(), Name = "Buddy" };
             mockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(expectedCat);
 
             var queryHandler = new GetBirdByIdQueryHandler(mockRepository.Object);
-            var query = new GetBirdByIdQuery(expectedCat.id);
+            var query = new GetBirdByIdQuery(expectedCat.AnimalId);
 
             // Act
             var result = await queryHandler.Handle(query, CancellationToken.None);

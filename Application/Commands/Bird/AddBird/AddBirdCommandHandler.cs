@@ -23,11 +23,11 @@ namespace Application.Commands.Birds
         {
             Bird birdToCreate = new()
             {
-                id = Guid.NewGuid(),
+                AnimalId = Guid.NewGuid(),
                 Name = request.NewBird.Name,
                 Color = request.NewBird.Color,
                 CanFly = request.NewBird.CanFly,
-                Owner = request.NewBird.Owner,
+            
 
             };
 

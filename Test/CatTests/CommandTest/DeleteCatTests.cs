@@ -15,7 +15,7 @@ namespace Application.Tests.Commands.Cats
             var deletedCatId = Guid.NewGuid(); // Use Guid for DeletedDogId
             var mockRepository = new Mock<IAnimalsRepository>();
             mockRepository.Setup(repo => repo.GetByIdAsync(deletedCatId))
-                .ReturnsAsync(new AnimalModel { id = deletedCatId }); // Dog exists in the repository
+                .ReturnsAsync(new AnimalModel { AnimalId = deletedCatId }); // Dog exists in the repository
 
             var handler = new DeleteCatByIdCommandHandler(mockRepository.Object);
             var command = new DeleteCatByIdCommand(deletedCatId); // Pass the Guid to the constructor

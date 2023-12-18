@@ -27,8 +27,8 @@ namespace Test.BirdTests.QueryTest
             var query = new GetAllBirdsQuery();
             var expectedBirds = new List<Bird>
             {
-                new Bird { id = Guid.NewGuid(), Name = "Bird1" },
-                new Bird { id = Guid.NewGuid(), Name = "Bird2" },
+                new Bird { AnimalId = Guid.NewGuid(), Name = "Bird1" },
+                new Bird { AnimalId = Guid.NewGuid(), Name = "Bird2" },
             };
 
             _mockRepository.Setup(repo => repo.GetAllBirdsAsync()).ReturnsAsync(expectedBirds);
@@ -43,7 +43,7 @@ namespace Test.BirdTests.QueryTest
 
             // Du kan även göra specifika kontroller för fåglarna om det behövs
             // Exempel:
-            Assert.That(result[0].id, Is.EqualTo(expectedBirds[0].id));
+            Assert.That(result[0].AnimalId, Is.EqualTo(expectedBirds[0].AnimalId));
             Assert.That(result[0].Name, Is.EqualTo(expectedBirds[0].Name));
             // Fortsätt för resten av attributen om det behövs
         }

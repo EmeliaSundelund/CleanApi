@@ -28,8 +28,8 @@ namespace Test.CatTests.QueryTest
             var query = new GetAllCatsQuery();
             var expectedCats = new List<Cat>
             {
-                new Cat { id = Guid.NewGuid(), Name = "Cat1" },
-                new Cat { id = Guid.NewGuid(), Name = "Cat2" },
+                new Cat { AnimalId = Guid.NewGuid(), Name = "Cat1" },
+                new Cat { AnimalId = Guid.NewGuid(), Name = "Cat2" },
             };
 
             _mockRepository.Setup(repo => repo.GetAllCatsAsync()).ReturnsAsync(expectedCats);
@@ -44,7 +44,7 @@ namespace Test.CatTests.QueryTest
 
             // Du kan även göra specifika kontroller för katterna om det behövs
             // Exempel:
-            Assert.That(result[0].id, Is.EqualTo(expectedCats[0].id));
+            Assert.That(result[0].AnimalId, Is.EqualTo(expectedCats[0].AnimalId));
             Assert.That(result[0].Name, Is.EqualTo(expectedCats[0].Name));
             // Fortsätt för resten av attributen om det behövs
         }

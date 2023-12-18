@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.Models.Person;
 using Infrastructure.DataDbContex;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -6,7 +7,7 @@ using MySql.Data.MySqlClient;
 
 namespace Application.Commands.User.UpdateUser
 {
-    public class UpdateUserByIdCommandHandler : IRequestHandler<UpdateUserByIdCommand, UserS>
+    public class UpdateUserByIdCommandHandler : IRequestHandler<UpdateUserByIdCommand, UserModel>
     {
         private readonly UserInterface _userInterface;
 
@@ -14,9 +15,9 @@ namespace Application.Commands.User.UpdateUser
         {
             _userInterface = userInterface;
         }
-        public async Task<UserS> Handle(UpdateUserByIdCommand request, CancellationToken cancellationToken)
+        public async Task<UserModel> Handle(UpdateUserByIdCommand request, CancellationToken cancellationToken)
         {
-            var userToUpdate = await _userInterface.GetByIdAsync(request.Id) as UserS;
+            var userToUpdate = await _userInterface.GetByIdAsync(request.UserId) as UserModel;
 
             if (userToUpdate != null)
             {
@@ -29,7 +30,7 @@ namespace Application.Commands.User.UpdateUser
             }
             else
             {
-                throw new InvalidOperationException($"Dog with ID {request.Id} not found.");
+                throw new InvalidOperationException($"Dog with ID {request.UserId} not found.");
             }
         }
     }

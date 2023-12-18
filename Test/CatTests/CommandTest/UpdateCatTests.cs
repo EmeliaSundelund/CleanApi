@@ -21,22 +21,22 @@ public class UpdateCatByIdCommandHandlerTests
     public async Task Handle_WithValidCat_ShouldUpdateAndReturnCat()
     {
         // Arrange
-        var existingCat = new Cat { id = Guid.NewGuid(), Name = "OldName" };
-        var updatedCat = new Cat { id = existingCat.id, Name = "NewName" };
+        var existingCat = new Cat { AnimalId = Guid.NewGuid(), Name = "OldName" };
+        var updatedCat = new Cat { AnimalId = existingCat.AnimalId, Name = "NewName" };
 
-        _mockRepository.Setup(r => r.GetByIdAsync(existingCat.id)).ReturnsAsync(existingCat);
+        _mockRepository.Setup(r => r.GetByIdAsync(existingCat.AnimalId)).ReturnsAsync(existingCat);
 
         var command = new UpdateCatByIdCommand(
         new CatDto { Name = "NewName", BreedCat = null }, // Ställ in BreedCat som null eller använd rätt värde
-        existingCat.id
+        existingCat.AnimalId
         );
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 
         // Logga id för existingBird och result
-        Console.WriteLine($"existingCat.id: {existingCat.id}");
-        Console.WriteLine($"result.id: {result.id}");
+        Console.WriteLine($"existingCat.id: {existingCat.AnimalId}");
+        Console.WriteLine($"result.id: {result.AnimalId}");
     }
 
 }
