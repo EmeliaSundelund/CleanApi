@@ -29,7 +29,7 @@ namespace Application.Commands.Cats.AddCat
                     Name = request.NewCat.Name,
                     BreedCat = request.NewCat.BreedCat,
                     WeightCat = request.NewCat.WeightCat,
-              
+
                 };
 
                 await _dataDbContex.Cats.AddAsync(catToCreate);

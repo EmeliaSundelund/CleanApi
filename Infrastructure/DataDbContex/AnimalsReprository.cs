@@ -56,7 +56,7 @@ namespace Infrastructure.DataDbContex
             return await _context.Dogs.ToListAsync();
         }
 
-       
+
         public async Task<List<Bird>> GetBirdsByColorAsync(string color)
         {
             var birds = await _context.Birds

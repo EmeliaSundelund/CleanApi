@@ -19,11 +19,11 @@ namespace Application.Commands.AnimalUser.AddAnimalUser
             {
                 UserId = request.NewAnimalUser.UserId,
                 AnimalId = request.NewAnimalUser.AnimalId,
-              
+
             };
 
             return await _animalUserRepository.AddUserAnimalAsync(newAnimalUser);
         }
     }
-    
+
 }

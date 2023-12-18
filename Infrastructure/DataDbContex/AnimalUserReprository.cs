@@ -9,12 +9,12 @@ namespace Infrastructure.DataDbContex
     public class AnimalUserRepository : IAnimalUserRepository
     {
         private readonly DataDbContex _context;
-      
+
 
         public AnimalUserRepository(DataDbContex context)
         {
             _context = context;
- 
+
         }
 
         public async Task<bool> AddUserAnimalAsync(AnimalUserModel animalUser)
@@ -27,6 +27,6 @@ namespace Infrastructure.DataDbContex
             return true;
 
         }
-        
+
     }
 }

@@ -23,7 +23,7 @@ namespace Application.Commands.User.UpdateUser
             {
                 userToUpdate.UserName = request.UpdatedUser.UserName;
                 userToUpdate.Password = request.UpdatedUser.Password;
-              
+
                 await _userInterface.UpdateAsync(userToUpdate);
 
                 return userToUpdate;
