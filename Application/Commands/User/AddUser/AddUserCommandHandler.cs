@@ -35,5 +35,6 @@ namespace Application.Commands.User.AddUser
 
             return userToCreate;
         }
+
     }
 }

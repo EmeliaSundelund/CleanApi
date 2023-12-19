@@ -41,6 +41,10 @@
     <Folder Include="UserTests\" />
     <Folder Include="UserTests\CommandTest\" />
     <Folder Include="UserTests\QueryTest\" />
+    <Folder Include="AnimalUserTest\" />
+    <Folder Include="AnimalUserTest\CommandTest\" />
+    <Folder Include="AnimalUserTest\QueryTest\" />
+    <Folder Include="AnimalUserTest\QueryTest\GetAllAnimalUserTest\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,5 +62,9 @@
     <None Remove="UserTests\" />
     <None Remove="UserTests\CommandTest\" />
     <None Remove="UserTests\QueryTest\" />
+    <None Remove="AnimalUserTest\" />
+    <None Remove="AnimalUserTest\CommandTest\" />
+    <None Remove="AnimalUserTest\QueryTest\" />
+    <None Remove="AnimalUserTest\QueryTest\GetAllAnimalUserTest\" />
   </ItemGroup>
 </Project>

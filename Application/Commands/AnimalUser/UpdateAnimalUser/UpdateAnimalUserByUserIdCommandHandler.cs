@@ -25,7 +25,7 @@ namespace Application.Commands.AnimalUser.UpdateAnimalUser
                 var newAnimalUser = new AnimalUserModel
                 {
                     AnimalId = request.AnimalId,
-                    UserId = request.NewUserId
+                    UserId = request.OldUserId
                     // Lägg till andra egenskaper beroende på din modell
                 };
 

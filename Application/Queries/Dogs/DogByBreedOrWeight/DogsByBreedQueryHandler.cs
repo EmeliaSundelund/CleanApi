@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace Application.Queries.Dogs.DogByBreedOrWeight
 {
-    public class GetDogsByBreedQueryHandler : IRequestHandler<GetDogByBreedQuery, List<Dog>>
+    public class DogsByBreedQueryHandler : IRequestHandler<DogByBreedQuery, List<Dog>>
     {
         private readonly IAnimalsRepository _animalRepository;
 
-        public GetDogsByBreedQueryHandler(IAnimalsRepository animalRepository)
+        public DogsByBreedQueryHandler(IAnimalsRepository animalRepository)
         {
             _animalRepository = animalRepository;
         }
 
-        public async Task<List<Dog>> Handle(GetDogByBreedQuery request, CancellationToken cancellationToken)
+        public async Task<List<Dog>> Handle(DogByBreedQuery request, CancellationToken cancellationToken)
         {
             List<Dog> dogs;
 
