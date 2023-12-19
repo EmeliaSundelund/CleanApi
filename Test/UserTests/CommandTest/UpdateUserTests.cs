@@ -5,17 +5,18 @@ using Domain.Models;
 using Infrastructure.DataDbContex;
 using Application.Commands.Dogs.UpdateDog;
 using Domain.Models.Person;
+using Infrastructure.DataDbContex.Interfaces;
 
 [TestFixture]
 public class UpdateUserTests
 {
     private UpdateUserByIdCommandHandler _handler;
-    private Mock<UserInterface> _mockRepository;
+    private Mock<IUserInterface> _mockRepository;
 
     [SetUp]
     public void Setup()
     {
-        _mockRepository = new Mock<UserInterface>();
+        _mockRepository = new Mock<IUserInterface>();
         _handler = new UpdateUserByIdCommandHandler(_mockRepository.Object);
     }
 

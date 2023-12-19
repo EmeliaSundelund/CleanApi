@@ -3,6 +3,7 @@ using Application.Commands.Users.DeleteUser;
 using Domain.Models.Animal;
 using Domain.Models.Person;
 using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 using Moq;
 
 
@@ -16,7 +17,7 @@ namespace Tests.UserTests.CommandTest
         {
             // Arrange
             var deletedUserId = Guid.NewGuid(); // Use Guid for DeletedDogId
-            var mockRepository = new Mock<UserInterface>();
+            var mockRepository = new Mock<IUserInterface>();
             mockRepository.Setup(repo => repo.GetByIdAsync(deletedUserId))
                 .ReturnsAsync(new UserModel { UserId = deletedUserId }); // Dog exists in the repository
 
@@ -36,7 +37,7 @@ namespace Tests.UserTests.CommandTest
         {
             // Arrange
             var deletedUserId = Guid.NewGuid(); // Use Guid for DeletedDogId
-            var mockRepository = new Mock<UserInterface>();
+            var mockRepository = new Mock<IUserInterface>();
             mockRepository.Setup(repo => repo.GetByIdAsync(deletedUserId))
                 .ReturnsAsync((UserModel)null); // Dog does not exist in the repository
 

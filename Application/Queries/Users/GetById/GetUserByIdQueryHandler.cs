@@ -1,15 +1,16 @@
 ﻿using Domain.Models;
 using Domain.Models.Person;
 using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
 
 namespace Application.Queries.Users.GetById
 {
     public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserModel>
     {
-        private readonly UserInterface _userInterface;
+        private readonly IUserInterface _userInterface;
 
-        public GetUserByIdQueryHandler(UserInterface userInterface)
+        public GetUserByIdQueryHandler(IUserInterface userInterface)
         {
             _userInterface = userInterface;
         }

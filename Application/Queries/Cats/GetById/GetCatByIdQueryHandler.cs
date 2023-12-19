@@ -2,6 +2,7 @@
 using Domain.Models;
 using Infrastructure.Database;
 using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
 
 namespace Application.Queries.Cats.GetById

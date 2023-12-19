@@ -9,6 +9,6 @@ namespace Domain.Models.Person
         public Guid UserId { get; set; }
         public string UserName { get; set; } = string.Empty;
         public string Password { get; set; }
-        public ICollection<AnimalUserModel> AnimalUsers { get; set; }
+        public List<AnimalUserModel> AnimalUsers { get; set; }
     }
 }

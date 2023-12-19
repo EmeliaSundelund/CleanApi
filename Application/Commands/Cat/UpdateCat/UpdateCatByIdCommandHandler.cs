@@ -4,6 +4,7 @@ using MediatR;
 using Infrastructure.DataDbContex;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
+using Infrastructure.DataDbContex.Interfaces;
 
 namespace Application.Commands.Cats.UpdateCat
 {

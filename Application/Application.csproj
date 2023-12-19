@@ -56,6 +56,10 @@
     <None Remove="Queries\Cats\CatByBreedOrWeight\" />
     <None Remove="Commands\AnimalUser\" />
     <None Remove="Commands\AnimalUser\AddAnimalUser\" />
+    <None Remove="Commands\AnimalUser\DeleteAnimalUser\" />
+    <None Remove="Commands\AnimalUser\UpdateAnimalUser\" />
+    <None Remove="Queries\AnimalUser\" />
+    <None Remove="Queries\AnimalUser\GetAllAnimalUser\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\Dogs\DeleteDog\" />
@@ -85,5 +89,9 @@
     <Folder Include="Queries\Cats\CatByBreedOrWeight\" />
     <Folder Include="Commands\AnimalUser\" />
     <Folder Include="Commands\AnimalUser\AddAnimalUser\" />
+    <Folder Include="Commands\AnimalUser\DeleteAnimalUser\" />
+    <Folder Include="Commands\AnimalUser\UpdateAnimalUser\" />
+    <Folder Include="Queries\AnimalUser\" />
+    <Folder Include="Queries\AnimalUser\GetAllAnimalUser\" />
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 using Application.Queries.Dogs.GetById;
 using Domain.Models;
 using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 
 namespace Application.Test.DogTests.QueryTest
 {

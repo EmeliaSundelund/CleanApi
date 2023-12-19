@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Domain.Models.Person;
 using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
@@ -9,9 +10,9 @@ namespace Application.Commands.User.UpdateUser
 {
     public class UpdateUserByIdCommandHandler : IRequestHandler<UpdateUserByIdCommand, UserModel>
     {
-        private readonly UserInterface _userInterface;
+        private readonly IUserInterface _userInterface;
 
-        public UpdateUserByIdCommandHandler(UserInterface userInterface)
+        public UpdateUserByIdCommandHandler(IUserInterface userInterface)
         {
             _userInterface = userInterface;
         }

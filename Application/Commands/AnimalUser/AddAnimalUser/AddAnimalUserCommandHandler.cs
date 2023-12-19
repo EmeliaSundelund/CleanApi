@@ -1,8 +1,10 @@
-﻿using Domain.Models.AnimalUser;
-using Infrastructure.DataDbContex;
+﻿using Application.Commands.AnimalUser.AddAnimalUser;
+using Domain.Models;
+using Domain.Models.AnimalUser;
+using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
 
-namespace Application.Commands.AnimalUser.AddAnimalUser
+namespace Application.AnimalUsers.Commands.AddAnimalUser
 {
     public class AddAnimalUserCommandHandler : IRequestHandler<AddAnimalUserCommand, bool>
     {
@@ -15,15 +17,14 @@ namespace Application.Commands.AnimalUser.AddAnimalUser
 
         public async Task<bool> Handle(AddAnimalUserCommand request, CancellationToken cancellationToken)
         {
-            AnimalUserModel newAnimalUser = new()
+            AnimalUserModel userAnimal = new()
             {
                 UserId = request.NewAnimalUser.UserId,
                 AnimalId = request.NewAnimalUser.AnimalId,
-
+             
             };
 
-            return await _animalUserRepository.AddUserAnimalAsync(newAnimalUser);
+            return await _animalUserRepository.AddUserAnimalAsync(userAnimal);
         }
     }
-
 }

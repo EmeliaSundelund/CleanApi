@@ -1,8 +1,9 @@
 ﻿using Domain.Models;
 using Domain.Models.Animal;
+using Infrastructure.DataDbContex.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.DataDbContex
+namespace Infrastructure.DataDbContex.Repositories
 {
     public class AnimalsRepository : IAnimalsRepository
     {

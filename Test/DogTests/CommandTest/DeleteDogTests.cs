@@ -2,6 +2,7 @@
 using Application.Commands.User.DeleteUser;
 using Domain.Models.Animal;
 using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 using Moq;
 
 

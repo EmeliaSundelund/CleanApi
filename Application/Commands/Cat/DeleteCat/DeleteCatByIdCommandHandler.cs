@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using Infrastructure.Database;
 using Domain.Models.Animal;
+using Infrastructure.DataDbContex.Interfaces;
 
 namespace Application.Commands.Cats.DeleteCat
 {

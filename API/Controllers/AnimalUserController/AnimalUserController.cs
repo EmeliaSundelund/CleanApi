@@ -1,63 +1,75 @@
 ﻿using Application.Commands.AnimalUser.AddAnimalUser;
+using Application.Commands.AnimalUser.DeleteAnimalUser;
+using Application.Commands.AnimalUser.UpdateAnimalUser;
+using Application.Commands.Birds.UpdateBird;
 using Application.Dtos;
+using Application.Queries.AnimalUser.GetAllAnimalUser;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace API.Controllers
+namespace API.Controllers.AnimalUserController
 {
     [Route("api/[controller]")]
     [ApiController]
     public class AnimalUserController : ControllerBase
     {
         internal readonly IMediator _mediator;
+
         public AnimalUserController(IMediator mediator)
         {
             _mediator = mediator;
         }
-        /*
-        // Get all animal users from the database
+
         [HttpGet]
         [Route("getAllAnimalUsers")]
         public async Task<IActionResult> GetAllAnimalUsers()
         {
-            return Ok(await _mediator.Send(new GetAllAnimalUsersQuery()));
+            try
+            {
+                var animalUsers = await _mediator.Send(new GetAllAnimalUsersQuery());
+                return animalUsers == null ? NotFound("No animalUsers found.") : Ok(animalUsers);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal Servor Error");
+            }
         }
-        */
-        // Create a new animal user 
+
         [HttpPost]
-        [Route("AddnewAnimalUser")]
-        public async Task<IActionResult> AddUserAnimalAsync([FromBody] AnimalUserDto newAnimalUser)
+        [Route("addNewAnimalUser")]
+        public async Task<IActionResult> AddAnimalUser([FromBody] AnimalUserDto newAnimalUser)
         {
-            return Ok(await _mediator.Send(new AddAnimalUserCommand(newAnimalUser)));
+            try
+            {
+                var result = await _mediator.Send(new AddAnimalUserCommand(newAnimalUser));
+                return result == false ? BadRequest("Could not add the animaluser.") : Ok(result);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal Servor Error");
+            }
         }
-        /*
-        // Get an animal user by Id
-        [HttpGet]
-        [Route("getAnimalUserById/{animalUserId}")]
-        public async Task<IActionResult> GetAnimalUserById(Guid animalUserId)
+
+        [HttpPost]
+        [Route("updateAnimalUser")]
+        public async Task<IActionResult> UpdateAnimalUser([FromBody] UpdateAnimalUserByUserIdCommand command)
         {
-            return Ok(await _mediator.Send(new GetAnimalUserByIdQuery(animalUserId)));
+            
+                var result = await _mediator.Send(command);
+                return command == null ? BadRequest("Invalid update animal user command data.") : Ok(result);
+           
         }
 
         [HttpDelete]
-        [Route("deleteAnimalUser/{deletedAnimalUserId}")]
-        public async Task<IActionResult> DeleteAnimalUser(Guid deletedAnimalUserId)
+        [Route("deleteAnimalUser/{deletedAnimalUserKey}")]
+        public async Task<IActionResult> DeleteAnimalUser(Guid deletedAnimalUser)
         {
-            return Ok(await _mediator.Send(new DeleteAnimalUserByIdCommand(deletedAnimalUserId)));
+            
+                var result = await _mediator.Send(new DeleteAnimalUserCommand(deletedAnimalUser));
+                return result == false ? BadRequest("Invalid delete animal user command data.") : Ok(result);
+           
         }
-
-        // Update a specific animal user
-        [HttpPut]
-        [Route("updateAnimalUser/{updatedAnimalUserId}")]
-        public async Task<IActionResult> UpdateAnimalUser([FromBody] UserDto updatedAnimalUser, Guid updatedAnimalUserId)
-        {
-            return Ok(await _mediator.Send(new UpdateAnimalUserByIdCommand(updatedAnimalUser, updatedAnimalUserId)));
-        }
-        */
     }
-
 }
-

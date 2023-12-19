@@ -1,6 +1,7 @@
 ﻿using Application.Commands.Birds.DeleteBird;
 using Domain.Models.Animal;
 using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 using Moq;
 
 namespace Application.Tests.Commands.Birds

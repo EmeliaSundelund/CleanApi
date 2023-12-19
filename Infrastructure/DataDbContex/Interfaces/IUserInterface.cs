@@ -1,9 +1,9 @@
 ﻿using Domain.Models;
 using Domain.Models.Person;
 
-namespace Infrastructure.DataDbContex
+namespace Infrastructure.DataDbContex.Interfaces
 {
-    public interface UserInterface
+    public interface IUserInterface
     {
         Task<UserModel> GetByIdAsync(Guid userId);
         Task AddAsync<T>(T entity) where T : class;
