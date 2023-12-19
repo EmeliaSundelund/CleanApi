@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Dtos;
@@ -38,13 +38,13 @@ namespace Test.AnimalUserTest.QueryTest.GetAllAnimalUserTests
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<AnimalUserDto>>(result);
-            Assert.AreEqual(animalUsersData.Count, result.Count);
+            Assert.That(result, Is.Not.Null); // Använd Not.Null istället för IsNotNull
+            Assert.That(result, Is.InstanceOf<List<AnimalUserDto>>());
+            Assert.That(result.Count, Is.EqualTo(animalUsersData.Count));
 
             // Add more specific assertions based on your application logic
             // You may want to compare individual properties to ensure the mapping is correct
-            // For example: Assert.AreEqual(animalUsersData[0].UserId, result[0].UserId);
+            // For example: Assert.That(result[0].UserId, Is.EqualTo(animalUsersData[0].UserId));
         }
 
         [Test]
@@ -64,9 +64,9 @@ namespace Test.AnimalUserTest.QueryTest.GetAllAnimalUserTests
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<AnimalUserDto>>(result);
-            Assert.IsEmpty(result);
+            Assert.That(result, Is.Not.Null); // Använd Not.Null istället för IsNotNull
+            Assert.That(result, Is.InstanceOf<List<AnimalUserDto>>());
+            Assert.That(result, Is.Empty);
 
             // Add more specific assertions based on your application logic
         }
