@@ -38,7 +38,7 @@ namespace API.Controllers.CatsController
         [HttpGet("getCatByBreed")]
         public async Task<IActionResult> GetCatByBreed(string breedCat = null, int? weightCat = null)
         {
-            var result = await _mediator.Send(new GetCatByBreedQuery(breedCat, weightCat));
+            var result = await _mediator.Send(new CatByBreedQuery(breedCat, weightCat));
             return Ok(result);
         }
 

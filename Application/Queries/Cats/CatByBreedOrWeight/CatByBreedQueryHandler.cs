@@ -5,16 +5,16 @@ using MediatR;
 
 namespace Application.Queries.Cats.CatByBreedOrWeight
 {
-    public class GetCatsByBreedQueryHandler : IRequestHandler<GetCatByBreedQuery, List<Cat>>
+    public class CatsByBreedQueryHandler : IRequestHandler<CatByBreedQuery, List<Cat>>
     {
         private readonly IAnimalsRepository _animalRepository;
 
-        public GetCatsByBreedQueryHandler(IAnimalsRepository animalRepository)
+        public CatsByBreedQueryHandler(IAnimalsRepository animalRepository)
         {
             _animalRepository = animalRepository;
         }
 
-        public async Task<List<Cat>> Handle(GetCatByBreedQuery request, CancellationToken cancellationToken)
+        public async Task<List<Cat>> Handle(CatByBreedQuery request, CancellationToken cancellationToken)
         {
             List<Cat> cats;
 

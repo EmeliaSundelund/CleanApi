@@ -1,6 +1,4 @@
-﻿using System;
-using Domain.Models.AnimalUser;
-using Infrastructure.DataDbContex;
+﻿using Domain.Models.AnimalUser;
 using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
 

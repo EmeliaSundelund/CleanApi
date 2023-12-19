@@ -43,7 +43,7 @@ namespace API.Controllers.DogsController
         [HttpGet("getDogByBreed")]
         public async Task<IActionResult> GetDogByBreed(string breedDog = null, int? weightDog = null)
         {
-            var result = await _mediator.Send(new GetDogByBreedQuery(breedDog, weightDog));
+            var result = await _mediator.Send(new DogByBreedQuery(breedDog, weightDog));
             return Ok(result);
         }
 
