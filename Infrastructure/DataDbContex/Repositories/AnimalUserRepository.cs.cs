@@ -26,7 +26,7 @@ namespace Infrastructure.DataDbContex.Repositories
                     {
                         UserId = au.User.UserId,
                         AnimalId = au.Animal.AnimalId,
-           
+
                     })
                     .ToListAsync();
 
