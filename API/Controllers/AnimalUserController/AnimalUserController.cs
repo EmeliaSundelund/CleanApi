@@ -56,10 +56,10 @@ namespace API.Controllers.AnimalUserController
         [Route("updateAnimalUser")]
         public async Task<IActionResult> UpdateAnimalUser([FromBody] UpdateAnimalUserByUserIdCommand command)
         {
-            
-                var result = await _mediator.Send(command);
-                return command == null ? BadRequest("Invalid update animal user command data.") : Ok(result);
-           
+
+            var result = await _mediator.Send(command);
+            return command == null ? BadRequest("Invalid update animal user command data.") : Ok(result);
+
         }
 
         [HttpDelete]
@@ -68,7 +68,7 @@ namespace API.Controllers.AnimalUserController
         {
             
                 var result = await _mediator.Send(new DeleteAnimalUserCommand(deletedAnimalUser));
-                return result == false ? BadRequest("Invalid delete animal user command data.") : Ok(result);
+            return result == false ? BadRequest("Invalid delete animal user command data.") : Ok(result);
            
         }
     }

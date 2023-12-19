@@ -14,14 +14,14 @@ namespace Infrastructure.DataDbContex.Repositories
         public AnimalUserRepository(DataDbContex context)
         {
             _context = context;
-           
+
         }
 
         // Read
         public async Task<List<AnimalUserModel>> GetAllAnimalUsersAsync()
         {
-              
-                var animalUsers = await _context.AnimalUser
+
+            var animalUsers = await _context.AnimalUser
                     .Select(au => new AnimalUserModel
                     {
                         UserId = au.User.UserId,
@@ -30,9 +30,9 @@ namespace Infrastructure.DataDbContex.Repositories
                     })
                     .ToListAsync();
 
-               
-                return animalUsers;
-           
+
+            return animalUsers;
+
         }
 
         public async Task<bool> AddUserAnimalAsync(AnimalUserModel animalUser)
@@ -44,10 +44,10 @@ namespace Infrastructure.DataDbContex.Repositories
 
         public async Task<AnimalUserModel> GetAnimalUserByIdAsync(Guid animalUserId)
         {
-            
-                var animalUser = await _context.AnimalUser.FindAsync(animalUserId);
-                return animalUser;
-            
+
+            var animalUser = await _context.AnimalUser.FindAsync(animalUserId);
+            return animalUser;
+
         }
 
 
@@ -86,10 +86,10 @@ namespace Infrastructure.DataDbContex.Repositories
                 return false;
             }
         }
-    
 
 
-    public async Task<AnimalUserModel> GetByKeyAsync(Guid key)
+
+        public async Task<AnimalUserModel> GetByKeyAsync(Guid key)
         {
 
 
@@ -100,11 +100,10 @@ namespace Infrastructure.DataDbContex.Repositories
 
         public async Task DeleteAsync(Guid key)
         {
-          
-                var animalUserToDelete = await _context.AnimalUser.FindAsync(key) ?? throw new Exception("User not found");
-                _context.AnimalUser.Remove(animalUserToDelete);
-                await _context.SaveChangesAsync();
-           
+
+            _context.AnimalUser.Remove((AnimalUserModel?)(await _context.AnimalUser.FindAsync(key) ?? throw new Exception("User not found")));
+            await _context.SaveChangesAsync();
+
         }
 
 

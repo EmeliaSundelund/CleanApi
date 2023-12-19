@@ -21,7 +21,7 @@ namespace Application.AnimalUsers.Commands.AddAnimalUser
             {
                 UserId = request.NewAnimalUser.UserId,
                 AnimalId = request.NewAnimalUser.AnimalId,
-             
+
             };
 
             return await _animalUserRepository.AddUserAnimalAsync(userAnimal);
