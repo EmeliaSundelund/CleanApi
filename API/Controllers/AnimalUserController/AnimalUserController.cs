@@ -66,10 +66,10 @@ namespace API.Controllers.AnimalUserController
         [Route("deleteAnimalUser/{deletedAnimalUserKey}")]
         public async Task<IActionResult> DeleteAnimalUser(Guid deletedAnimalUser)
         {
-            
-                var result = await _mediator.Send(new DeleteAnimalUserCommand(deletedAnimalUser));
+
+            var result = await _mediator.Send(new DeleteAnimalUserCommand(deletedAnimalUser));
             return result == false ? BadRequest("Invalid delete animal user command data.") : Ok(result);
-           
+
         }
     }
 }
