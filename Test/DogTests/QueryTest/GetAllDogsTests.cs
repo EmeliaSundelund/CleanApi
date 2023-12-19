@@ -3,6 +3,7 @@ using Domain.Models;
 using Infrastructure.DataDbContex;
 using Moq;
 using Application.Queries.Dogs.GetAll;
+using Infrastructure.DataDbContex.Interfaces;
 
 namespace Test.DogTests.QueryTest
 {

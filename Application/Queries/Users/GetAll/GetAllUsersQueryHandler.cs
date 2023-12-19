@@ -3,6 +3,7 @@ using Application.Queries.Dogs.GetAll;
 using Domain.Models;
 using Domain.Models.Person;
 using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
 
 namespace Application.Queries.Users.GetAll
@@ -10,9 +11,9 @@ namespace Application.Queries.Users.GetAll
     public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<UserModel>>
     {
 
-        private readonly UserInterface _userInterface;
+        private readonly IUserInterface _userInterface;
 
-        public GetAllUsersQueryHandler(UserInterface userInterface)
+        public GetAllUsersQueryHandler(IUserInterface userInterface)
 
         {
 

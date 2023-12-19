@@ -1,10 +1,11 @@
 ﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Domain.Models.Person;
+using Infrastructure.DataDbContex.Interfaces;
 
-namespace Infrastructure.DataDbContex
+namespace Infrastructure.DataDbContex.Repositories
 {
-    public class UsersRepository : UserInterface
+    public class UsersRepository : IUserInterface
     {
         private readonly DataDbContex _context;
 

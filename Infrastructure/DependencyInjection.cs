@@ -1,5 +1,7 @@
 ﻿using Infrastructure.Database;
 using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
+using Infrastructure.DataDbContex.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure

@@ -1,6 +1,9 @@
 using Application;
+using Application.Commands.AnimalUser.UpdateAnimalUser;
 using Infrastructure;
 using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
+using Infrastructure.DataDbContex.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 class Program
@@ -24,7 +27,7 @@ class Program
         });
 
         // Register UserInterface as a scoped service
-        builder.Services.AddScoped<UserInterface, UsersRepository>();
+        builder.Services.AddScoped<IUserInterface, UsersRepository>();
 
         // Add AnimalUserRepository as a transient service
         builder.Services.AddTransient<IAnimalUserRepository, AnimalUserRepository>();

@@ -4,6 +4,7 @@ using Infrastructure.DataDbContex;
 using Moq;
 using Application.Queries.Users.GetAll;
 using Domain.Models.Person;
+using Infrastructure.DataDbContex.Interfaces;
 
 namespace Test.UserTests.QueryTest
 {
@@ -11,13 +12,13 @@ namespace Test.UserTests.QueryTest
     public class GetAllUsersTests
     {
         private GetAllUsersQueryHandler _handler;
-        private Mock<UserInterface> _mockRepository;
+        private Mock<IUserInterface> _mockRepository;
 
         [SetUp]
         public void SetUp()
         {
             // Använd Moq för att skapa en generisk mock av IAnimalsRepository
-            _mockRepository = new Mock<UserInterface>();
+            _mockRepository = new Mock<IUserInterface>();
             _handler = new GetAllUsersQueryHandler(_mockRepository.Object);
         }
 

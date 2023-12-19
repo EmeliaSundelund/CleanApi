@@ -4,6 +4,7 @@ using Application.Commands.Birds.UpdateBird;
 using Application.Dtos;
 using Domain.Models;
 using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 
 [TestFixture]
 public class UpdateBirdByIdCommandHandlerTests

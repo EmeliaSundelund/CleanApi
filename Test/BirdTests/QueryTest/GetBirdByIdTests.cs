@@ -2,6 +2,7 @@
 using Application.Queries.Birds.GetById;
 using Domain.Models;
 using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 
 namespace Test.BirdTests.QueryTest
 {

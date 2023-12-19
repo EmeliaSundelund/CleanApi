@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Models.AnimalUser;
 
 namespace Domain.Models.Animal
@@ -8,6 +9,8 @@ namespace Domain.Models.Animal
         [Key]
         public Guid AnimalId { get; set; }
         public string Name { get; set; } = string.Empty;
-        public ICollection<AnimalUserModel> AnimalUsers { get; set; }
+
+        [InverseProperty("Animal")]
+        public List<AnimalUserModel> AnimalUsers { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
 
 namespace Application.Queries.Dogs.GetById

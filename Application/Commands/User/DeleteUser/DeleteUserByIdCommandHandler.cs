@@ -4,14 +4,15 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using Application.Commands.Users.DeleteUser;
+using Infrastructure.DataDbContex.Interfaces;
 
 namespace Application.Commands.User.DeleteUser.DeleteUserByIdCommandHandler
 {
     public class DeleteUserByIdCommandHandler : IRequestHandler<DeleteUserByIdCommand, bool>
     {
-        private readonly UserInterface _userInterface;
+        private readonly IUserInterface _userInterface;
 
-        public DeleteUserByIdCommandHandler(UserInterface userInterface)
+        public DeleteUserByIdCommandHandler(IUserInterface userInterface)
         {
             _userInterface = userInterface;
         }

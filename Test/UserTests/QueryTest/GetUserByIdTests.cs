@@ -3,6 +3,7 @@ using Application.Queries.Users.GetById;
 using Domain.Models;
 using Infrastructure.DataDbContex;
 using Domain.Models.Person;
+using Infrastructure.DataDbContex.Interfaces;
 
 namespace Application.Test.UserTests.QueryTest
 {
@@ -13,7 +14,7 @@ namespace Application.Test.UserTests.QueryTest
         public async Task Handle_ValidId_ReturnsCorrectUser()
         {
             // Arrange
-            var mockRepository = new Mock<UserInterface>();
+            var mockRepository = new Mock<IUserInterface>();
             var expectedUser = new UserModel { UserId = Guid.NewGuid(), UserName = "Buddy" };
             mockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(expectedUser);

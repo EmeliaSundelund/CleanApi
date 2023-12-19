@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
 using Domain.Models.Animal;
 
-namespace Infrastructure.DataDbContex
+namespace Infrastructure.DataDbContex.Interfaces
 {
     public interface IAnimalsRepository
     {

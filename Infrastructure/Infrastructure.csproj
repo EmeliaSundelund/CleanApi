@@ -30,9 +30,13 @@
   <ItemGroup>
     <None Remove="Authentication\" />
     <None Remove="DataDbContex\" />
+    <None Remove="DataDbContex\Interfaces\" />
+    <None Remove="DataDbContex\Repositories\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Authentication\" />
     <Folder Include="DataDbContex\" />
+    <Folder Include="DataDbContex\Interfaces\" />
+    <Folder Include="DataDbContex\Repositories\" />
   </ItemGroup>
 </Project>

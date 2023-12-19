@@ -2,6 +2,7 @@
 using Application.Queries.Cats.GetById;
 using Domain.Models;
 using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 
 namespace Application.Test.CatTests.QueryTest
 {
