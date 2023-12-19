@@ -1,7 +1,7 @@
 ﻿using Domain.Models.AnimalUser;
 
 namespace Infrastructure.DataDbContex.Interfaces
-{ 
+{
     public interface IAnimalUserRepository
     {
         Task<List<AnimalUserModel>> GetAllAnimalUsersAsync();
