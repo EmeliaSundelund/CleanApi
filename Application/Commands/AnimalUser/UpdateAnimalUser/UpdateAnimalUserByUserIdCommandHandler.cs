@@ -21,15 +21,15 @@ namespace Application.Commands.AnimalUser.UpdateAnimalUser
 
             try
             {
-                
+
                 var newAnimalUser = new AnimalUserModel
                 {
                     AnimalId = request.AnimalId,
                     UserId = request.OldUserId
-              
+
                 };
 
- 
+
                 await _animalUserRepository.AddUserAnimalAsync(newAnimalUser);
 
                 return true;
