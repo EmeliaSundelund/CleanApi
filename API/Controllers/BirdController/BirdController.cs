@@ -6,6 +6,7 @@ using Application.Queries.Birds.GetAll;
 using Application.Queries.Birds.GetAllColor;
 using Application.Queries.Birds.GetById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.CatsController
@@ -21,6 +22,7 @@ namespace API.Controllers.CatsController
         }
 
         [HttpGet]
+        [Authorize]
         [Route("getAllBirds")]
         public async Task<IActionResult> GetAllBirds()
         {
@@ -28,6 +30,7 @@ namespace API.Controllers.CatsController
         }
 
         [HttpGet]
+        [Authorize]
         [Route("getBirdById/{birdId}")]
         public async Task<IActionResult> GetBirdById(Guid birdId)
         {
@@ -35,6 +38,7 @@ namespace API.Controllers.CatsController
         }
 
         [HttpGet]
+        [Authorize]
         [Route("getBirdByColor/{birdColor}")]
         public async Task<IActionResult> GetBirdByColor(string birdColor)
         {
@@ -50,6 +54,7 @@ namespace API.Controllers.CatsController
 
         // FIX here 
         [HttpPut]
+        [Authorize]
         [Route("updateBird/{updatedBirdId}")]
         public async Task<IActionResult> UpdateBird([FromBody] BirdDto updatedBird, Guid updatedBirdId)
         {
@@ -57,6 +62,7 @@ namespace API.Controllers.CatsController
         }
 
         [HttpDelete]
+        [Authorize]
         [Route("deleteBird/{deletedBirdId}")]
         public async Task<IActionResult> DeleteBird(Guid deletedBirdId)
         {

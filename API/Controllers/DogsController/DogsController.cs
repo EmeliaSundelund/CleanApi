@@ -7,9 +7,8 @@ using Application.Queries.Dogs.DogByBreedOrWeight;
 using Application.Queries.Dogs.GetAll;
 using Application.Queries.Dogs.GetById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace API.Controllers.DogsController
 {
@@ -23,17 +22,19 @@ namespace API.Controllers.DogsController
             _mediator = mediator;
         }
 
-        // Get all dogs from database
+  
         [HttpGet]
+        [Authorize]
         [Route("getAllDogs")]
         public async Task<IActionResult> GetAllDogs()
         {
             return Ok(await _mediator.Send(new GetAllDogsQuery()));
-            //return Ok("GET ALL DOGS");
+            
         }
 
-        // Get a dog by Id
+      
         [HttpGet]
+        [Authorize]
         [Route("getDogById/{dogId}")]
         public async Task<IActionResult> GetDogById(Guid dogId)
         {
@@ -41,23 +42,23 @@ namespace API.Controllers.DogsController
         }
 
         [HttpGet("getDogByBreed")]
+        [Authorize]
         public async Task<IActionResult> GetDogByBreed(string breedDog = null, int? weightDog = null)
         {
             var result = await _mediator.Send(new DogByBreedQuery(breedDog, weightDog));
             return Ok(result);
         }
 
-
-        // Create a new dog 
         [HttpPost]
         [Route("addNewDog")]
+        [Authorize]
         public async Task<IActionResult> AddDog([FromBody] DogDto newDog)
         {
             return Ok(await _mediator.Send(new AddDogCommand(newDog)));
         }
 
-        // Update a specific dog
         [HttpPut]
+        [Authorize]
         [Route("updateDog/{updatedDogId}")]
         public async Task<IActionResult> UpdateDog([FromBody] DogDto updatedDog, Guid updatedDogId)
         {
@@ -65,6 +66,7 @@ namespace API.Controllers.DogsController
         }
 
         [HttpDelete]
+        [Authorize]
         [Route("deleteDog/{deletedDogId}")]
         public async Task<IActionResult> DeleteDog(Guid deletedDogId)
         {

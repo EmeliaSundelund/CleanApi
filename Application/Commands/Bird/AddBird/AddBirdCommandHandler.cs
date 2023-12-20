@@ -1,7 +1,5 @@
 ﻿using Application.Commands.Birds.AddBird;
 using Domain.Models;
-using Infrastructure.Database;
-using Infrastructure.DataDbContex;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 
@@ -27,8 +25,6 @@ namespace Application.Commands.Birds
                 Name = request.NewBird.Name,
                 Color = request.NewBird.Color,
                 CanFly = request.NewBird.CanFly,
-
-
             };
 
             await _dataDbContex.Birds.AddAsync(birdToCreate);

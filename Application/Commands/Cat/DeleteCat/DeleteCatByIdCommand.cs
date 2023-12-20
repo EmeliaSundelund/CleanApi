@@ -1,8 +1,4 @@
-﻿using Application.Commands.Cats.AddCat;
-using Application.Dtos;
-using Domain.Models;
-using Infrastructure.Database;
-using MediatR;
+﻿using MediatR;
 
 namespace Application.Commands.Cats.DeleteCat
 {

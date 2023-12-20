@@ -1,7 +1,4 @@
-﻿using Application.Commands.Cats.AddCat;
-using Domain.Models;
-using Infrastructure.Database;
-using Infrastructure.DataDbContex;
+﻿using Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 

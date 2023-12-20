@@ -1,49 +1,99 @@
+using System.Text;
+using API.Controllers.Token;
 using Application;
-using Application.Commands.AnimalUser.UpdateAnimalUser;
 using Infrastructure;
 using Infrastructure.DataDbContex;
 using Infrastructure.DataDbContex.Interfaces;
 using Infrastructure.DataDbContex.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
-class Program
+namespace YourNamespace
 {
-    static void Main(string[] args)
+    public class Program
     {
-        var builder = WebApplication.CreateBuilder(args);
-
-        // Add services to the container.
-        builder.Services.AddControllers();
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-        builder.Services.AddApplication().AddInfrastructure();
-
-        // Add DbContext service
-        builder.Services.AddDbContext<DataDbContex>(options =>
+        public static void Main(string[] args)
         {
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
-                b => b.MigrationsAssembly("Infrastructure"));
-        });
+            var builder = WebApplication.CreateBuilder(args);
 
-        // Register UserInterface as a scoped service
-        builder.Services.AddScoped<IUserInterface, UsersRepository>();
+    
+            builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            builder.Services.AddApplication().AddInfrastructure();
 
-        // Add AnimalUserRepository as a transient service
-        builder.Services.AddTransient<IAnimalUserRepository, AnimalUserRepository>();
 
-        var app = builder.Build();
+            builder.Services.AddDbContext<DataDbContex>(options =>
+            {
+                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
+                    b => b.MigrationsAssembly("Infrastructure"));
+            });
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+  
+            builder.Services.AddScoped<IUserInterface, UsersRepository>();
+
+ 
+            builder.Services.AddTransient<IAnimalUserRepository, AnimalUserRepository>();
+
+            builder.Services.AddScoped<ITokenService, TokenService>();
+
+        
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Skriv Bearer och sen token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        System.Array.Empty<string>()
+                    }
+                });
+            });
+
+            
+            builder.Services.AddAuthentication().AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AppSettings:TokenKey").Value)),
+
+                };
+            });
+
+            var app = builder.Build();
+
+    
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseRouting(); 
+
+            app.UseAuthorization();
+            app.MapControllers();
+            app.Run();
+
         }
-
-        app.UseHttpsRedirection();
-        app.UseAuthorization();
-        app.MapControllers();
-        app.Run();
     }
 }

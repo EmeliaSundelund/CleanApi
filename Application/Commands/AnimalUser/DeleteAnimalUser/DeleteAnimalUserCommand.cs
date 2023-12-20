@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 
 namespace Application.Commands.AnimalUser.DeleteAnimalUser
 {

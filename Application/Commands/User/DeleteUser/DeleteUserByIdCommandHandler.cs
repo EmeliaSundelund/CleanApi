@@ -1,8 +1,5 @@
-﻿using Infrastructure.DataDbContex;
-using Domain.Models.Person;
+﻿using Domain.Models.Person;
 using MediatR;
-using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
 using Application.Commands.Users.DeleteUser;
 using Infrastructure.DataDbContex.Interfaces;
 

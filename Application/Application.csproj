@@ -21,6 +21,9 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.8" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,6 +63,7 @@
     <None Remove="Commands\AnimalUser\UpdateAnimalUser\" />
     <None Remove="Queries\AnimalUser\" />
     <None Remove="Queries\AnimalUser\GetAllAnimalUser\" />
+    <None Remove="Commands\User\LogInUser\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\Dogs\DeleteDog\" />
@@ -93,5 +97,6 @@
     <Folder Include="Commands\AnimalUser\UpdateAnimalUser\" />
     <Folder Include="Queries\AnimalUser\" />
     <Folder Include="Queries\AnimalUser\GetAllAnimalUser\" />
+    <Folder Include="Commands\User\LogInUser\" />
   </ItemGroup>
 </Project>

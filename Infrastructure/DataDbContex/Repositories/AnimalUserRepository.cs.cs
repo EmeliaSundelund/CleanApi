@@ -1,8 +1,6 @@
 ﻿using Domain.Models.AnimalUser;
 using Infrastructure.DataDbContex.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-
 
 namespace Infrastructure.DataDbContex.Repositories
 {

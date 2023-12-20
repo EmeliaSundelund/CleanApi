@@ -1,5 +1,4 @@
 ﻿using Application.Dtos;
-using FluentValidation;
 using MediatR;
 
 namespace Application.Commands.AnimalUser.AddAnimalUser
