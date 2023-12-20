@@ -4,24 +4,24 @@ using Application.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Application.Commands.Users.DeleteUser;
-using Application.Commands.Dogs.UpdateDog;
-using Application.Queries.Dogs.GetAll;
 using Application.Queries.Users.GetAll;
-using Application.Queries.Dogs.GetById;
 using Application.Queries.Users.GetById;
+using Domain.Models.Person;
+using API.Controllers.Token;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace API.Controllers.DogsController
+namespace API.Controllers.UsersController
 {
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        internal readonly IMediator _mediator;
-        public UserController(IMediator mediator)
+        private readonly IMediator _mediator;
+        private readonly ITokenService _tokenService;
+
+        public UserController(IMediator mediator, ITokenService tokenService)
         {
             _mediator = mediator;
+            _tokenService = tokenService;
         }
 
         // Get all dogs from database
@@ -33,7 +33,6 @@ namespace API.Controllers.DogsController
             //return Ok("GET ALL DOGS");
         }
 
-        // Create a new dog 
         [HttpPost]
         [Route("addNewUser")]
         public async Task<IActionResult> AddUser([FromBody] UserDto newUser)
@@ -41,7 +40,26 @@ namespace API.Controllers.DogsController
             return Ok(await _mediator.Send(new AddUserCommand(newUser)));
         }
 
-        // Get a dog by Id
+        [HttpPost]
+        [Route("logIn")]
+        public async Task<IActionResult> LogIn([FromBody] UserDto newUser)
+        {
+            try
+            {  
+                var addedUser = await _mediator.Send(new AddUserCommand(newUser));
+
+                var token = CreateToken(addedUser);
+
+                return Ok(new { User = addedUser, Token = token });
+            }
+            catch (Exception ex)
+            {
+                
+                return BadRequest($"Error adding user: {ex.Message}");
+            }
+        }
+
+
         [HttpGet]
         [Route("getUserById/{userId}")]
         public async Task<IActionResult> GetUserById(Guid userId)
@@ -56,12 +74,16 @@ namespace API.Controllers.DogsController
             return Ok(await _mediator.Send(new DeleteUserByIdCommand(deletedUserId)));
         }
 
-        // Update a specific dog
         [HttpPut]
         [Route("updateUser/{updatedUserId}")]
         public async Task<IActionResult> UpdateUser([FromBody] UserDto updatedUser, Guid updatedUserId)
         {
             return Ok(await _mediator.Send(new UpdateUserByIdCommand(updatedUser, updatedUserId)));
+        }
+
+        private string CreateToken(UserModel user)
+        {
+            return _tokenService.GenerateToken(user);
         }
     }
 }
