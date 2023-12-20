@@ -5,9 +5,7 @@ using Application.Commands.Birds.UpdateBird;
 using Application.Dtos;
 using Application.Queries.AnimalUser.GetAllAnimalUser;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace API.Controllers.AnimalUserController
 {
