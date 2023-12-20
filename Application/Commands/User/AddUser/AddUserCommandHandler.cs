@@ -4,35 +4,32 @@ using Microsoft.Extensions.Configuration;
 
 namespace Application.Commands.User.AddUser
 {
-    namespace Application.Commands.User.AddUser
+    public class AddUserCommandHandler : IRequestHandler<AddUserCommand, UserModel>
     {
-        public class AddUserCommandHandler : IRequestHandler<AddUserCommand, UserModel>
+        private readonly IConfiguration _configuration;
+
+        private readonly Infrastructure.DataDbContex.DataDbContex _dataDbContex;
+
+        public AddUserCommandHandler(IConfiguration configuration, Infrastructure.DataDbContex.DataDbContex dataDbContex)
         {
-            private readonly IConfiguration _configuration;
+            _configuration = configuration;
+            _dataDbContex = dataDbContex;
+        }
 
-            private readonly Infrastructure.DataDbContex.DataDbContex _dataDbContex;
+        public async Task<UserModel> Handle(AddUserCommand request, CancellationToken cancellationToken)
+        {
 
-            public AddUserCommandHandler(IConfiguration configuration, Infrastructure.DataDbContex.DataDbContex dataDbContex)
+            UserModel userToCreate = new()
             {
-                _configuration = configuration;
-                _dataDbContex = dataDbContex;
-            }
+                UserId = Guid.NewGuid(),
+                UserName = request.NewUser.UserName,
+                Password = BCrypt.Net.BCrypt.HashPassword(request.NewUser.Password),
+            };
 
-            public async Task<UserModel> Handle(AddUserCommand request, CancellationToken cancellationToken)
-            {
+            await _dataDbContex.Person.AddAsync(userToCreate);
+            await _dataDbContex.SaveChangesAsync();
 
-                UserModel userToCreate = new()
-                {
-                    UserId = Guid.NewGuid(),
-                    UserName = request.NewUser.UserName,
-                    Password = BCrypt.Net.BCrypt.HashPassword(request.NewUser.Password),
-                };
-
-                await _dataDbContex.Person.AddAsync(userToCreate);
-                await _dataDbContex.SaveChangesAsync();
-
-                return userToCreate;
-            }
+            return userToCreate;
         }
     }
 }
