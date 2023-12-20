@@ -1,10 +1,6 @@
-﻿using Domain.Models;
-using Domain.Models.Person;
-using Infrastructure.DataDbContex;
+﻿using Domain.Models.Person;
 using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
 
 namespace Application.Commands.User.UpdateUser
 {

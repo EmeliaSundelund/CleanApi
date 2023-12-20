@@ -7,6 +7,7 @@ namespace Application.Commands.AnimalUser.DeleteAnimalUser
     public class DeleteAnimalUserCommandHandler : IRequestHandler<DeleteAnimalUserCommand, bool>
     {
         private readonly IAnimalUserRepository _animalUserRepository;
+
         public DeleteAnimalUserCommandHandler(IAnimalUserRepository animalUserRepository)
         {
             _animalUserRepository = animalUserRepository;
