@@ -1,11 +1,7 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Commands.AnimalUser.DeleteAnimalUser;
+﻿using Application.Commands.AnimalUser.DeleteAnimalUser;
 using Domain.Models.AnimalUser;
 using Infrastructure.DataDbContex.Interfaces;
 using Moq;
-using NUnit.Framework;
 
 namespace Test.AnimalUserTest.CommandTest
 {
@@ -50,4 +46,3 @@ namespace Test.AnimalUserTest.CommandTest
         }
     }
 }
-

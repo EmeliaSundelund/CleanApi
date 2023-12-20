@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Domain.Models.Animal;
 using Infrastructure.DataDbContex.Interfaces;
+using Microsoft.Extensions.Logging; 
 
 namespace Application.Commands.Dogs.DeleteDog
 {
@@ -15,16 +16,28 @@ namespace Application.Commands.Dogs.DeleteDog
 
         public async Task<bool> Handle(DeleteDogByIdCommand request, CancellationToken cancellationToken)
         {
-            AnimalModel dogToDelete = await _animalsRepository.GetByIdAsync(request.DeletedDogId);
-
-            if (dogToDelete == null)
+            try
             {
-                return false;
-            }
+                Console.WriteLine("Handling DeleteDogByIdCommand for Dog ID: {request.DeletedDogId}");
 
-            await _animalsRepository.DeleteAsync(request.DeletedDogId);
-            return true;
+                AnimalModel dogToDelete = await _animalsRepository.GetByIdAsync(request.DeletedDogId);
+
+                if (dogToDelete == null)
+                {
+                    Console.WriteLine("Dog with ID {request.DeletedDogId} not found.");
+                    return false;
+                }
+
+                await _animalsRepository.DeleteAsync(request.DeletedDogId);
+                Console.WriteLine("Deleted Dog with ID: {request.DeletedDogId}");
+
+                return true;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error handling DeleteDogByIdCommand: {ex.Message}");
+                throw;
+            }
         }
     }
 }
-

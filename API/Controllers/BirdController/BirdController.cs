@@ -8,6 +8,7 @@ using Application.Queries.Birds.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging; 
 
 namespace API.Controllers.CatsController
 {
@@ -15,10 +16,13 @@ namespace API.Controllers.CatsController
     [ApiController]
     public class BirdsController : ControllerBase
     {
-        internal readonly IMediator _mediator;
-        public BirdsController(IMediator mediator)
+        private readonly IMediator _mediator;
+        private readonly ILogger<BirdsController> _logger; 
+
+        public BirdsController(IMediator mediator, ILogger<BirdsController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -26,7 +30,18 @@ namespace API.Controllers.CatsController
         [Route("getAllBirds")]
         public async Task<IActionResult> GetAllBirds()
         {
-            return Ok(await _mediator.Send(new GetAllBirdsQuery()));
+            try
+            {
+                _logger.LogInformation("Executing GetAllBirds method.");
+
+                var result = await _mediator.Send(new GetAllBirdsQuery());
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred in GetAllBirds method.");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet]
@@ -34,7 +49,18 @@ namespace API.Controllers.CatsController
         [Route("getBirdById/{birdId}")]
         public async Task<IActionResult> GetBirdById(Guid birdId)
         {
-            return Ok(await _mediator.Send(new GetBirdByIdQuery(birdId)));
+            try
+            {
+                _logger.LogInformation($"Executing GetBirdById method for bird ID: {birdId}");
+
+                var result = await _mediator.Send(new GetBirdByIdQuery(birdId));
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred in GetBirdById method for bird ID: {birdId}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet]
@@ -42,23 +68,69 @@ namespace API.Controllers.CatsController
         [Route("getBirdByColor/{birdColor}")]
         public async Task<IActionResult> GetBirdByColor(string birdColor)
         {
-            return Ok(await _mediator.Send(new GetBirdsByColorQuery(birdColor)));
+            try
+            {
+                _logger.LogInformation($"Executing GetBirdByColor method for color: {birdColor}");
+
+                var result = await _mediator.Send(new GetBirdsByColorQuery(birdColor));
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred in GetBirdByColor method for color: {birdColor}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPost]
         [Route("addNewBird")]
         public async Task<IActionResult> AddBird([FromBody] BirdDto newBird)
         {
-            return Ok(await _mediator.Send(new AddBirdCommand(newBird)));
+            try
+            {
+                _logger.LogInformation("Executing AddBird method.");
+
+                // Utför modellvalidering baserat på Data Annotations
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                // Om modellvalidering lyckas, skicka kommandot för att lägga till fågeln
+                var result = await _mediator.Send(new AddBirdCommand(newBird));
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred in AddBird method.");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
-        // FIX here 
         [HttpPut]
         [Authorize]
         [Route("updateBird/{updatedBirdId}")]
         public async Task<IActionResult> UpdateBird([FromBody] BirdDto updatedBird, Guid updatedBirdId)
         {
-            return Ok(await _mediator.Send(new UpdateBirdByIdCommand(updatedBird, updatedBirdId)));
+            try
+            {
+                _logger.LogInformation($"Executing UpdateBird method for bird ID: {updatedBirdId}");
+
+                // Utför modellvalidering baserat på Data Annotations
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                // Om modellvalidering lyckas, skicka kommandot för att uppdatera fågeln
+                var result = await _mediator.Send(new UpdateBirdByIdCommand(updatedBird, updatedBirdId));
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred in UpdateBird method for bird ID: {updatedBirdId}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpDelete]
@@ -66,7 +138,18 @@ namespace API.Controllers.CatsController
         [Route("deleteBird/{deletedBirdId}")]
         public async Task<IActionResult> DeleteBird(Guid deletedBirdId)
         {
-            return Ok(await _mediator.Send(new DeleteBirdByIdCommand(deletedBirdId)));
+            try
+            {
+                _logger.LogInformation($"Executing DeleteBird method for bird ID: {deletedBirdId}");
+
+                var result = await _mediator.Send(new DeleteBirdByIdCommand(deletedBirdId));
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred in DeleteBird method for bird ID: {deletedBirdId}");
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

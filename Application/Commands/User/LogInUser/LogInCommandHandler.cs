@@ -26,8 +26,6 @@ namespace Application.Commands.User.LogInUser
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(request.LogInDto.Password, user.Password))
             {
-                // Om användaren inte hittas eller lösenordet är felaktigt
-                // Du kan anpassa felmeddelandet efter behov
                 throw new Exception("Invalid username or password.");
             }
 

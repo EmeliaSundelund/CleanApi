@@ -1,6 +1,9 @@
 ﻿using Domain.Models.AnimalUser;
 using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Application.Commands.AnimalUser.DeleteAnimalUser
 {
@@ -15,15 +18,28 @@ namespace Application.Commands.AnimalUser.DeleteAnimalUser
 
         public async Task<bool> Handle(DeleteAnimalUserCommand request, CancellationToken cancellationToken)
         {
-            AnimalUserModel animalUserToDelete = await _animalUserRepository.GetByKeyAsync(request.DeletedAnimalUser);
-
-            if (animalUserToDelete == null)
+            try
             {
-                return false;
-            }
+                Console.WriteLine($"Handling DeleteAnimalUserCommand for AnimalUserId: {request.DeletedAnimalUser}");
 
-            await _animalUserRepository.DeleteAsync(request.DeletedAnimalUser);
-            return true;
+                AnimalUserModel animalUserToDelete = await _animalUserRepository.GetByKeyAsync(request.DeletedAnimalUser);
+
+                if (animalUserToDelete == null)
+                {
+                    Console.WriteLine($"AnimalUser with ID {request.DeletedAnimalUser} not found.");
+                    return false;
+                }
+
+                await _animalUserRepository.DeleteAsync(request.DeletedAnimalUser);
+                Console.WriteLine($"Deleted AnimalUser with ID {request.DeletedAnimalUser}.");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error handling DeleteAnimalUserCommand: {ex.Message}");
+                throw;
+            }
         }
     }
 }

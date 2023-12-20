@@ -9,6 +9,8 @@ using Application.Queries.Users.GetById;
 using Domain.Models.Person;
 using API.Controllers.Token;
 using Microsoft.AspNetCore.Authorization;
+using Application.Commands.User.LogInUser;
+using System;
 
 namespace API.Controllers.UsersController
 {
@@ -18,11 +20,13 @@ namespace API.Controllers.UsersController
     {
         private readonly IMediator _mediator;
         private readonly ITokenService _tokenService;
+        private readonly ILogger<UserController> _logger; 
 
-        public UserController(IMediator mediator, ITokenService tokenService)
+        public UserController(IMediator mediator, ITokenService tokenService, ILogger<UserController> logger)
         {
             _mediator = mediator;
             _tokenService = tokenService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -30,33 +34,52 @@ namespace API.Controllers.UsersController
         [Route("getAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
-            return Ok(await _mediator.Send(new GetAllUsersQuery()));
-            //return Ok("GET ALL DOGS");
+            try
+            {
+                _logger.LogInformation("Executing GetAllUsers method.");
+
+                return Ok(await _mediator.Send(new GetAllUsersQuery()));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred in GetAllUsers method.");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPost]
         [Route("addNewUser")]
         public async Task<IActionResult> AddUser([FromBody] UserDto newUser)
         {
-            return Ok(await _mediator.Send(new AddUserCommand(newUser)));
+            try
+            {
+                _logger.LogInformation("Executing AddUser method.");
+
+                return Ok(await _mediator.Send(new AddUserCommand(newUser)));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred in AddUser method.");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPost]
         [Route("logIn")]
-        public async Task<IActionResult> LogIn([FromBody] UserDto newUser)
+        public async Task<IActionResult> LogIn([FromBody] UserDto logInDto)
         {
             try
             {
-                var addedUser = await _mediator.Send(new AddUserCommand(newUser));
+                _logger.LogInformation("Executing LogIn method.");
 
-                var token = CreateToken(addedUser);
+                var token = await _mediator.Send(new LogInCommand(logInDto));
 
-                return Ok(new { User = addedUser, Token = token });
+                return Ok(new { Token = token });
             }
             catch (Exception ex)
             {
-
-                return BadRequest($"Error adding user: {ex.Message}");
+                _logger.LogError(ex, "An error occurred in LogIn method.");
+                return BadRequest($"Error logging in: {ex.Message}");
             }
         }
 
@@ -65,7 +88,17 @@ namespace API.Controllers.UsersController
         [Route("getUserById/{userId}")]
         public async Task<IActionResult> GetUserById(Guid userId)
         {
-            return Ok(await _mediator.Send(new GetUserByIdQuery(userId)));
+            try
+            {
+                _logger.LogInformation($"Executing GetUserById method for user ID: {userId}");
+
+                return Ok(await _mediator.Send(new GetUserByIdQuery(userId)));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred in GetUserById method for user ID: {userId}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpDelete]
@@ -73,7 +106,17 @@ namespace API.Controllers.UsersController
         [Route("deleteUser/{deletedUserId}")]
         public async Task<IActionResult> DeleteUser(Guid deletedUserId)
         {
-            return Ok(await _mediator.Send(new DeleteUserByIdCommand(deletedUserId)));
+            try
+            {
+                _logger.LogInformation($"Executing DeleteUser method for user ID: {deletedUserId}");
+
+                return Ok(await _mediator.Send(new DeleteUserByIdCommand(deletedUserId)));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred in DeleteUser method for user ID: {deletedUserId}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPut]
@@ -81,12 +124,17 @@ namespace API.Controllers.UsersController
         [Route("updateUser/{updatedUserId}")]
         public async Task<IActionResult> UpdateUser([FromBody] UserDto updatedUser, Guid updatedUserId)
         {
-            return Ok(await _mediator.Send(new UpdateUserByIdCommand(updatedUser, updatedUserId)));
-        }
+            try
+            {
+                _logger.LogInformation($"Executing UpdateUser method for user ID: {updatedUserId}");
 
-        private string CreateToken(UserModel user)
-        {
-            return _tokenService.GenerateToken(user);
+                return Ok(await _mediator.Send(new UpdateUserByIdCommand(updatedUser, updatedUserId)));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred in UpdateUser method for user ID: {updatedUserId}");
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

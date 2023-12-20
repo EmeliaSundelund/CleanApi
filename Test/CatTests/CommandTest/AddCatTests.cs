@@ -1,5 +1,4 @@
 ﻿using Application.Commands.Cats.AddCat;
-using Application.Commands.Cats.AddCat.Application.Commands.Cats;
 using Application.Dtos;
 using Infrastructure.DataDbContex;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +31,7 @@ namespace Tests.Application.Commands.Cats
             var request = new AddCatCommand(new CatDto
             {
                 Name = "TestCat",
-                BreedCat = "Labrador",
+                BreedCat = "NakenKatt",
                 WeightCat = 25
             });
 
