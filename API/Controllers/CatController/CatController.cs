@@ -16,7 +16,7 @@ namespace API.Controllers.CatsController
     public class CatsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<CatsController> _logger; 
+        private readonly ILogger<CatsController> _logger;
 
         public CatsController(IMediator mediator, ILogger<CatsController> logger)
         {
