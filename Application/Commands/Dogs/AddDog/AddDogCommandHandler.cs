@@ -1,29 +1,47 @@
 ﻿using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.DataDbContex;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 
 namespace Application.Commands.Dogs
 {
     public class AddDogCommandHandler : IRequestHandler<AddDogCommand, Dog>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IConfiguration _configuration;
+        private readonly DataDbContex _dataDbContex;
 
-        public AddDogCommandHandler(MockDatabase mockDatabase)
+        public AddDogCommandHandler(IConfiguration configuration, DataDbContex dataDbContex)
         {
-            _mockDatabase = mockDatabase;
+            _configuration = configuration;
+            _dataDbContex = dataDbContex;
         }
 
-        public Task<Dog> Handle(AddDogCommand request, CancellationToken cancellationToken)
+        public async Task<Dog> Handle(AddDogCommand request, CancellationToken cancellationToken)
         {
-            Dog dogToCreate = new()
+            try
             {
-                Id = Guid.NewGuid(),
-                Name = request.NewDog.Name
-            };
+                Console.WriteLine("Handling AddDogCommand.");
 
-            _mockDatabase.Dogs.Add(dogToCreate);
+                Dog dogToCreate = new()
+                {
+                    AnimalId = Guid.NewGuid(),
+                    Name = request.NewDog.Name,
+                    BreedDog = request.NewDog.BreedDog,
+                    WeightDog = request.NewDog.WeightDog,
+                };
 
-            return Task.FromResult(dogToCreate);
+                await _dataDbContex.Dogs.AddAsync(dogToCreate);
+                await _dataDbContex.SaveChangesAsync();
+
+                Console.WriteLine("Added new dog with ID: {dogToCreate.AnimalId}");
+
+                return dogToCreate;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error handling AddDogCommand: {ex.Message}");
+                throw;
+            }
         }
     }
 }

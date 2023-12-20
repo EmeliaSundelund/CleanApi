@@ -9,6 +9,21 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
     <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.8" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +47,23 @@
     <None Remove="Queries\Birds\" />
     <None Remove="Queries\Birds\GetAll\" />
     <None Remove="Queries\Birds\GetById\" />
+    <None Remove="Commands\User\" />
+    <None Remove="Commands\User\AddUser\" />
+    <None Remove="Commands\User\DeleteUser\" />
+    <None Remove="Commands\User\UpdateUser\" />
+    <None Remove="Queries\Users\" />
+    <None Remove="Queries\Users\GetAll\" />
+    <None Remove="Queries\Users\GetById\" />
+    <None Remove="Queries\Birds\GetAllColor\" />
+    <None Remove="Queries\Dogs\DogByBreedOrWeight\" />
+    <None Remove="Queries\Cats\CatByBreedOrWeight\" />
+    <None Remove="Commands\AnimalUser\" />
+    <None Remove="Commands\AnimalUser\AddAnimalUser\" />
+    <None Remove="Commands\AnimalUser\DeleteAnimalUser\" />
+    <None Remove="Commands\AnimalUser\UpdateAnimalUser\" />
+    <None Remove="Queries\AnimalUser\" />
+    <None Remove="Queries\AnimalUser\GetAllAnimalUser\" />
+    <None Remove="Commands\User\LogInUser\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\Dogs\DeleteDog\" />
@@ -49,5 +81,22 @@
     <Folder Include="Queries\Birds\" />
     <Folder Include="Queries\Birds\GetAll\" />
     <Folder Include="Queries\Birds\GetById\" />
+    <Folder Include="Commands\User\" />
+    <Folder Include="Commands\User\AddUser\" />
+    <Folder Include="Commands\User\DeleteUser\" />
+    <Folder Include="Commands\User\UpdateUser\" />
+    <Folder Include="Queries\Users\" />
+    <Folder Include="Queries\Users\GetAll\" />
+    <Folder Include="Queries\Users\GetById\" />
+    <Folder Include="Queries\Birds\GetAllColor\" />
+    <Folder Include="Queries\Dogs\DogByBreedOrWeight\" />
+    <Folder Include="Queries\Cats\CatByBreedOrWeight\" />
+    <Folder Include="Commands\AnimalUser\" />
+    <Folder Include="Commands\AnimalUser\AddAnimalUser\" />
+    <Folder Include="Commands\AnimalUser\DeleteAnimalUser\" />
+    <Folder Include="Commands\AnimalUser\UpdateAnimalUser\" />
+    <Folder Include="Queries\AnimalUser\" />
+    <Folder Include="Queries\AnimalUser\GetAllAnimalUser\" />
+    <Folder Include="Commands\User\LogInUser\" />
   </ItemGroup>
 </Project>

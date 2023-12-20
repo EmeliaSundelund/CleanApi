@@ -1,24 +1,49 @@
 ﻿using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
 
 namespace Application.Commands.Dogs.UpdateDog
 {
     public class UpdateDogByIdCommandHandler : IRequestHandler<UpdateDogByIdCommand, Dog>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IAnimalsRepository _animalRepository;
 
-        public UpdateDogByIdCommandHandler(MockDatabase mockDatabase)
+        public UpdateDogByIdCommandHandler(IAnimalsRepository animalRepository)
         {
-            _mockDatabase = mockDatabase;
+            _animalRepository = animalRepository;
         }
-        public Task<Dog> Handle(UpdateDogByIdCommand request, CancellationToken cancellationToken)
+
+        public async Task<Dog> Handle(UpdateDogByIdCommand request, CancellationToken cancellationToken)
         {
-            Dog dogToUpdate = _mockDatabase.Dogs.FirstOrDefault(dog => dog.Id == request.Id)!;
+            try
+            {
+                Console.WriteLine("Handling UpdateDogByIdCommand for Dog ID: {request.AnimalId}");
 
-            dogToUpdate.Name = request.UpdatedDog.Name;
+                var dogToUpdate = await _animalRepository.GetByIdAsync(request.AnimalId) as Dog;
 
-            return Task.FromResult(dogToUpdate);
+                if (dogToUpdate != null)
+                {
+                    dogToUpdate.Name = request.UpdatedDog.Name;
+                    dogToUpdate.BreedDog = request.UpdatedDog.BreedDog;
+                    dogToUpdate.WeightDog = request.UpdatedDog.WeightDog;
+
+                    await _animalRepository.UpdateAsync(dogToUpdate);
+
+                    Console.WriteLine("Updated Dog with ID: {request.AnimalId}");
+
+                    return dogToUpdate;
+                }
+                else
+                {
+                    Console.WriteLine("Dog with ID {request.AnimalId} not found.");
+                    throw new InvalidOperationException($"Dog with ID {request.AnimalId} not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error handling UpdateDogByIdCommand: {ex.Message}");
+                throw;
+            }
         }
     }
 }

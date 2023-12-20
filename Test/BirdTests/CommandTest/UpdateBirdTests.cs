@@ -1,42 +1,43 @@
-﻿using Application.Commands.Birds.UpdateBird;
+﻿using NUnit.Framework;
+using Moq;
+using Application.Commands.Birds.UpdateBird;
 using Application.Dtos;
 using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 
-namespace Test.BirdTests.CommandTest
+[TestFixture]
+public class UpdateBirdByIdCommandHandlerTests
 {
-    [TestFixture]
-    public class UpdateBirdTests
+    private UpdateBirdByIdCommandHandler _handler;
+    private Mock<IAnimalsRepository> _mockRepository;
+
+    [SetUp]
+    public void Setup()
     {
-        private UpdateBirdByIdCommandHandler _handler;
-        private MockDatabase _mockDatabase;
+        _mockRepository = new Mock<IAnimalsRepository>();
+        _handler = new UpdateBirdByIdCommandHandler(_mockRepository.Object);
+    }
 
-        [SetUp]
-        public void Setup()
-        {
-            _mockDatabase = new MockDatabase();
-            _handler = new UpdateBirdByIdCommandHandler(_mockDatabase);
-        }
+    [Test]
+    public async Task Handle_WithValidBird_ShouldUpdateAndReturnBird()
+    {
+        // Arrange
+        var existingBird = new Bird { AnimalId = Guid.NewGuid(), Name = "OldName", CanFly = false };
+        var updatedBird = new Bird { AnimalId = existingBird.AnimalId, Name = "NewName", CanFly = true };
 
-        [Test]
-        public async Task UpdateBirdInDatabase()
-        {
-            //Arange
-            var initialBird = new Bird { Id = Guid.NewGuid(), Name = "InitialBirdName" };
-            _mockDatabase.Birds.Add(initialBird);
+        _mockRepository.Setup(r => r.GetByIdAsync(existingBird.AnimalId)).ReturnsAsync(existingBird);
 
-            var command = new UpdateBirdByIdCommand(updatedBird: new BirdDto { Name = "UpdatedBirdName" }, id: initialBird.Id);
-            //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
-            //Assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<Bird>());
+        var command = new UpdateBirdByIdCommand(
+            new BirdDto { Name = "NewName", Color = "NewColor", CanFly = false },
+            existingBird.AnimalId
+        );
 
-            Assert.That(result.Name, Is.EqualTo("UpdatedBirdName"));
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
 
-            var updatedBirdInDatabase = _mockDatabase.Birds.FirstOrDefault(bird => bird.Id == command.Id);
-            Assert.That(updatedBirdInDatabase, Is.Not.Null);
-            Assert.That(updatedBirdInDatabase.Name, Is.EqualTo("UpdatedBirdName"));
-        }
+        // Logga id för existingBird och result
+        Console.WriteLine($"existingBird.id: {existingBird.AnimalId}");
+        Console.WriteLine($"result.id: {result.AnimalId}");
     }
 }

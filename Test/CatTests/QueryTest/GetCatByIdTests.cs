@@ -1,35 +1,32 @@
-﻿using System;
+﻿using Moq;
 using Application.Queries.Cats.GetById;
-using Infrastructure.Database;
+using Domain.Models;
+using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 
-namespace Test.CatTests.QueryTest
+namespace Application.Test.CatTests.QueryTest
 {
     [TestFixture]
     public class GetCatByIdTests
     {
-
-        private GetCatByIdQueryHandler _handler;
-        private MockDatabase _mockDatabase;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _mockDatabase = new MockDatabase();
-            _handler = new GetCatByIdQueryHandler(_mockDatabase);
-        }
-
         [Test]
-        public async Task ReturnCatIdIfCorrect()
+        public async Task Handle_ValidId_ReturnsCorrectCat()
         {
-            //Arrange
-            var catId = new Guid("d6a8f7b4-3c9e-4a72-815d-9f25c6e8b051");
+            // Arrange
+            var mockRepository = new Mock<IAnimalsRepository>();
+            var expectedCat = new Cat { AnimalId = Guid.NewGuid(), Name = "Buddy" };
+            mockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(expectedCat);
 
-            var query = new GetCatByIdQuery(catId);
-            //Act
-            var result = await _handler.Handle(query, CancellationToken.None);
-            //Assert
+            var queryHandler = new GetCatByIdQueryHandler(mockRepository.Object);
+            var query = new GetCatByIdQuery(expectedCat.AnimalId);
+
+            // Act
+            var result = await queryHandler.Handle(query, CancellationToken.None);
+
+            // Assert
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Id, Is.EqualTo(catId));
+            Assert.That(result, Is.EqualTo(expectedCat));
         }
     }
 }

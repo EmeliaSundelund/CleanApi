@@ -1,23 +1,37 @@
 ﻿using Application.Queries.Dogs.GetAll;
 using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 
 namespace Application.Queries.Dogs
 {
     public class GetAllDogsQueryHandler : IRequestHandler<GetAllDogsQuery, List<Dog>>
     {
-        private readonly MockDatabase _mockDatabase;
 
-        public GetAllDogsQueryHandler(MockDatabase mockDatabase)
+        private readonly IAnimalsRepository _animalRepository;
+
+        public GetAllDogsQueryHandler(IAnimalsRepository animalRepository)
+
         {
-            _mockDatabase = mockDatabase;
+
+            _animalRepository = animalRepository;
+
         }
 
-        public Task<List<Dog>> Handle(GetAllDogsQuery request, CancellationToken cancellationToken)
+        public async Task<List<Dog>> Handle(GetAllDogsQuery request, CancellationToken cancellationToken)
+
         {
-            List<Dog> allDogsFromMockDatabase = _mockDatabase.Dogs;
-            return Task.FromResult(allDogsFromMockDatabase);
+
+            List<Dog> allDogs = await _animalRepository.GetAllDogsAsync();
+
+            return allDogs;
+
         }
+
     }
+
+
 }

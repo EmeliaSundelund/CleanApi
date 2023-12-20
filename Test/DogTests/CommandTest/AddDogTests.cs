@@ -1,37 +1,51 @@
 ﻿using Application.Commands.Dogs;
 using Application.Dtos;
-using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.DataDbContex;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
+using Moq;
 
-namespace Test.DogTests.CommandTest
+namespace Tests.Application.Commands.Dogs
 {
     [TestFixture]
-    public class AddDogTests
+    public class AddDogCommandHandlerTests
     {
-        private AddDogCommandHandler _handler;
-
-
-        [SetUp]
-        public void Setup()
-        {
-            _handler = new AddDogCommandHandler(new MockDatabase());
-        }
-
         [Test]
-        public async Task AddsDogToDatabas()
+        public async Task Handle_AddDogToDatabase()
         {
-            //Arrange
-            var newDog = new DogDto { Name = "NewDogName" };
-            var command = new AddDogCommand(newDog);
-            //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
-            //Assert
+            // Arrange
+            var configurationMock = new Mock<IConfiguration>();
+
+            // Använd DbContextOptionsBuilder.ConfigureWarnings för att tysta varningar om in-memory-databasen
+            var options = new DbContextOptionsBuilder<DataDbContex>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .ConfigureWarnings(warnings => warnings.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .Options;
+
+            // Skapa en faktisk instans av DataDbContex med in-memory-databasen
+            using var dbContext = new DataDbContex(options);
+
+            var handler = new AddDogCommandHandler(configurationMock.Object, dbContext);
+
+            var request = new AddDogCommand(new DogDto
+            {
+                Name = "TestDog",
+                BreedDog = "Labrador",
+                WeightDog = 25
+            });
+
+            // Act
+            var result = await handler.Handle(request, CancellationToken.None);
+
+            // Assert
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<Dog>());
 
-            Assert.That(result.Id, Is.Not.EqualTo(Guid.Empty));
-
-            Assert.That(result.Name, Is.EqualTo("NewDogName"));
+            // Verify that the dog is added to the in-memory database
+            Assert.That(dbContext.Dogs.Count(), Is.EqualTo(1));
+            Assert.That(dbContext.Dogs.First().Name, Is.EqualTo(request.NewDog.Name));
+            Assert.That(dbContext.Dogs.First().BreedDog, Is.EqualTo(request.NewDog.BreedDog));
+            Assert.That(dbContext.Dogs.First().WeightDog, Is.EqualTo(request.NewDog.WeightDog));
         }
     }
 }

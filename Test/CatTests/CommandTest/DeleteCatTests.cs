@@ -1,39 +1,52 @@
 ﻿using Application.Commands.Cats.DeleteCat;
-using Application.Dtos;
-using Domain.Models;
-using Infrastructure.Database;
+using Domain.Models.Animal;
+using Infrastructure.DataDbContex;
+using Infrastructure.DataDbContex.Interfaces;
+using Moq;
 
-
-namespace Test.CatTests.CommandTest
+namespace Application.Tests.Commands.Cats
 {
     [TestFixture]
-    public class DeleteCatTests
+    public class DeleteCatByIdCommandHandlerTests
     {
-        private DeleteCatByIdCommandHandler _handler;
-        private MockDatabase _mockDatabase;
-
-        [SetUp]
-        public void Setup()
+        [Test]
+        public async Task Handle_ValidCatId_DeletesCat()
         {
-            _mockDatabase = new MockDatabase();
-            _handler = new DeleteCatByIdCommandHandler(_mockDatabase);
+            // Arrange
+            var deletedCatId = Guid.NewGuid(); // Use Guid for DeletedDogId
+            var mockRepository = new Mock<IAnimalsRepository>();
+            mockRepository.Setup(repo => repo.GetByIdAsync(deletedCatId))
+                .ReturnsAsync(new AnimalModel { AnimalId = deletedCatId }); // Dog exists in the repository
+
+            var handler = new DeleteCatByIdCommandHandler(mockRepository.Object);
+            var command = new DeleteCatByIdCommand(deletedCatId); // Pass the Guid to the constructor
+
+            // Act
+            var result = await handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            Assert.That(result, Is.True, "Expected deletion to succeed");
+            mockRepository.Verify(repo => repo.DeleteAsync(deletedCatId), Times.Once, "Expected DeleteAsync to be called once");
         }
 
         [Test]
-        public async Task DeleteCatInDatabase()
+        public async Task Handle_InvalidCatId_ReturnsFalse()
         {
-            //Arrange
-            var initialCat = new Cat { Id = Guid.NewGuid(), Name = "InitialCatName" };
-            _mockDatabase.Cats.Add(initialCat);
+            // Arrange
+            var deletedCatId = Guid.NewGuid(); // Use Guid for DeletedDogId
+            var mockRepository = new Mock<IAnimalsRepository>();
+            mockRepository.Setup(repo => repo.GetByIdAsync(deletedCatId))
+                .ReturnsAsync((AnimalModel)null); // Dog does not exist in the repository
 
-            var command = new DeleteCatByIdCommand(deletedCat: new CatDto { Name = "InitialCatName" }, deletedCatId: initialCat.Id);
-            //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
-            //Assert
-            Assert.That(result, Is.True);
+            var handler = new DeleteCatByIdCommandHandler(mockRepository.Object);
+            var command = new DeleteCatByIdCommand(deletedCatId); // Pass the Guid to the constructor
 
-            var deletedCatInDatabase = _mockDatabase.Cats.FirstOrDefault(cat => cat.Id == command.DeletedCatId);
-            Assert.That(deletedCatInDatabase, Is.Null);
+            // Act
+            var result = await handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            Assert.That(result, Is.False, "Expected deletion to fail");
+            mockRepository.Verify(repo => repo.DeleteAsync(deletedCatId), Times.Never, "Expected DeleteAsync not to be called");
         }
     }
 }

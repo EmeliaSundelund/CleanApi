@@ -1,30 +1,45 @@
-﻿using Application.Commands.Cats.AddCat;
-using Domain.Models;
-using Infrastructure.Database;
+﻿using Domain.Models;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 
 namespace Application.Commands.Cats.AddCat
 {
     public class AddCatCommandHandler : IRequestHandler<AddCatCommand, Cat>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IConfiguration _configuration;
+        private readonly Infrastructure.DataDbContex.DataDbContex _dataDbContex;
 
-        public AddCatCommandHandler(MockDatabase mockDatabase)
+        public AddCatCommandHandler(IConfiguration configuration, Infrastructure.DataDbContex.DataDbContex dataDbContex)
         {
-            _mockDatabase = mockDatabase;
+            _configuration = configuration;
+            _dataDbContex = dataDbContex;
         }
 
-        public Task<Cat> Handle(AddCatCommand request, CancellationToken cancellationToken)
+        public async Task<Cat> Handle(AddCatCommand request, CancellationToken cancellationToken)
         {
-            Cat catToCreate = new()
+            try
             {
-                Id = Guid.NewGuid(),
-                Name = request.NewCat.Name
-            };
 
-            _mockDatabase.Cats.Add(catToCreate);
+                Cat catToCreate = new()
+                {
+                    AnimalId = Guid.NewGuid(),
+                    Name = request.NewCat.Name,
+                    BreedCat = request.NewCat.BreedCat,
+                    WeightCat = request.NewCat.WeightCat,
+                };
 
-            return Task.FromResult(catToCreate);
+                await _dataDbContex.Cats.AddAsync(catToCreate);
+                await _dataDbContex.SaveChangesAsync();
+
+                Console.WriteLine($"Added new cat with ID: {catToCreate.AnimalId}");
+
+                return catToCreate;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error handling AddCatCommand: {ex.Message}");
+                throw;
+            }
         }
     }
 }

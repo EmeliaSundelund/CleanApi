@@ -1,39 +1,51 @@
-﻿using System;
-using Application.Commands.Cats;
-using Application.Commands.Cats.AddCat;
+﻿using Application.Commands.Cats.AddCat;
 using Application.Dtos;
-using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.DataDbContex;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
+using Moq;
 
-namespace Test.CatsTests.CommandTest
+namespace Tests.Application.Commands.Cats
 {
     [TestFixture]
-    public class AddCatTests
+    public class AddCatsCommandHandlerTests
     {
-        private AddCatCommandHandler _handler;
-
-
-        [SetUp]
-        public void Setup()
-        {
-            _handler = new AddCatCommandHandler(new MockDatabase());
-        }
-
         [Test]
-        public async Task AddsCatToDatabas()
+        public async Task Handle_AddCatToDatabase()
         {
-            //Arrange
-            var newCat = new CatDto { Name = "NewCatName" };
-            var command = new AddCatCommand(newCat);
-            //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
-            //Assert
+            // Arrange
+            var configurationMock = new Mock<IConfiguration>();
+
+            // Använd DbContextOptionsBuilder.ConfigureWarnings för att tysta varningar om in-memory-databasen
+            var options = new DbContextOptionsBuilder<DataDbContex>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .ConfigureWarnings(warnings => warnings.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .Options;
+
+            // Skapa en faktisk instans av DataDbContex med in-memory-databasen
+            using var dbContext = new DataDbContex(options);
+
+            var handler = new AddCatCommandHandler(configurationMock.Object, dbContext);
+
+            var request = new AddCatCommand(new CatDto
+            {
+                Name = "TestCat",
+                BreedCat = "NakenKatt",
+                WeightCat = 25
+            });
+
+            // Act
+            var result = await handler.Handle(request, CancellationToken.None);
+
+            // Assert
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<Cat>());
 
-            Assert.That(result.Id, Is.Not.EqualTo(Guid.Empty));
-
-            Assert.That(result.Name, Is.EqualTo("NewCatName"));
+            // Verify that the dog is added to the in-memory database
+            Assert.That(dbContext.Cats.Count(), Is.EqualTo(1));
+            Assert.That(dbContext.Cats.First().Name, Is.EqualTo(request.NewCat.Name));
+            Assert.That(dbContext.Cats.First().BreedCat, Is.EqualTo(request.NewCat.BreedCat));
+            Assert.That(dbContext.Cats.First().WeightCat, Is.EqualTo(request.NewCat.WeightCat));
         }
     }
 }

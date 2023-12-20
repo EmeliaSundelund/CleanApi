@@ -1,37 +1,54 @@
-﻿using Application.Commands.Birds.AddBird;
+﻿using Application.Commands.Birds;
+using Application.Commands.Birds.AddBird;
 using Application.Dtos;
-using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.DataDbContex;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
+using Moq;
 
-namespace Test.BirdTests.CommandTest
+namespace Tests.Application.Commands.Birds
 {
     [TestFixture]
-    public class AddBirdTests
+    public class AddBirdsCommandHandlerTests
     {
-        private AddBirdCommandHandler _handler;
-
-
-        [SetUp]
-        public void Setup()
-        {
-            _handler = new AddBirdCommandHandler(new MockDatabase());
-        }
-
         [Test]
-        public async Task AddsBirdToDatabas()
+        public async Task Handle_AddBirdToDatabase()
         {
-            //Arange
-            var newBird = new BirdDto { Name = "NewBirdName" };
-            var command = new AddBirdCommand(newBird);
-            //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
-            //Assert
+            // Arrange
+            var configurationMock = new Mock<IConfiguration>();
+
+            // Använd DbContextOptionsBuilder.ConfigureWarnings för att tysta varningar om in-memory-databasen
+            var options = new DbContextOptionsBuilder<DataDbContex>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .ConfigureWarnings(warnings => warnings.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .Options;
+
+            // Skapa en faktisk instans av DataDbContex med in-memory-databasen
+            using var dbContext = new DataDbContex(options);
+
+            var handler = new AddBirdCommandHandler(configurationMock.Object, dbContext);
+
+            var request = new AddBirdCommand(new BirdDto
+            {
+                Name = "TestDog",
+                Color = "Blue",
+                CanFly = true,
+
+            });
+
+            // Act
+            var result = await handler.Handle(request, CancellationToken.None);
+
+            // Assert
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<Bird>());
 
-            Assert.That(result.Id, Is.Not.EqualTo(Guid.Empty));
+            // Verify that the dog is added to the in-memory database
+            Assert.That(dbContext.Birds.Count(), Is.EqualTo(1));
+            Assert.That(dbContext.Birds.First().Name, Is.EqualTo(request.NewBird.Name));
+            Assert.That(dbContext.Birds.First().Color, Is.EqualTo(request.NewBird.Color));
+            Assert.That(dbContext.Birds.First().CanFly, Is.EqualTo(request.NewBird.CanFly));
 
-            Assert.That(result.Name, Is.EqualTo("NewBirdName"));
         }
     }
 }

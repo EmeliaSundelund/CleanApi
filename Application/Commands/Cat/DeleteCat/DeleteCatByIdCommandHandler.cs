@@ -1,28 +1,42 @@
-﻿using Domain.Models;
-using Infrastructure.Database;
-using MediatR;
+﻿using MediatR;
+using Domain.Models.Animal;
+using Infrastructure.DataDbContex.Interfaces;
 
 namespace Application.Commands.Cats.DeleteCat
 {
     public class DeleteCatByIdCommandHandler : IRequestHandler<DeleteCatByIdCommand, bool>
     {
-        private readonly MockDatabase _mockDatabase;
-        public DeleteCatByIdCommandHandler(MockDatabase mockDatabase)
+        private readonly IAnimalsRepository _animalsRepository;
+
+        public DeleteCatByIdCommandHandler(IAnimalsRepository animalsRepository)
         {
-            _mockDatabase = mockDatabase;
+            _animalsRepository = animalsRepository;
         }
 
-        public Task<bool> Handle(DeleteCatByIdCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteCatByIdCommand request, CancellationToken cancellationToken)
         {
-            Cat catToDelete = _mockDatabase.Cats.FirstOrDefault(cat => cat.Id == request.DeletedCatId)!;
-
-            if (catToDelete != null)
+            try
             {
-                _mockDatabase.Cats.Remove(catToDelete);
-                return Task.FromResult(true);
-            }
+                Console.WriteLine("Handling DeleteCatByIdCommand for Cat ID: {request.DeletedCatId}");
 
-            return Task.FromResult(false);
+                AnimalModel catToDelete = await _animalsRepository.GetByIdAsync(request.DeletedCatId);
+
+                if (catToDelete == null)
+                {
+                    Console.WriteLine("Cat with ID {request.DeletedCatId} not found.");
+                    return false;
+                }
+
+                await _animalsRepository.DeleteAsync(request.DeletedCatId);
+                Console.WriteLine("Deleted Cat with ID {request.DeletedCatId}.");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error handling DeleteCatByIdCommand: {ex.Message}");
+                throw;
+            }
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Queries.Dogs;
-using Application.Queries.Dogs.GetAll;
+﻿using Application.Queries.Dogs;
 using Domain.Models;
-using Infrastructure.Database;
+using NUnit.Framework;
+using Moq;
+using Application.Queries.Dogs.GetAll;
+using Infrastructure.DataDbContex.Interfaces;
 
 namespace Test.DogTests.QueryTest
 {
@@ -13,26 +11,42 @@ namespace Test.DogTests.QueryTest
     public class GetAllDogsTests
     {
         private GetAllDogsQueryHandler _handler;
-        private MockDatabase _mockDatabase;
+        private Mock<IAnimalsRepository> _mockRepository;
 
         [SetUp]
         public void SetUp()
         {
-            _mockDatabase = new MockDatabase();
-            _handler = new GetAllDogsQueryHandler(_mockDatabase);
+            // Använd Moq för att skapa en generisk mock av IAnimalsRepository
+            _mockRepository = new Mock<IAnimalsRepository>();
+            _handler = new GetAllDogsQueryHandler(_mockRepository.Object);
         }
 
         [Test]
-        public async Task IfAllDogsReturnsCorrect()
+        public async Task ShouldReturnAllDogs()
         {
-            //Arrange
+            // Arrange
             var query = new GetAllDogsQuery();
-            //Act
+            var expectedDogs = new List<Dog>
+            {
+                new Dog { AnimalId = Guid.NewGuid(), Name = "Dog1" },
+                new Dog { AnimalId = Guid.NewGuid(), Name = "Dog2" },
+            };
+
+            _mockRepository.Setup(repo => repo.GetAllDogsAsync()).ReturnsAsync(expectedDogs);
+
+            // Act
             var result = await _handler.Handle(query, CancellationToken.None);
-            //Assert
+
+            // Assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<Dog>>());
-            Assert.That(result.Count, Is.GreaterThan(0));
+            Assert.That(result.Count, Is.EqualTo(expectedDogs.Count));
+
+            // Du kan även göra specifika kontroller för hundarna om det behövs
+            // Exempel:
+            Assert.That(result[0].AnimalId, Is.EqualTo(expectedDogs[0].AnimalId));
+            Assert.That(result[0].Name, Is.EqualTo(expectedDogs[0].Name));
+            // Fortsätt för resten av attributen om det behövs
         }
     }
 }

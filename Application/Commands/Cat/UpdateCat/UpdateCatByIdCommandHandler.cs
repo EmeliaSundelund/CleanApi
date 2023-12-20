@@ -1,25 +1,49 @@
 ﻿using Domain.Models;
-using Infrastructure.Database;
 using MediatR;
+using Infrastructure.DataDbContex.Interfaces;
 
 namespace Application.Commands.Cats.UpdateCat
 {
     public class UpdateCatByIdCommandHandler : IRequestHandler<UpdateCatByIdCommand, Cat>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IAnimalsRepository _animalRepository;
 
-        public UpdateCatByIdCommandHandler(MockDatabase mockDatabase)
+        public UpdateCatByIdCommandHandler(IAnimalsRepository animalRepository)
         {
-            _mockDatabase = mockDatabase;
-        } //kommentar
-        public Task<Cat> Handle(UpdateCatByIdCommand request, CancellationToken cancellationToken)
+            _animalRepository = animalRepository;
+        }
+
+        public async Task<Cat> Handle(UpdateCatByIdCommand request, CancellationToken cancellationToken)
         {
-            Cat catToUpdate = _mockDatabase.Cats.FirstOrDefault(cat => cat.Id == request.Id)!;
+            try
+            {
+                Console.WriteLine("Handling UpdateCatByIdCommand for Cat ID: {request.AnimalId}");
 
-            catToUpdate.Name = request.UpdatedCat.Name;
-            catToUpdate.LikesToPlay = request.UpdatedCat.LikesToPlay;
+                var catToUpdate = await _animalRepository.GetByIdAsync(request.AnimalId) as Cat;
 
-            return Task.FromResult(catToUpdate);
+                if (catToUpdate != null)
+                {
+                    catToUpdate.Name = request.UpdatedCat.Name;
+                    catToUpdate.BreedCat = request.UpdatedCat.BreedCat;
+                    catToUpdate.WeightCat = request.UpdatedCat.WeightCat;
+
+                    await _animalRepository.UpdateAsync(catToUpdate);
+
+                    Console.WriteLine("Updated Cat with ID: {request.AnimalId}");
+
+                    return catToUpdate;
+                }
+                else
+                {
+                    Console.WriteLine("Cat with ID {request.AnimalId} not found.");
+                    throw new InvalidOperationException($"Cat with ID {request.AnimalId} not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error handling UpdateCatByIdCommand: {ex.Message}");
+                throw;
+            }
         }
     }
 }
