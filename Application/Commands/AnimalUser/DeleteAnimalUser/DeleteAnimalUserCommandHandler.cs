@@ -1,9 +1,6 @@
 ﻿using Domain.Models.AnimalUser;
 using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Application.Commands.AnimalUser.DeleteAnimalUser
 {

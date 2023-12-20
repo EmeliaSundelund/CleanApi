@@ -16,7 +16,7 @@ namespace API.Controllers.CatsController
     public class BirdsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<BirdsController> _logger; 
+        private readonly ILogger<BirdsController> _logger;
 
         public BirdsController(IMediator mediator, ILogger<BirdsController> logger)
         {

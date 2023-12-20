@@ -19,7 +19,7 @@ namespace Application.Commands.Cats.AddCat
         {
             try
             {
-          
+
                 Cat catToCreate = new()
                 {
                     AnimalId = Guid.NewGuid(),
