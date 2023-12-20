@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
 using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Logging; 
+
 namespace Application.Commands.Dogs.UpdateDog
 {
     public class UpdateDogByIdCommandHandler : IRequestHandler<UpdateDogByIdCommand, Dog>

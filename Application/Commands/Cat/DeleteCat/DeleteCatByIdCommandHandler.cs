@@ -17,7 +17,7 @@ namespace Application.Commands.Cats.DeleteCat
         {
             try
             {
-               Console.WriteLine("Handling DeleteCatByIdCommand for Cat ID: {request.DeletedCatId}");
+                Console.WriteLine("Handling DeleteCatByIdCommand for Cat ID: {request.DeletedCatId}");
 
                 AnimalModel catToDelete = await _animalsRepository.GetByIdAsync(request.DeletedCatId);
 

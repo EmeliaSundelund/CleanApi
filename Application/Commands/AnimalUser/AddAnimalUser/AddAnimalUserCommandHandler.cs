@@ -7,7 +7,7 @@ namespace Application.AnimalUsers.Commands.AddAnimalUser
 {
     public class AddAnimalUserCommandHandler : IRequestHandler<AddAnimalUserCommand, bool>
     {
-        private readonly IAnimalUserRepository _animalUserRepository; 
+        private readonly IAnimalUserRepository _animalUserRepository;
 
         public AddAnimalUserCommandHandler(IAnimalUserRepository animalUserRepository)
         {
@@ -37,5 +37,4 @@ namespace Application.AnimalUsers.Commands.AddAnimalUser
             }
         }
     }
-    
 }
