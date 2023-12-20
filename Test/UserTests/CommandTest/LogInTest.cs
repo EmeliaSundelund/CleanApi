@@ -50,5 +50,5 @@ namespace Application.Tests.Commands.User.LogInUser
             // Add more assertions based on your requirements
         }
     }
-    
+
 }

@@ -18,7 +18,7 @@ namespace Application.Commands.AnimalUser.UpdateAnimalUser
         {
             try
             {
-              
+
                 var newAnimalUser = new AnimalUserModel
                 {
                     AnimalId = request.AnimalId,

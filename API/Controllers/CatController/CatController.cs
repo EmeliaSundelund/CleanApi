@@ -8,7 +8,6 @@ using Application.Queries.Cats.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging; 
 
 namespace API.Controllers.CatsController
 {

@@ -1,7 +1,6 @@
 ﻿using Domain.Models;
 using MediatR;
 using Infrastructure.DataDbContex.Interfaces;
-using Microsoft.Extensions.Logging; 
 
 namespace Application.Commands.Cats.UpdateCat
 {

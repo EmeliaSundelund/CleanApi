@@ -20,7 +20,7 @@ namespace API.Controllers.UsersController
     {
         private readonly IMediator _mediator;
         private readonly ITokenService _tokenService;
-        private readonly ILogger<UserController> _logger; 
+        private readonly ILogger<UserController> _logger;
 
         public UserController(IMediator mediator, ITokenService tokenService, ILogger<UserController> logger)
         {

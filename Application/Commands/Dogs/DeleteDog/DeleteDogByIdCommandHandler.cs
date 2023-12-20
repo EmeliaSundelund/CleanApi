@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Domain.Models.Animal;
 using Infrastructure.DataDbContex.Interfaces;
-using Microsoft.Extensions.Logging; 
 
 namespace Application.Commands.Dogs.DeleteDog
 {

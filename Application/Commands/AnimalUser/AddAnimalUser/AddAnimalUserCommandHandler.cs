@@ -2,7 +2,6 @@
 using Domain.Models.AnimalUser;
 using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Logging; 
 
 namespace Application.AnimalUsers.Commands.AddAnimalUser
 {
