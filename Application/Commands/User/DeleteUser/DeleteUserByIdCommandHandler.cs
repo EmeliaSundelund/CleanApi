@@ -2,7 +2,6 @@
 using MediatR;
 using Application.Commands.Users.DeleteUser;
 using Infrastructure.DataDbContex.Interfaces;
-using Microsoft.Extensions.Logging; 
 
 namespace Application.Commands.User.DeleteUser.DeleteUserByIdCommandHandler
 {

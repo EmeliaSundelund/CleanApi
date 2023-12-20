@@ -8,7 +8,7 @@ namespace Application.Commands.Birds.DeleteBird
     public class DeleteBirdByIdCommandHandler : IRequestHandler<DeleteBirdByIdCommand, bool>
     {
         private readonly IAnimalsRepository _animalsReprository;
-    
+
 
         public DeleteBirdByIdCommandHandler(IAnimalsRepository animalRepository)
         {
@@ -20,7 +20,7 @@ namespace Application.Commands.Birds.DeleteBird
         {
             try
             {
-                
+
                 AnimalModel birdToDelete = await _animalsReprository.GetByIdAsync(request.DeletedBirdId);
 
                 if (birdToDelete == null)
@@ -37,7 +37,7 @@ namespace Application.Commands.Birds.DeleteBird
             catch (Exception ex)
             {
                 Console.WriteLine("Error handling DeleteBirdByIdCommand: {ex.Message}");
-                
+
                 throw;
             }
         }

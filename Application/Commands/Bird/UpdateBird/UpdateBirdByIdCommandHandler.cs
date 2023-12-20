@@ -1,14 +1,12 @@
 ﻿using Domain.Models;
 using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Logging; 
 
 namespace Application.Commands.Birds.UpdateBird
 {
     public class UpdateBirdByIdCommandHandler : IRequestHandler<UpdateBirdByIdCommand, Bird>
     {
         private readonly IAnimalsRepository _animalRepository;
-        private readonly ILogger<UpdateBirdByIdCommandHandler> _logger; 
 
         public UpdateBirdByIdCommandHandler(IAnimalsRepository animalRepository)
         {
@@ -39,7 +37,7 @@ namespace Application.Commands.Birds.UpdateBird
                     throw new InvalidOperationException($"Bird with ID {request.AnimalId} not found.");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("Error handling UpdateBirdByIdCommand: {ex.Message}");
                 throw;

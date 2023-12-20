@@ -1,7 +1,6 @@
 ﻿using Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging; 
 
 namespace Application.Commands.Cats.AddCat
 {

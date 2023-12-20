@@ -16,7 +16,7 @@ namespace API.Controllers.DogsController
     public class DogsController : ControllerBase
     {
         internal readonly IMediator _mediator;
-        private readonly ILogger<DogsController> _logger; 
+        private readonly ILogger<DogsController> _logger;
 
         public DogsController(IMediator mediator, ILogger<DogsController> logger)
         {
