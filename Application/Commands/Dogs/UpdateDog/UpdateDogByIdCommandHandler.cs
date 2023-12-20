@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
 using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
-
+using Microsoft.Extensions.Logging; 
 namespace Application.Commands.Dogs.UpdateDog
 {
     public class UpdateDogByIdCommandHandler : IRequestHandler<UpdateDogByIdCommand, Dog>
@@ -12,26 +12,38 @@ namespace Application.Commands.Dogs.UpdateDog
         {
             _animalRepository = animalRepository;
         }
+
         public async Task<Dog> Handle(UpdateDogByIdCommand request, CancellationToken cancellationToken)
         {
-            var dogToUpdate = await _animalRepository.GetByIdAsync(request.AnimalId) as Dog;
-
-            if (dogToUpdate != null)
+            try
             {
-                dogToUpdate.Name = request.UpdatedDog.Name;
-                dogToUpdate.BreedDog = request.UpdatedDog.BreedDog;
-                dogToUpdate.WeightDog = request.UpdatedDog.WeightDog;
+                Console.WriteLine("Handling UpdateDogByIdCommand for Dog ID: {request.AnimalId}");
 
+                var dogToUpdate = await _animalRepository.GetByIdAsync(request.AnimalId) as Dog;
 
-                await _animalRepository.UpdateAsync(dogToUpdate);
+                if (dogToUpdate != null)
+                {
+                    dogToUpdate.Name = request.UpdatedDog.Name;
+                    dogToUpdate.BreedDog = request.UpdatedDog.BreedDog;
+                    dogToUpdate.WeightDog = request.UpdatedDog.WeightDog;
 
-                return dogToUpdate;
+                    await _animalRepository.UpdateAsync(dogToUpdate);
+
+                    Console.WriteLine("Updated Dog with ID: {request.AnimalId}");
+
+                    return dogToUpdate;
+                }
+                else
+                {
+                    Console.WriteLine("Dog with ID {request.AnimalId} not found.");
+                    throw new InvalidOperationException($"Dog with ID {request.AnimalId} not found.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                throw new InvalidOperationException($"Dog with ID {request.AnimalId} not found.");
+                Console.WriteLine("Error handling UpdateDogByIdCommand: {ex.Message}");
+                throw;
             }
         }
     }
-
 }

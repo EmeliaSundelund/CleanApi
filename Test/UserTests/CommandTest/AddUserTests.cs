@@ -31,8 +31,8 @@ namespace Tests.UserTests.CommandTest
 
             var request = new AddUserCommand(new UserDto
             {
-                UserName = "TestDog",
-                Password = "Labrador",
+                UserName = "emma",
+                Password = "emma",
             });
 
             // Act
@@ -41,10 +41,18 @@ namespace Tests.UserTests.CommandTest
             // Assert
             Assert.That(result, Is.Not.Null);
 
-            // Verify that the dog is added to the in-memory database
+            // Verify that the user is added to the in-memory database
             Assert.That(dbContext.Person.Count(), Is.EqualTo(1));
-            Assert.That(dbContext.Person.First().UserName, Is.EqualTo(request.NewUser.UserName));
-            Assert.That(dbContext.Person.First().Password, Is.EqualTo(request.NewUser.Password));
+            var userInDb = dbContext.Person.First();
+            Assert.That(userInDb.UserName, Is.EqualTo(request.NewUser.UserName));
+
+            // Log the expected and actual password hashes
+            Console.WriteLine($"Expected Password Hash: {request.NewUser.Password}");
+            Console.WriteLine($"Actual Password Hash in DB: {userInDb.Password}");
+
+            // Hash the expected password using the same method and parameters as in AddUserCommandHandler
+            var expectedPasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewUser.Password, userInDb.Password);
+            Assert.That(userInDb.Password, Is.EqualTo(expectedPasswordHash));
 
         }
     }

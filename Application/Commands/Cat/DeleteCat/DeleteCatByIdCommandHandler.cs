@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Domain.Models.Animal;
 using Infrastructure.DataDbContex.Interfaces;
+using Microsoft.Extensions.Logging; 
 
 namespace Application.Commands.Cats.DeleteCat
 {
@@ -15,15 +16,28 @@ namespace Application.Commands.Cats.DeleteCat
 
         public async Task<bool> Handle(DeleteCatByIdCommand request, CancellationToken cancellationToken)
         {
-            AnimalModel catToDelete = await _animalsRepository.GetByIdAsync(request.DeletedCatId);
-
-            if (catToDelete == null)
+            try
             {
-                return false;
-            }
+               Console.WriteLine("Handling DeleteCatByIdCommand for Cat ID: {request.DeletedCatId}");
 
-            await _animalsRepository.DeleteAsync(request.DeletedCatId);
-            return true;
+                AnimalModel catToDelete = await _animalsRepository.GetByIdAsync(request.DeletedCatId);
+
+                if (catToDelete == null)
+                {
+                    Console.WriteLine("Cat with ID {request.DeletedCatId} not found.");
+                    return false;
+                }
+
+                await _animalsRepository.DeleteAsync(request.DeletedCatId);
+                Console.WriteLine("Deleted Cat with ID {request.DeletedCatId}.");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error handling DeleteCatByIdCommand: {ex.Message}");
+                throw;
+            }
         }
     }
 }

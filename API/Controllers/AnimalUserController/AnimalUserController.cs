@@ -4,6 +4,7 @@ using Application.Commands.AnimalUser.UpdateAnimalUser;
 using Application.Dtos;
 using Application.Queries.AnimalUser.GetAllAnimalUser;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.AnimalUserController
@@ -20,21 +21,31 @@ namespace API.Controllers.AnimalUserController
         }
         //en kommentar 
         [HttpGet]
+        [Authorize]
         [Route("getAllAnimalUsers")]
         public async Task<IActionResult> GetAllAnimalUsers()
         {
             try
             {
                 var animalUsers = await _mediator.Send(new GetAllAnimalUsersQuery());
-                return animalUsers == null ? NotFound("No animalUsers found.") : Ok(animalUsers);
+
+                if (animalUsers == null)
+                {
+                    ModelState.AddModelError("NotFound", "No animalUsers found.");
+                    return BadRequest(ModelState);
+                }
+
+                return Ok(animalUsers);
             }
             catch (Exception)
             {
-                return StatusCode(500, "Internal Servor Error");
+                ModelState.AddModelError("ServerError", "Internal Server Error");
+                return StatusCode(500, ModelState);
             }
         }
 
         [HttpPost]
+        [Authorize]
         [Route("addNewAnimalUser")]
         public async Task<IActionResult> AddAnimalUser([FromBody] AnimalUserDto newAnimalUser)
         {
@@ -50,6 +61,7 @@ namespace API.Controllers.AnimalUserController
         }
 
         [HttpPost]
+        [Authorize]
         [Route("updateAnimalUser")]
         public async Task<IActionResult> UpdateAnimalUser([FromBody] UpdateAnimalUserByUserIdCommand command)
         {
@@ -60,7 +72,8 @@ namespace API.Controllers.AnimalUserController
         }
 
         [HttpDelete]
-        [Route("deleteAnimalUser/{deletedAnimalUserKey}")]
+        [Authorize]
+        [Route("deleteAnimalUser")]
         public async Task<IActionResult> DeleteAnimalUser(Guid deletedAnimalUser)
         {
 

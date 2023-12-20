@@ -1,15 +1,14 @@
 ﻿using Domain.Models;
-using Infrastructure.DataDbContex;
 using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
+using Microsoft.Extensions.Logging; 
 
 namespace Application.Commands.Birds.UpdateBird
 {
     public class UpdateBirdByIdCommandHandler : IRequestHandler<UpdateBirdByIdCommand, Bird>
     {
         private readonly IAnimalsRepository _animalRepository;
+        private readonly ILogger<UpdateBirdByIdCommandHandler> _logger; 
 
         public UpdateBirdByIdCommandHandler(IAnimalsRepository animalRepository)
         {
@@ -18,20 +17,32 @@ namespace Application.Commands.Birds.UpdateBird
 
         public async Task<Bird> Handle(UpdateBirdByIdCommand request, CancellationToken cancellationToken)
         {
-            var birdToUpdate = await _animalRepository.GetByIdAsync(request.AnimalId) as Bird;
-
-            if (birdToUpdate != null)
+            try
             {
-                birdToUpdate.Name = request.UpdatedBird.Name;
-                birdToUpdate.Color = request.UpdatedBird.Color;
+                Console.WriteLine("Handling UpdateBirdByIdCommand for Bird ID: {request.AnimalId}");
 
-                await _animalRepository.UpdateAsync(birdToUpdate);
+                var birdToUpdate = await _animalRepository.GetByIdAsync(request.AnimalId) as Bird;
 
-                return birdToUpdate;
+                if (birdToUpdate != null)
+                {
+                    birdToUpdate.Name = request.UpdatedBird.Name;
+                    birdToUpdate.Color = request.UpdatedBird.Color;
+
+                    await _animalRepository.UpdateAsync(birdToUpdate);
+
+                    Console.WriteLine("Updated Bird with ID: {request.AnimalId}");
+
+                    return birdToUpdate;
+                }
+                else
+                {
+                    throw new InvalidOperationException($"Bird with ID {request.AnimalId} not found.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                throw new InvalidOperationException($"Bird with ID {request.AnimalId} not found.");
+                Console.WriteLine("Error handling UpdateBirdByIdCommand: {ex.Message}");
+                throw;
             }
         }
     }

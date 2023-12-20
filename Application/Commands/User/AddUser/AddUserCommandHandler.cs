@@ -1,13 +1,13 @@
 ﻿using Domain.Models.Person;
 using MediatR;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging; 
 
 namespace Application.Commands.User.AddUser
 {
     public class AddUserCommandHandler : IRequestHandler<AddUserCommand, UserModel>
     {
         private readonly IConfiguration _configuration;
-
         private readonly Infrastructure.DataDbContex.DataDbContex _dataDbContex;
 
         public AddUserCommandHandler(IConfiguration configuration, Infrastructure.DataDbContex.DataDbContex dataDbContex)
@@ -18,18 +18,29 @@ namespace Application.Commands.User.AddUser
 
         public async Task<UserModel> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
-
-            UserModel userToCreate = new()
+            try
             {
-                UserId = Guid.NewGuid(),
-                UserName = request.NewUser.UserName,
-                Password = BCrypt.Net.BCrypt.HashPassword(request.NewUser.Password),
-            };
+                Console.WriteLine("Handling AddUserCommand");
 
-            await _dataDbContex.Person.AddAsync(userToCreate);
-            await _dataDbContex.SaveChangesAsync();
+                UserModel userToCreate = new()
+                {
+                    UserId = Guid.NewGuid(),
+                    UserName = request.NewUser.UserName,
+                    Password = BCrypt.Net.BCrypt.HashPassword(request.NewUser.Password),
+                };
 
-            return userToCreate;
+                await _dataDbContex.Person.AddAsync(userToCreate);
+                await _dataDbContex.SaveChangesAsync();
+
+                Console.WriteLine("Added new user with ID");
+
+                return userToCreate;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error handling AddUserCommand");
+                throw;
+            }
         }
     }
 }

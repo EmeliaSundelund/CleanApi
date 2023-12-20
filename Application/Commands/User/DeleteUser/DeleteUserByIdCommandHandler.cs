@@ -2,6 +2,7 @@
 using MediatR;
 using Application.Commands.Users.DeleteUser;
 using Infrastructure.DataDbContex.Interfaces;
+using Microsoft.Extensions.Logging; 
 
 namespace Application.Commands.User.DeleteUser.DeleteUserByIdCommandHandler
 {
@@ -16,15 +17,28 @@ namespace Application.Commands.User.DeleteUser.DeleteUserByIdCommandHandler
 
         public async Task<bool> Handle(DeleteUserByIdCommand request, CancellationToken cancellationToken)
         {
-            UserModel userToDelete = await _userInterface.GetByIdAsync(request.DeletedUserId);
-
-            if (userToDelete == null)
+            try
             {
-                return false;
-            }
+                Console.WriteLine("Handling DeleteUserByIdCommand for User ID: {request.DeletedUserId}");
 
-            await _userInterface.DeleteAsync(request.DeletedUserId);
-            return true;
+                UserModel userToDelete = await _userInterface.GetByIdAsync(request.DeletedUserId);
+
+                if (userToDelete == null)
+                {
+                    Console.WriteLine("User with ID {request.DeletedUserId} not found.");
+                    return false;
+                }
+
+                await _userInterface.DeleteAsync(request.DeletedUserId);
+                Console.WriteLine("Deleted User with ID: {request.DeletedUserId}");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error handling DeleteUserByIdCommand: {ex.Message}");
+                throw;
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using MediatR;
 using Infrastructure.DataDbContex.Interfaces;
+using Microsoft.Extensions.Logging; 
 
 namespace Application.Commands.Cats.UpdateCat
 {
@@ -15,22 +16,34 @@ namespace Application.Commands.Cats.UpdateCat
 
         public async Task<Cat> Handle(UpdateCatByIdCommand request, CancellationToken cancellationToken)
         {
-            var catToUpdate = await _animalRepository.GetByIdAsync(request.AnimalId) as Cat;
-
-            if (catToUpdate != null)
+            try
             {
-                catToUpdate.Name = request.UpdatedCat.Name;
-                catToUpdate.BreedCat = request.UpdatedCat.BreedCat;
-                catToUpdate.WeightCat = request.UpdatedCat.WeightCat;
+                Console.WriteLine("Handling UpdateCatByIdCommand for Cat ID: {request.AnimalId}");
 
+                var catToUpdate = await _animalRepository.GetByIdAsync(request.AnimalId) as Cat;
 
-                await _animalRepository.UpdateAsync(catToUpdate);
+                if (catToUpdate != null)
+                {
+                    catToUpdate.Name = request.UpdatedCat.Name;
+                    catToUpdate.BreedCat = request.UpdatedCat.BreedCat;
+                    catToUpdate.WeightCat = request.UpdatedCat.WeightCat;
 
-                return catToUpdate;
+                    await _animalRepository.UpdateAsync(catToUpdate);
+
+                    Console.WriteLine("Updated Cat with ID: {request.AnimalId}");
+
+                    return catToUpdate;
+                }
+                else
+                {
+                    Console.WriteLine("Cat with ID {request.AnimalId} not found.");
+                    throw new InvalidOperationException($"Cat with ID {request.AnimalId} not found.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                throw new InvalidOperationException($"Cat with ID {request.AnimalId} not found.");
+                Console.WriteLine("Error handling UpdateCatByIdCommand: {ex.Message}");
+                throw;
             }
         }
     }
