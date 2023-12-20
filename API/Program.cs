@@ -17,7 +17,7 @@ namespace YourNamespace
         {
             var builder = WebApplication.CreateBuilder(args);
 
-    
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -31,15 +31,15 @@ namespace YourNamespace
                     b => b.MigrationsAssembly("Infrastructure"));
             });
 
-  
+
             builder.Services.AddScoped<IUserInterface, UsersRepository>();
 
- 
+
             builder.Services.AddTransient<IAnimalUserRepository, AnimalUserRepository>();
 
             builder.Services.AddScoped<ITokenService, TokenService>();
 
-        
+
             builder.Services.AddSwaggerGen(options =>
             {
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -65,7 +65,7 @@ namespace YourNamespace
                 });
             });
 
-            
+
             builder.Services.AddAuthentication().AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -80,7 +80,7 @@ namespace YourNamespace
 
             var app = builder.Build();
 
-    
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -88,7 +88,7 @@ namespace YourNamespace
             }
 
             app.UseHttpsRedirection();
-            app.UseRouting(); 
+            app.UseRouting();
 
             app.UseAuthorization();
             app.MapControllers();

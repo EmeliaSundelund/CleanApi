@@ -22,17 +22,17 @@ namespace API.Controllers.DogsController
             _mediator = mediator;
         }
 
-  
+
         [HttpGet]
         [Authorize]
         [Route("getAllDogs")]
         public async Task<IActionResult> GetAllDogs()
         {
             return Ok(await _mediator.Send(new GetAllDogsQuery()));
-            
+
         }
 
-      
+
         [HttpGet]
         [Authorize]
         [Route("getDogById/{dogId}")]

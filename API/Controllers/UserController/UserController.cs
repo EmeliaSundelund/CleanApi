@@ -46,7 +46,7 @@ namespace API.Controllers.UsersController
         public async Task<IActionResult> LogIn([FromBody] UserDto newUser)
         {
             try
-            {  
+            {
                 var addedUser = await _mediator.Send(new AddUserCommand(newUser));
 
                 var token = CreateToken(addedUser);
@@ -55,7 +55,7 @@ namespace API.Controllers.UsersController
             }
             catch (Exception ex)
             {
-                
+
                 return BadRequest($"Error adding user: {ex.Message}");
             }
         }
