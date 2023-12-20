@@ -1,6 +1,4 @@
-﻿using System;
-using Application.Dtos;
-using Domain.Models;
+﻿using Application.Dtos;
 using Domain.Models.Person;
 using MediatR;
 

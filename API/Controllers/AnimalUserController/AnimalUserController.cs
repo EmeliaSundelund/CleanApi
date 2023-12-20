@@ -1,13 +1,10 @@
 ﻿using Application.Commands.AnimalUser.AddAnimalUser;
 using Application.Commands.AnimalUser.DeleteAnimalUser;
 using Application.Commands.AnimalUser.UpdateAnimalUser;
-using Application.Commands.Birds.UpdateBird;
 using Application.Dtos;
 using Application.Queries.AnimalUser.GetAllAnimalUser;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace API.Controllers.AnimalUserController
 {
@@ -21,7 +18,7 @@ namespace API.Controllers.AnimalUserController
         {
             _mediator = mediator;
         }
-
+        //en kommentar 
         [HttpGet]
         [Route("getAllAnimalUsers")]
         public async Task<IActionResult> GetAllAnimalUsers()

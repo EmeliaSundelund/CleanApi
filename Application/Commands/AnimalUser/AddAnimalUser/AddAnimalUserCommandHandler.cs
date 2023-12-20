@@ -1,5 +1,4 @@
 ﻿using Application.Commands.AnimalUser.AddAnimalUser;
-using Domain.Models;
 using Domain.Models.AnimalUser;
 using Infrastructure.DataDbContex.Interfaces;
 using MediatR;

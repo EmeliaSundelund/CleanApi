@@ -1,10 +1,4 @@
-﻿using Application.Commands.Birds.DeleteBird;
-using Domain.Models;
-using Infrastructure.DataDbContex;
-using MediatR;
-using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
-using Infrastructure.Database;
+﻿using MediatR;
 using Domain.Models.Animal;
 using Infrastructure.DataDbContex.Interfaces;
 

@@ -1,9 +1,6 @@
 ﻿using Domain.Models;
-using Infrastructure.DataDbContex;
 using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
 
 namespace Application.Commands.Dogs.UpdateDog
 {

@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using FluentValidation;
-
-namespace Application.Dtos
+﻿namespace Application.Dtos
 {
     public class AnimalUserDto
     {

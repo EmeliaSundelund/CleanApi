@@ -1,5 +1,4 @@
-﻿using Domain.Models;
-using Domain.Models.Person;
+﻿using Domain.Models.Person;
 
 namespace Infrastructure.DataDbContex.Interfaces
 {

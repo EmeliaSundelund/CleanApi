@@ -7,6 +7,7 @@ using Application.Queries.Cats.GetAll;
 using Application.Queries.Cats.GetById;
 using Application.Queries.Dogs.DogByBreedOrWeight;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.CatsController
@@ -22,6 +23,7 @@ namespace API.Controllers.CatsController
         }
 
         [HttpGet]
+        [Authorize]
         [Route("getAllCats")]
         public async Task<IActionResult> GetAllCats()
         {
@@ -29,6 +31,7 @@ namespace API.Controllers.CatsController
         }
 
         [HttpGet]
+        [Authorize]
         [Route("getCatById/{catId}")]
         public async Task<IActionResult> GetCatById(Guid catId)
         {
@@ -36,6 +39,7 @@ namespace API.Controllers.CatsController
         }
 
         [HttpGet("getCatByBreed")]
+        [Authorize]
         public async Task<IActionResult> GetCatByBreed(string breedCat = null, int? weightCat = null)
         {
             var result = await _mediator.Send(new CatByBreedQuery(breedCat, weightCat));
@@ -43,6 +47,7 @@ namespace API.Controllers.CatsController
         }
 
         [HttpPost]
+        [Authorize]
         [Route("addNewCat")]
         public async Task<IActionResult> AddCat([FromBody] CatDto newCat)
         {
@@ -51,6 +56,7 @@ namespace API.Controllers.CatsController
 
         // FIX here 
         [HttpPut]
+        [Authorize]
         [Route("updateCat/{updatedCatId}")]
         public async Task<IActionResult> UpdateCat([FromBody] CatDto updatedCat, Guid updatedCatId)
         {
@@ -58,6 +64,7 @@ namespace API.Controllers.CatsController
         }
 
         [HttpDelete]
+        [Authorize]
         [Route("deleteCat/{deletedCatId}")]
         public async Task<IActionResult> DeleteCat(Guid deletedCatId)
         {

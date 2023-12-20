@@ -8,6 +8,7 @@ using Application.Queries.Users.GetAll;
 using Application.Queries.Users.GetById;
 using Domain.Models.Person;
 using API.Controllers.Token;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers.UsersController
 {
@@ -24,8 +25,8 @@ namespace API.Controllers.UsersController
             _tokenService = tokenService;
         }
 
-        // Get all dogs from database
         [HttpGet]
+        [Authorize]
         [Route("getAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -59,8 +60,8 @@ namespace API.Controllers.UsersController
             }
         }
 
-
         [HttpGet]
+        [Authorize]
         [Route("getUserById/{userId}")]
         public async Task<IActionResult> GetUserById(Guid userId)
         {
@@ -68,6 +69,7 @@ namespace API.Controllers.UsersController
         }
 
         [HttpDelete]
+        [Authorize]
         [Route("deleteUser/{deletedUserId}")]
         public async Task<IActionResult> DeleteUser(Guid deletedUserId)
         {
@@ -75,6 +77,7 @@ namespace API.Controllers.UsersController
         }
 
         [HttpPut]
+        [Authorize]
         [Route("updateUser/{updatedUserId}")]
         public async Task<IActionResult> UpdateUser([FromBody] UserDto updatedUser, Guid updatedUserId)
         {
