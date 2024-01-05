@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Application.Commands.Birds.DeleteBird
+namespace Application.Commands.Bird.DeleteBird
 {
     public class DeleteBirdByIdCommand : IRequest<bool>
     {

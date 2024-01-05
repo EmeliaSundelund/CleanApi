@@ -1,25 +1,32 @@
-﻿using Application.Commands.Birds.DeleteBird;
+﻿using Application.Commands.Bird.DeleteBird;
 using Domain.Models.Animal;
-using Infrastructure.DataDbContex;
 using Infrastructure.DataDbContex.Interfaces;
+using MediatR;
+using Microsoft.Extensions.Logging;
 using Moq;
+using NUnit.Framework;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Application.Tests.Commands.Birds
 {
     [TestFixture]
-    public class DeleteBirdByIdCommandHandlerTests
+    public class DeleteBirdTests
     {
         [Test]
-        public async Task Handle_ValidBirdId_DeletesDog()
+        public async Task Handle_ValidBirdId_DeletesBird()
         {
             // Arrange
-            var deletedBirdId = Guid.NewGuid(); // Use Guid for DeletedDogId
+            var deletedBirdId = Guid.NewGuid();
             var mockRepository = new Mock<IAnimalsRepository>();
-            mockRepository.Setup(repo => repo.GetByIdAsync(deletedBirdId))
-                .ReturnsAsync(new AnimalModel { AnimalId = deletedBirdId }); // Dog exists in the repository
+            var mockLogger = new Mock<ILogger<DeleteBirdByIdCommandHandler>>();
 
-            var handler = new DeleteBirdByIdCommandHandler(mockRepository.Object);
-            var command = new DeleteBirdByIdCommand(deletedBirdId); // Pass the Guid to the constructor
+            mockRepository.Setup(repo => repo.GetByIdAsync(deletedBirdId))
+                .ReturnsAsync(new AnimalModel { AnimalId = deletedBirdId });
+
+            var handler = new DeleteBirdByIdCommandHandler(mockRepository.Object, mockLogger.Object);
+            var command = new DeleteBirdByIdCommand(deletedBirdId);
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
@@ -33,13 +40,15 @@ namespace Application.Tests.Commands.Birds
         public async Task Handle_InvalidBirdId_ReturnsFalse()
         {
             // Arrange
-            var deletedBirdId = Guid.NewGuid(); // Use Guid for DeletedDogId
+            var deletedBirdId = Guid.NewGuid();
             var mockRepository = new Mock<IAnimalsRepository>();
-            mockRepository.Setup(repo => repo.GetByIdAsync(deletedBirdId))
-                .ReturnsAsync((AnimalModel)null); // Dog does not exist in the repository
+            var mockLogger = new Mock<ILogger<DeleteBirdByIdCommandHandler>>();
 
-            var handler = new DeleteBirdByIdCommandHandler(mockRepository.Object);
-            var command = new DeleteBirdByIdCommand(deletedBirdId); // Pass the Guid to the constructor
+            mockRepository.Setup(repo => repo.GetByIdAsync(deletedBirdId))
+                .ReturnsAsync((AnimalModel)null);
+
+            var handler = new DeleteBirdByIdCommandHandler(mockRepository.Object, mockLogger.Object);
+            var command = new DeleteBirdByIdCommand(deletedBirdId);
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);

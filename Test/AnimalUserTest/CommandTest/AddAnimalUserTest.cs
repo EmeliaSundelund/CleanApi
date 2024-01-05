@@ -1,9 +1,14 @@
-﻿using Application.AnimalUsers.Commands.AddAnimalUser;
-using Application.Commands.AnimalUser.AddAnimalUser;
+﻿using Application.Commands.AnimalUser.AddAnimalUser;
+using Application.AnimalUsers.Commands.AddAnimalUser;
 using Application.Dtos;
 using Domain.Models.AnimalUser;
 using Infrastructure.DataDbContex.Interfaces;
 using Moq;
+using NUnit.Framework;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Test.AnimalUserTest.CommandTest
 {
@@ -15,7 +20,8 @@ namespace Test.AnimalUserTest.CommandTest
         {
             // Arrange
             var mockRepository = new Mock<IAnimalUserRepository>();
-            var handler = new AddAnimalUserCommandHandler(mockRepository.Object);
+            var mockLogger = new Mock<ILogger<AddAnimalUserCommandHandler>>();
+            var handler = new AddAnimalUserCommandHandler(mockRepository.Object, mockLogger.Object);
 
             var command = new AddAnimalUserCommand(new AnimalUserDto
             {
@@ -40,7 +46,8 @@ namespace Test.AnimalUserTest.CommandTest
         {
             // Arrange
             var mockRepository = new Mock<IAnimalUserRepository>();
-            var handler = new AddAnimalUserCommandHandler(mockRepository.Object);
+            var mockLogger = new Mock<ILogger<AddAnimalUserCommandHandler>>();
+            var handler = new AddAnimalUserCommandHandler(mockRepository.Object, mockLogger.Object);
 
             var command = new AddAnimalUserCommand(new AnimalUserDto
             {

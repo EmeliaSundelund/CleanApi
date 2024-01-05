@@ -1,6 +1,6 @@
-﻿using Application.Commands.Birds.AddBird;
-using Application.Commands.Birds.DeleteBird;
-using Application.Commands.Birds.UpdateBird;
+﻿using Application.Commands.Bird.AddBird;
+using Application.Commands.Bird.DeleteBird;
+using Application.Commands.Bird.UpdateBird;
 using Application.Dtos;
 using Application.Queries.Birds.GetAll;
 using Application.Queries.Birds.GetAllColor;

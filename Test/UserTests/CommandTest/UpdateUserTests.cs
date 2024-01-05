@@ -1,23 +1,28 @@
 ﻿using Moq;
 using Application.Commands.User.UpdateUser;
 using Application.Dtos;
-using Domain.Models;
-using Infrastructure.DataDbContex;
-using Application.Commands.Dogs.UpdateDog;
 using Domain.Models.Person;
+using Infrastructure.DataDbContex;
+using NUnit.Framework;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Infrastructure.DataDbContex.Interfaces;
+using Microsoft.Extensions.Logging;
 
 [TestFixture]
 public class UpdateUserTests
 {
     private UpdateUserByIdCommandHandler _handler;
     private Mock<IUserInterface> _mockRepository;
+    private Mock<ILogger<UpdateUserByIdCommandHandler>> _loggerMock; // Add logger mock
 
     [SetUp]
     public void Setup()
     {
         _mockRepository = new Mock<IUserInterface>();
-        _handler = new UpdateUserByIdCommandHandler(_mockRepository.Object);
+        _loggerMock = new Mock<ILogger<UpdateUserByIdCommandHandler>>(); // Initialize logger mock
+        _handler = new UpdateUserByIdCommandHandler(_mockRepository.Object, _loggerMock.Object); // Pass logger mock
     }
 
     [Test]
@@ -30,15 +35,20 @@ public class UpdateUserTests
         _mockRepository.Setup(r => r.GetByIdAsync(existingUser.UserId)).ReturnsAsync(existingUser);
 
         var command = new UpdateUserByIdCommand(
-        new UserDto { UserName = "NewName", Password = "NewPassword" }, // Uppdatera med rätt egenskaper
-        existingUser.UserId
+            new UserDto { UserName = "NewName", Password = "NewPassword" },
+            existingUser.UserId
         );
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 
-        // Logga id för existingDog och result
-        Console.WriteLine($"existingUser.id: {existingUser.UserId}");
-        Console.WriteLine($"result.Id: {result.UserId}");
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.UserId, Is.EqualTo(existingUser.UserId));
+        Assert.That(result.UserName, Is.EqualTo("NewName"));
+
+        // Log the expected and actual user IDs
+        Console.WriteLine($"Expected User ID: {existingUser.UserId}");
+        Console.WriteLine($"Actual User ID in Result: {result.UserId}");
     }
 }

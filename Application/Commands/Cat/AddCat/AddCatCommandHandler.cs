@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Commands.Cats.AddCat
 {
@@ -8,18 +9,19 @@ namespace Application.Commands.Cats.AddCat
     {
         private readonly IConfiguration _configuration;
         private readonly Infrastructure.DataDbContex.DataDbContex _dataDbContex;
+        private readonly ILogger<AddCatCommandHandler> _logger;
 
-        public AddCatCommandHandler(IConfiguration configuration, Infrastructure.DataDbContex.DataDbContex dataDbContex)
+        public AddCatCommandHandler(IConfiguration configuration, Infrastructure.DataDbContex.DataDbContex dataDbContex, ILogger<AddCatCommandHandler> logger)
         {
             _configuration = configuration;
             _dataDbContex = dataDbContex;
+            _logger = logger;
         }
 
         public async Task<Cat> Handle(AddCatCommand request, CancellationToken cancellationToken)
         {
             try
             {
-
                 Cat catToCreate = new()
                 {
                     AnimalId = Guid.NewGuid(),
@@ -31,13 +33,13 @@ namespace Application.Commands.Cats.AddCat
                 await _dataDbContex.Cats.AddAsync(catToCreate);
                 await _dataDbContex.SaveChangesAsync();
 
-                Console.WriteLine($"Added new cat with ID: {catToCreate.AnimalId}");
+                _logger.LogInformation($"Added new cat with ID: {catToCreate.AnimalId}");
 
                 return catToCreate;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error handling AddCatCommand: {ex.Message}");
+                _logger.LogError($"Error handling AddCatCommand: {ex.Message}");
                 throw;
             }
         }

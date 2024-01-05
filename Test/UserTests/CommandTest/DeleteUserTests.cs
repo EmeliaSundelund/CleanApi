@@ -1,11 +1,13 @@
 ﻿using Application.Commands.User.DeleteUser.DeleteUserByIdCommandHandler;
 using Application.Commands.Users.DeleteUser;
-using Domain.Models.Animal;
 using Domain.Models.Person;
-using Infrastructure.DataDbContex;
 using Infrastructure.DataDbContex.Interfaces;
+using Microsoft.Extensions.Logging;
 using Moq;
-
+using NUnit.Framework;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tests.UserTests.CommandTest
 {
@@ -16,13 +18,14 @@ namespace Tests.UserTests.CommandTest
         public async Task Handle_ValidUserId_DeletesUser()
         {
             // Arrange
-            var deletedUserId = Guid.NewGuid(); // Use Guid for DeletedDogId
+            var deletedUserId = Guid.NewGuid();
             var mockRepository = new Mock<IUserInterface>();
+            var loggerMock = new Mock<ILogger<DeleteUserByIdCommandHandler>>(); // Add logger mock
             mockRepository.Setup(repo => repo.GetByIdAsync(deletedUserId))
-                .ReturnsAsync(new UserModel { UserId = deletedUserId }); // Dog exists in the repository
+                .ReturnsAsync(new UserModel { UserId = deletedUserId });
 
-            var handler = new DeleteUserByIdCommandHandler(mockRepository.Object);
-            var command = new DeleteUserByIdCommand(deletedUserId); // Pass the Guid to the constructor
+            var handler = new DeleteUserByIdCommandHandler(mockRepository.Object, loggerMock.Object); // Pass logger mock
+            var command = new DeleteUserByIdCommand(deletedUserId);
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
@@ -36,13 +39,14 @@ namespace Tests.UserTests.CommandTest
         public async Task Handle_InvalidUserId_ReturnsFalse()
         {
             // Arrange
-            var deletedUserId = Guid.NewGuid(); // Use Guid for DeletedDogId
+            var deletedUserId = Guid.NewGuid();
             var mockRepository = new Mock<IUserInterface>();
+            var loggerMock = new Mock<ILogger<DeleteUserByIdCommandHandler>>(); // Add logger mock
             mockRepository.Setup(repo => repo.GetByIdAsync(deletedUserId))
-                .ReturnsAsync((UserModel)null); // Dog does not exist in the repository
+                .ReturnsAsync((UserModel)null);
 
-            var handler = new DeleteUserByIdCommandHandler(mockRepository.Object);
-            var command = new DeleteUserByIdCommand(deletedUserId); // Pass the Guid to the constructor
+            var handler = new DeleteUserByIdCommandHandler(mockRepository.Object, loggerMock.Object); // Pass logger mock
+            var command = new DeleteUserByIdCommand(deletedUserId);
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);

@@ -8,17 +8,18 @@ namespace Application.Commands.AnimalUser.UpdateAnimalUser
     public class UpdateAnimalUserByUserIdCommandHandler : IRequestHandler<UpdateAnimalUserByUserIdCommand, bool>
     {
         private readonly IAnimalUserRepository _animalUserRepository;
+        private readonly ILogger<UpdateAnimalUserByUserIdCommandHandler> _logger;
 
-        public UpdateAnimalUserByUserIdCommandHandler(IAnimalUserRepository animalUserRepository)
+        public UpdateAnimalUserByUserIdCommandHandler(IAnimalUserRepository animalUserRepository, ILogger<UpdateAnimalUserByUserIdCommandHandler> logger)
         {
             _animalUserRepository = animalUserRepository;
+            _logger = logger;
         }
 
         public async Task<bool> Handle(UpdateAnimalUserByUserIdCommand request, CancellationToken cancellationToken)
         {
             try
             {
-
                 var newAnimalUser = new AnimalUserModel
                 {
                     AnimalId = request.AnimalId,
@@ -27,12 +28,13 @@ namespace Application.Commands.AnimalUser.UpdateAnimalUser
 
                 await _animalUserRepository.AddUserAnimalAsync(newAnimalUser);
 
+                _logger.LogInformation("AnimalUser updated successfully.");
+
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Console.WriteLine("Error handling UpdateAnimalUserByUserIdCommand: {ex.Message}");
-                // You might want to handle the exception appropriately or propagate it
+                _logger.LogError($"Error handling UpdateAnimalUserByUserIdCommand: {ex.Message}");
                 throw;
             }
         }

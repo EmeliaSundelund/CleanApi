@@ -1,22 +1,27 @@
 ﻿using NUnit.Framework;
 using Moq;
-using Application.Commands.Birds.UpdateBird;
+using Application.Commands.Bird.UpdateBird;
 using Application.Dtos;
 using Domain.Models;
-using Infrastructure.DataDbContex;
 using Infrastructure.DataDbContex.Interfaces;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 [TestFixture]
 public class UpdateBirdByIdCommandHandlerTests
 {
     private UpdateBirdByIdCommandHandler _handler;
     private Mock<IAnimalsRepository> _mockRepository;
+    private Mock<ILogger<UpdateBirdByIdCommandHandler>> _loggerMock; // Add logger mock
 
     [SetUp]
     public void Setup()
     {
         _mockRepository = new Mock<IAnimalsRepository>();
-        _handler = new UpdateBirdByIdCommandHandler(_mockRepository.Object);
+        _loggerMock = new Mock<ILogger<UpdateBirdByIdCommandHandler>>(); // Initialize logger mock
+        _handler = new UpdateBirdByIdCommandHandler(_mockRepository.Object, _loggerMock.Object); // Pass logger mock
     }
 
     [Test]
@@ -36,8 +41,13 @@ public class UpdateBirdByIdCommandHandlerTests
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 
-        // Logga id för existingBird och result
-        Console.WriteLine($"existingBird.id: {existingBird.AnimalId}");
-        Console.WriteLine($"result.id: {result.AnimalId}");
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.AnimalId, Is.EqualTo(existingBird.AnimalId));
+        Assert.That(result.Name, Is.EqualTo("NewName"));
+
+        // Log the expected and actual bird IDs
+        Console.WriteLine($"Expected Bird ID: {existingBird.AnimalId}");
+        Console.WriteLine($"Actual Bird ID in Result: {result.AnimalId}");
     }
 }

@@ -2,6 +2,10 @@
 using Infrastructure.DataDbContex;
 using MediatR;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Application.Commands.Dogs
 {
@@ -9,18 +13,20 @@ namespace Application.Commands.Dogs
     {
         private readonly IConfiguration _configuration;
         private readonly DataDbContex _dataDbContex;
+        private readonly ILogger<AddDogCommandHandler> _logger;
 
-        public AddDogCommandHandler(IConfiguration configuration, DataDbContex dataDbContex)
+        public AddDogCommandHandler(IConfiguration configuration, DataDbContex dataDbContex, ILogger<AddDogCommandHandler> logger)
         {
             _configuration = configuration;
             _dataDbContex = dataDbContex;
+            _logger = logger;
         }
 
         public async Task<Dog> Handle(AddDogCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                Console.WriteLine("Handling AddDogCommand.");
+                _logger.LogInformation("Handling AddDogCommand.");
 
                 Dog dogToCreate = new()
                 {
@@ -33,13 +39,13 @@ namespace Application.Commands.Dogs
                 await _dataDbContex.Dogs.AddAsync(dogToCreate);
                 await _dataDbContex.SaveChangesAsync();
 
-                Console.WriteLine("Added new dog with ID: {dogToCreate.AnimalId}");
+                _logger.LogInformation($"Added new dog with ID: {dogToCreate.AnimalId}");
 
                 return dogToCreate;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Console.WriteLine("Error handling AddDogCommand: {ex.Message}");
+                _logger.LogError($"Error handling AddDogCommand: {ex.Message}");
                 throw;
             }
         }

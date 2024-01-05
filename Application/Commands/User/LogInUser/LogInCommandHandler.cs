@@ -29,7 +29,6 @@ namespace Application.Commands.User.LogInUser
                 throw new Exception("Invalid username or password.");
             }
 
-            // Generera och returnera JWT-token
             return GenerateToken(user);
         }
 
