@@ -1,25 +1,28 @@
 ﻿using Domain.Models;
 using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
-namespace Application.Commands.Birds.UpdateBird
+namespace Application.Commands.Bird.UpdateBird
 {
-    public class UpdateBirdByIdCommandHandler : IRequestHandler<UpdateBirdByIdCommand, Bird>
+    public class UpdateBirdByIdCommandHandler : IRequestHandler<UpdateBirdByIdCommand, Domain.Models.Bird>
     {
         private readonly IAnimalsRepository _animalRepository;
+        private readonly ILogger<UpdateBirdByIdCommandHandler> _logger;
 
-        public UpdateBirdByIdCommandHandler(IAnimalsRepository animalRepository)
+        public UpdateBirdByIdCommandHandler(IAnimalsRepository animalRepository, ILogger<UpdateBirdByIdCommandHandler> logger)
         {
             _animalRepository = animalRepository;
+            _logger = logger;
         }
 
-        public async Task<Bird> Handle(UpdateBirdByIdCommand request, CancellationToken cancellationToken)
+        public async Task<Domain.Models.Bird> Handle(UpdateBirdByIdCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                Console.WriteLine("Handling UpdateBirdByIdCommand for Bird ID: {request.AnimalId}");
+                _logger.LogInformation($"Handling UpdateBirdByIdCommand for Bird ID: {request.AnimalId}");
 
-                var birdToUpdate = await _animalRepository.GetByIdAsync(request.AnimalId) as Bird;
+                var birdToUpdate = await _animalRepository.GetByIdAsync(request.AnimalId) as Domain.Models.Bird;
 
                 if (birdToUpdate != null)
                 {
@@ -28,18 +31,19 @@ namespace Application.Commands.Birds.UpdateBird
 
                     await _animalRepository.UpdateAsync(birdToUpdate);
 
-                    Console.WriteLine("Updated Bird with ID: {request.AnimalId}");
+                    _logger.LogInformation($"Updated Bird with ID: {request.AnimalId}");
 
                     return birdToUpdate;
                 }
                 else
                 {
+                    _logger.LogError($"Bird with ID {request.AnimalId} not found.");
                     throw new InvalidOperationException($"Bird with ID {request.AnimalId} not found.");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Console.WriteLine("Error handling UpdateBirdByIdCommand: {ex.Message}");
+                _logger.LogError($"Error handling UpdateBirdByIdCommand: {ex.Message}");
                 throw;
             }
         }

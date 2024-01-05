@@ -1,23 +1,26 @@
 ﻿using Domain.Models;
 using MediatR;
 using Infrastructure.DataDbContex.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Commands.Cats.UpdateCat
 {
     public class UpdateCatByIdCommandHandler : IRequestHandler<UpdateCatByIdCommand, Cat>
     {
         private readonly IAnimalsRepository _animalRepository;
+        private readonly ILogger<UpdateCatByIdCommandHandler> _logger;
 
-        public UpdateCatByIdCommandHandler(IAnimalsRepository animalRepository)
+        public UpdateCatByIdCommandHandler(IAnimalsRepository animalRepository, ILogger<UpdateCatByIdCommandHandler> logger)
         {
             _animalRepository = animalRepository;
+            _logger = logger;
         }
 
         public async Task<Cat> Handle(UpdateCatByIdCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                Console.WriteLine("Handling UpdateCatByIdCommand for Cat ID: {request.AnimalId}");
+                _logger.LogInformation($"Handling UpdateCatByIdCommand for Cat ID: {request.AnimalId}");
 
                 var catToUpdate = await _animalRepository.GetByIdAsync(request.AnimalId) as Cat;
 
@@ -29,19 +32,19 @@ namespace Application.Commands.Cats.UpdateCat
 
                     await _animalRepository.UpdateAsync(catToUpdate);
 
-                    Console.WriteLine("Updated Cat with ID: {request.AnimalId}");
+                    _logger.LogInformation($"Updated Cat with ID: {request.AnimalId}");
 
                     return catToUpdate;
                 }
                 else
                 {
-                    Console.WriteLine("Cat with ID {request.AnimalId} not found.");
+                    _logger.LogError($"Cat with ID {request.AnimalId} not found.");
                     throw new InvalidOperationException($"Cat with ID {request.AnimalId} not found.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error handling UpdateCatByIdCommand: {ex.Message}");
+                _logger.LogError($"Error handling UpdateCatByIdCommand: {ex.Message}");
                 throw;
             }
         }

@@ -1,8 +1,12 @@
 ﻿using Application.Commands.AnimalUser.UpdateAnimalUser;
 using Domain.Models.AnimalUser;
 using Infrastructure.DataDbContex.Interfaces;
+using Microsoft.Extensions.Logging;
 using Moq;
-
+using NUnit.Framework;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Test.AnimalUserTest.CommandTest
 {
@@ -14,7 +18,9 @@ namespace Test.AnimalUserTest.CommandTest
         {
             // Arrange
             var mockRepository = new Mock<IAnimalUserRepository>();
-            var handler = new UpdateAnimalUserByUserIdCommandHandler(mockRepository.Object);
+            var mockLogger = new Mock<ILogger<UpdateAnimalUserByUserIdCommandHandler>>();
+
+            var handler = new UpdateAnimalUserByUserIdCommandHandler(mockRepository.Object, mockLogger.Object);
 
             var command = new UpdateAnimalUserByUserIdCommand(Guid.NewGuid(), Guid.NewGuid());
 
@@ -35,7 +41,9 @@ namespace Test.AnimalUserTest.CommandTest
         {
             // Arrange
             var mockRepository = new Mock<IAnimalUserRepository>();
-            var handler = new UpdateAnimalUserByUserIdCommandHandler(mockRepository.Object);
+            var mockLogger = new Mock<ILogger<UpdateAnimalUserByUserIdCommandHandler>>();
+
+            var handler = new UpdateAnimalUserByUserIdCommandHandler(mockRepository.Object, mockLogger.Object);
 
             var command = new UpdateAnimalUserByUserIdCommand(Guid.NewGuid(), Guid.NewGuid());
 

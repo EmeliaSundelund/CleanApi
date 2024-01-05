@@ -1,11 +1,16 @@
-﻿using Application.Commands.Dogs;
-using Application.Commands.User.AddUser;
+﻿using Application.Commands.User.AddUser;
 using Application.Dtos;
 using Infrastructure.DataDbContex;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Moq;
+using NUnit.Framework;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tests.UserTests.CommandTest
 {
@@ -17,6 +22,7 @@ namespace Tests.UserTests.CommandTest
         {
             // Arrange
             var configurationMock = new Mock<IConfiguration>();
+            var loggerMock = new Mock<ILogger<AddUserCommandHandler>>(); // Add logger mock
 
             // Använd DbContextOptionsBuilder.ConfigureWarnings för att tysta varningar om in-memory-databasen
             var options = new DbContextOptionsBuilder<DataDbContex>()
@@ -27,7 +33,7 @@ namespace Tests.UserTests.CommandTest
             // Skapa en faktisk instans av DataDbContex med in-memory-databasen
             using var dbContext = new DataDbContex(options);
 
-            var handler = new AddUserCommandHandler(configurationMock.Object, dbContext);
+            var handler = new AddUserCommandHandler(configurationMock.Object, dbContext, loggerMock.Object);
 
             var request = new AddUserCommand(new UserDto
             {

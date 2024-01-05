@@ -1,27 +1,29 @@
-﻿using Application.Commands.Birds.AddBird;
+﻿using Application.Commands.Bird.AddBird;
 using Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
-namespace Application.Commands.Birds
+namespace Application.Commands.Bird
 {
-    public class AddBirdCommandHandler : IRequestHandler<AddBirdCommand, Bird>
+    public class AddBirdCommandHandler : IRequestHandler<AddBirdCommand, Domain.Models.Bird>
     {
         private readonly IConfiguration _configuration;
         private readonly Infrastructure.DataDbContex.DataDbContex _dataDbContex;
+        private readonly ILogger<AddBirdCommandHandler> _logger;
 
-        public AddBirdCommandHandler(IConfiguration configuration, Infrastructure.DataDbContex.DataDbContex dataDbContex)
+        public AddBirdCommandHandler(IConfiguration configuration, Infrastructure.DataDbContex.DataDbContex dataDbContex, ILogger<AddBirdCommandHandler> logger)
         {
             _configuration = configuration;
             _dataDbContex = dataDbContex;
-
+            _logger = logger;
         }
 
-        public async Task<Bird> Handle(AddBirdCommand request, CancellationToken cancellationToken)
+        public async Task<Domain.Models.Bird> Handle(AddBirdCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                Bird birdToCreate = new()
+                Domain.Models.Bird birdToCreate = new()
                 {
                     AnimalId = Guid.NewGuid(),
                     Name = request.NewBird.Name,
@@ -32,14 +34,13 @@ namespace Application.Commands.Birds
                 await _dataDbContex.Birds.AddAsync(birdToCreate);
                 await _dataDbContex.SaveChangesAsync();
 
-                Console.WriteLine($"Added new bird with ID: {birdToCreate.AnimalId}");
+                _logger.LogInformation($"Added new bird with ID: {birdToCreate.AnimalId}");
 
                 return birdToCreate;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Console.WriteLine("Error handling AddBirdCommand: {ex.Message}");
-                // You might want to handle the exception appropriately or propagate it
+                _logger.LogError($"Error handling AddBirdCommand: {ex.Message}");
                 throw;
             }
         }

@@ -2,17 +2,19 @@
 using Domain.Models.AnimalUser;
 using Infrastructure.DataDbContex.Interfaces;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Application.AnimalUsers.Commands.AddAnimalUser
 {
     public class AddAnimalUserCommandHandler : IRequestHandler<AddAnimalUserCommand, bool>
     {
         private readonly IAnimalUserRepository _animalUserRepository;
+        private readonly ILogger<AddAnimalUserCommandHandler> _logger; 
 
-        public AddAnimalUserCommandHandler(IAnimalUserRepository animalUserRepository)
+        public AddAnimalUserCommandHandler(IAnimalUserRepository animalUserRepository, ILogger<AddAnimalUserCommandHandler> logger)
         {
             _animalUserRepository = animalUserRepository;
-
+            _logger = logger;
         }
 
         public async Task<bool> Handle(AddAnimalUserCommand request, CancellationToken cancellationToken)
@@ -27,12 +29,10 @@ namespace Application.AnimalUsers.Commands.AddAnimalUser
 
                 return await _animalUserRepository.AddUserAnimalAsync(userAnimal);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Log the exception
-                Console.WriteLine("An error occurred while processing AddAnimalUserCommand.");
+                _logger.LogError(ex, "An error occurred while processing AddAnimalUserCommand.");
 
-                // You might want to rethrow the exception or handle it according to your needs
                 throw;
             }
         }

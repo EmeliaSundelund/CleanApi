@@ -4,7 +4,13 @@ using Infrastructure.DataDbContex;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Moq;
+using NUnit.Framework;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tests.Application.Commands.Dogs
 {
@@ -16,6 +22,7 @@ namespace Tests.Application.Commands.Dogs
         {
             // Arrange
             var configurationMock = new Mock<IConfiguration>();
+            var loggerMock = new Mock<ILogger<AddDogCommandHandler>>(); // Add logger mock
 
             // Använd DbContextOptionsBuilder.ConfigureWarnings för att tysta varningar om in-memory-databasen
             var options = new DbContextOptionsBuilder<DataDbContex>()
@@ -26,7 +33,7 @@ namespace Tests.Application.Commands.Dogs
             // Skapa en faktisk instans av DataDbContex med in-memory-databasen
             using var dbContext = new DataDbContex(options);
 
-            var handler = new AddDogCommandHandler(configurationMock.Object, dbContext);
+            var handler = new AddDogCommandHandler(configurationMock.Object, dbContext, loggerMock.Object);
 
             var request = new AddDogCommand(new DogDto
             {

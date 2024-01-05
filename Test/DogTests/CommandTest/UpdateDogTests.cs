@@ -2,20 +2,26 @@
 using Application.Commands.Dogs.UpdateDog;
 using Application.Dtos;
 using Domain.Models;
-using Infrastructure.DataDbContex;
 using Infrastructure.DataDbContex.Interfaces;
+using Microsoft.Extensions.Logging;
+using NUnit.Framework;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 [TestFixture]
 public class UpdateDogByIdCommandHandlerTests
 {
     private UpdateDogByIdCommandHandler _handler;
     private Mock<IAnimalsRepository> _mockRepository;
+    private Mock<ILogger<UpdateDogByIdCommandHandler>> _loggerMock; // Add logger mock
 
     [SetUp]
     public void Setup()
     {
         _mockRepository = new Mock<IAnimalsRepository>();
-        _handler = new UpdateDogByIdCommandHandler(_mockRepository.Object);
+        _loggerMock = new Mock<ILogger<UpdateDogByIdCommandHandler>>(); // Initialize logger mock
+        _handler = new UpdateDogByIdCommandHandler(_mockRepository.Object, _loggerMock.Object); // Pass logger mock
     }
 
     [Test]
@@ -35,8 +41,13 @@ public class UpdateDogByIdCommandHandlerTests
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 
-        // Logga id för existingDog och result
-        Console.WriteLine($"existingDog.id: {existingDog.AnimalId}");
-        Console.WriteLine($"result.id: {result.AnimalId}");
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.AnimalId, Is.EqualTo(existingDog.AnimalId));
+        Assert.That(result.Name, Is.EqualTo("NewName"));
+
+        // Log the expected and actual dog IDs
+        Console.WriteLine($"Expected Dog ID: {existingDog.AnimalId}");
+        Console.WriteLine($"Actual Dog ID in Result: {result.AnimalId}");
     }
 }
